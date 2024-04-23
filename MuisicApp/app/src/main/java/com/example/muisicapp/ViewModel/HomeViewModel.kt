@@ -3,7 +3,7 @@ package com.example.muisicapp.ViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muisicapp.Model.data.Song
-import com.example.muisicapp.Model.data.SongsRepository
+import com.example.muisicapp.Model.repository.SongsRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map

@@ -1,5 +1,6 @@
-package com.example.muisicapp.Model.data
+package com.example.muisicapp.Model.repository
 
+import com.example.muisicapp.Model.data.Song
 import kotlinx.coroutines.flow.Flow
 
 interface SongsRepository {

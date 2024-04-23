@@ -1,14 +1,12 @@
 package com.example.muisicapp.View.Home
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import com.example.muisicapp.ViewModel.HomeViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.muisicapp.Model.data.Song
@@ -43,9 +41,8 @@ private fun HomeBody(
 private fun SongList(
     songList: List<Song>,
 ) {
-    LazyColumn(
-    ) {
-        items(items = songList, key = { it.idSong!! }) {
+    LazyColumn {
+        items(items = songList, key = { it.songId!! }) {
             song -> SongItem(song = song)
         }
     }
@@ -55,7 +52,7 @@ private fun SongList(
 private fun SongItem(
     song: Song
 ) {
-    Text(text = song.nameSong)
-    Text(text = song.imageSong)
-    Text(text = song.linkSong)
+    Text(text = song.songName)
+    Text(text = song.songImage)
+    Text(text = song.songLink)
 }

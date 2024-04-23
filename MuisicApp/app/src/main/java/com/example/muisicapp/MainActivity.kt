@@ -1,5 +1,6 @@
 package com.example.muisicapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,13 +11,105 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.lifecycleScope
+import com.example.muisicapp.Model.MusicDatabase
+import com.example.muisicapp.Model.data.Album
+import com.example.muisicapp.Model.data.MusicDao
+import com.example.muisicapp.Model.data.Playlist
+import com.example.muisicapp.Model.data.Singer
+import com.example.muisicapp.Model.data.Song
+import com.example.muisicapp.Model.data.Type
+import com.example.muisicapp.Model.relations.SongPlaylistCrossRef
+import com.example.muisicapp.Model.relations.SongSingerCrossRef
+import com.example.muisicapp.Model.relations.SongTypeCrossRef
 import com.example.muisicapp.View.MusicApp
 import com.example.muisicapp.ui.theme.MuisicAppTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+    @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val dao = MusicDatabase.getDatabase(this).musicDao()
+            val types = listOf(
+                Type(1, "Trữ tình","image"),
+                Type(2, "Nhạc trẻ","image"),
+                Type(3, "Rap","image"),
+            )
+
+            val songs = listOf(
+                Song(1,"Yêu anh hơn chính em","image","link",3),
+                Song(2,"Chúng ta của hiện tại","image","link",1),
+                Song(3,"Khu tao sống","image","link",1),
+                Song(4,"Tại vì sao","image","link",1),
+                Song(5,"Không còn nợ nhau","image","link",3),
+                Song(6,"Ai nhớ chăng ai","image","link",5),
+                Song(7,"Xót xa","image","link",5),
+            )
+
+            val singers = listOf(
+                Singer(1, "Sơn Tùng MTP"),
+                Singer(2, "MCK"),
+                Singer(3, "BigBang"),
+                Singer(4, "Lệ Quyên"),
+                Singer(5, "Karik"),
+                Singer(6, "Wowy"),
+            )
+
+            val songSingerRelations = listOf(
+                SongSingerCrossRef(1,4),
+                SongSingerCrossRef(2,1),
+                SongSingerCrossRef(3,5),
+                SongSingerCrossRef(3,6),
+                SongSingerCrossRef(4,2),
+                SongSingerCrossRef(5,3),
+                SongSingerCrossRef(6,3),
+                SongSingerCrossRef(7,3),
+            )
+
+            val albums = listOf(
+                Album(1,"99%","image",2),
+                Album(2,"MTP","image",1),
+                Album(3,"Tình khôn nguôi","image",4),
+                Album(4,"Back2Life","image",6),
+                Album(5,"Khúc tình xửa 5","image",4),
+            )
+
+            val playlists = listOf(
+                Playlist(1,"Playlist 1","image"),
+                Playlist(2,"Playlist 2","image"),
+                Playlist(3,"Playlist 3","image" ),
+            )
+
+
+            val songPlaylistRelations = listOf(
+                SongPlaylistCrossRef(1,1),
+                SongPlaylistCrossRef(1,3),
+                SongPlaylistCrossRef(1,3),
+            )
+
+            val songTypeRelations = listOf(
+                SongTypeCrossRef(1,1),
+                SongTypeCrossRef(5,1),
+                SongTypeCrossRef(6,1),
+                SongTypeCrossRef(7,1),
+                SongTypeCrossRef(2,2),
+                SongTypeCrossRef(3,3),
+                SongTypeCrossRef(4,3),
+            )
+
+            lifecycleScope.launch {
+                songs.forEach {dao.insertSong(it)}
+                singers.forEach{dao.insertSinger(it)}
+                types.forEach { dao.insertType(it) }
+                playlists.forEach { dao.insertPlaylist(it) }
+                albums.forEach { dao.insertAlbum(it) }
+                songPlaylistRelations.forEach { dao.insertSongPlaylistCrossRef(it) }
+                songSingerRelations.forEach { dao.insertSongSingerCrossRef(it) }
+                songTypeRelations.forEach { dao.insertSongTypeCrossRef(it) }
+            }
+
             MuisicAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
