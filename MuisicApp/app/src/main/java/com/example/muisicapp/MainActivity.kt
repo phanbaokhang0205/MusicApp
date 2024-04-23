@@ -18,6 +18,7 @@ import com.example.muisicapp.Model.data.Type
 import com.example.muisicapp.Model.relations.SongPlaylistCrossRef
 import com.example.muisicapp.Model.relations.SongSingerCrossRef
 import com.example.muisicapp.Model.relations.SongTypeCrossRef
+import com.example.muisicapp.View.Home.ScaffoldHome
 import com.example.muisicapp.View.MusicApp
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 import kotlinx.coroutines.launch
@@ -121,7 +122,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MusicApp()
+                    ScaffoldHome()
                 }
             }
         }
