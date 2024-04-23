@@ -39,7 +39,7 @@ abstract class MusicDatabase : RoomDatabase() {
                 Room.databaseBuilder(
                     context,
                     MusicDatabase::class.java,
-                    "test2_db"
+                    "test4_db"
                 )
                     .fallbackToDestructiveMigration()
                     .build()

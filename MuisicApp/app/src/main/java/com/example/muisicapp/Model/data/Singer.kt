@@ -8,4 +8,5 @@ import androidx.room.PrimaryKey
 data class Singer(
     @PrimaryKey(autoGenerate = true) val singerId: Int? = 0,
     @ColumnInfo val singerName: String,
+    @ColumnInfo val singerImage: String,
 )
