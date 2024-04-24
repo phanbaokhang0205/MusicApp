@@ -8,20 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.lifecycleScope
-import com.example.muisicapp.Model.MusicDatabase
-import com.example.muisicapp.Model.data.Album
-import com.example.muisicapp.Model.data.Playlist
-import com.example.muisicapp.Model.data.Singer
-import com.example.muisicapp.Model.data.Song
-import com.example.muisicapp.Model.data.Type
-import com.example.muisicapp.Model.relations.SongPlaylistCrossRef
-import com.example.muisicapp.Model.relations.SongSingerCrossRef
-import com.example.muisicapp.Model.relations.SongTypeCrossRef
-import com.example.muisicapp.View.Home.ScaffoldHome
 import com.example.muisicapp.View.MusicApp
 import com.example.muisicapp.ui.theme.MuisicAppTheme
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("CoroutineCreationDuringComposition")

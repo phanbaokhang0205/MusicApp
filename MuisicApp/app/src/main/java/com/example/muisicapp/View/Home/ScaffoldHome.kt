@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -30,7 +31,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -90,7 +90,19 @@ fun ScaffoldHome() {
                 .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-
+            Text(text = "asdasdasd")
+            LazyRow {
+                item {
+                    Text(text = "asdasdsda")
+                    Text(text = "asdasdsda")
+                    Text(text = "asdasdsda")
+                    Text(text = "asdasdsda")
+                    Text(text = "asdasdsda")
+                    Text(text = "asdasdsda")
+                    Text(text = "asdasdsda")
+                    Text(text = "asdasdsda")
+                }
+            }
         }
     }
 
@@ -104,7 +116,6 @@ fun ContentTopAppBar() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(end = 10.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
 //                        Welcome user
@@ -121,6 +132,7 @@ fun ContentTopAppBar() {
                 color = Color(0xff808080)
             )
         }
+        Spacer(modifier = Modifier.weight(1f))
 //                        Image User
         Box(modifier = Modifier) {
             Image(
@@ -134,6 +146,7 @@ fun ContentTopAppBar() {
         }
     }
 }
+
 @Composable
 fun BottomAppBar(
     onClickFavourite: () -> Unit,
@@ -236,9 +249,7 @@ fun BottomAppBar(
                     modifier = Modifier.size(80.dp),
                 ) {
                     Column(
-                        modifier = Modifier
-                            .height(46.dp)
-                            .width(30.dp),
+                        modifier = Modifier,
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -248,7 +259,7 @@ fun BottomAppBar(
                             modifier = Modifier.size(24.dp)
                         )
 
-                        Text(text = "Home", fontSize = 10.sp)
+                        Text(text = "Trang chủ", fontSize = 10.sp)
                     }
                 }
 
@@ -267,7 +278,7 @@ fun BottomAppBar(
                             modifier = Modifier.size(24.dp)
                         )
 
-                        Text(text = "Search", fontSize = 10.sp)
+                        Text(text = "Tìm kiếm", fontSize = 10.sp)
                     }
                 }
 
@@ -286,7 +297,7 @@ fun BottomAppBar(
                             modifier = Modifier.size(24.dp)
                         )
 
-                        Text(text = "Your Playlist", fontSize = 10.sp)
+                        Text(text = "Playlist", fontSize = 10.sp)
                     }
                 }
 
@@ -303,7 +314,7 @@ fun BottomAppBar(
                             contentDescription = null,
                             modifier = Modifier.size(24.dp)
                         )
-                        Text(text = "Account", fontSize = 10.sp)
+                        Text(text = "Tài khoản", fontSize = 10.sp)
                     }
                 }
             }
@@ -311,6 +322,36 @@ fun BottomAppBar(
     }
 }
 
+
+//@Composable
+//fun TestDivider() {
+//
+//    // Sử dụng Box để Divider và Text chồng lên nhau
+//    Box(modifier = Modifier.fillMaxWidth()) {
+//        Divider(
+//            thickness = 1.dp,
+//            color = Color.Black,
+//            modifier = Modifier.align(Alignment.Center) // căn giữa với Column chứa Text
+//        )
+//        Column(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalAlignment = Alignment.CenterHorizontally // căn chỉnh Text vào giữa Column
+//        ) {
+//            Text(
+//                text = "or continue with",
+//                modifier = Modifier.background(Color.White)
+//            )
+//        }
+//    }
+//}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun DividerPreview() {
+//    MuisicAppTheme {
+//        TestDivider()
+//    }
+//}
 
 @Preview(showBackground = true)
 @Composable

@@ -2,26 +2,20 @@ package com.example.muisicapp.View.Home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -30,17 +24,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImage
-import com.example.muisicapp.Model.data.Song
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.HomeViewModel
 import com.example.muisicapp.ui.theme.MuisicAppTheme
@@ -51,7 +42,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
 
-    val homeUiState by viewModel.homeUiState.collectAsState()
+    val songUiState by viewModel.songUiState.collectAsState()
+    val singerUiState by viewModel.singerUiState.collectAsState()
 
 
     var isFavourite by rememberSaveable {
@@ -88,87 +80,48 @@ fun HomeScreen(
         },
 
         ) { innerPadding ->
-
-        NavigationTitle("Songs for you", {})
-
-        HomeBody(
-            songList = homeUiState.songList,
-            contentPadding = innerPadding
-        )
-    }
-}
-
-@Composable
-private fun HomeBody(
-    songList: List<Song>,
-    contentPadding: PaddingValues = PaddingValues(0.dp)
-) {
-
-    Column(
-        modifier = Modifier.background(Color.Black)
-    ) {
-
-
-        if (songList.isEmpty()) {
-            Text(text = "The list is empty")
-        } else {
-
-            SongList(
-                songList,
-                modifier = Modifier,
-                contentPadding = contentPadding,
-            )
-        }
-
-    }
-}
-
-@Composable
-private fun SongList(
-    songList: List<Song>,
-    contentPadding: PaddingValues,
-    modifier: Modifier = Modifier,
-) {
-    LazyRow(
-        modifier = modifier,
-        contentPadding = contentPadding,
-        horizontalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        items(items = songList, key = { it.songId!! }) { song ->
-            SongItem(song = song)
-        }
-    }
-}
-
-@Composable
-private fun SongItem(
-    song: Song,
-) {
-    Column(
-        modifier = Modifier
-            .background(Color.Black)
-            .width(130.dp)
-    ) {
-
-        Box(
+        LazyColumn(
             modifier = Modifier
-                .size(130.dp)
-                .clip(RoundedCornerShape(16.dp))
+                .fillMaxSize()
                 .background(Color.Black)
+                .padding(innerPadding),
         ) {
-            AsyncImage(
-                model = song.songImage,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.background(Color.Black)
-            )
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        Text(text = song.songName, fontSize = 12.sp, color = Color.White)
+            item {
 
-        Text(text = song.songName, fontSize = 10.sp, color = Color(0xff808080))
+                NavigationTitle(navTitle = "Ca sĩ nổi bật") {
+                    //Chuyển sang trang ca sĩ
+                }
+                SingerBody(singerList = singerUiState.singerList)
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                NavigationTitle(navTitle = "Bài hát dành cho bạn") {
+                    //Chuyển qua trang bài hát
+                }
+                SongBody(
+                    songList = songUiState.songList,
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                NavigationTitle(navTitle = "Ca sĩ nổi bật") {
+                    //Chuyển sang trang ca sĩ
+                }
+                SingerBody(singerList = singerUiState.singerList)
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                NavigationTitle(navTitle = "Bài hát dành cho bạn") {
+                    //Chuyển qua trang bài hát
+                }
+                SongBody(
+                    songList = songUiState.songList,
+                )
+            }
+        }
     }
 }
+
 
 @Composable
 fun NavigationTitle(
@@ -179,20 +132,21 @@ fun NavigationTitle(
         modifier = Modifier
             .background(Color.Black)
             .fillMaxWidth()
+            .padding(start = 18.dp)
     ) {
-        TextButton(onClick = {
-            onClickNavigation()
-        }) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = navTitle,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = navTitle,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+
+            IconButton(onClick = onClickNavigation) {
                 Icon(
                     imageVector = Icons.Filled.NavigateNext,
                     contentDescription = null,
@@ -207,40 +161,7 @@ fun NavigationTitle(
 @Composable
 fun TextButtonPreview() {
     MuisicAppTheme {
-//        NavigationTitle()
+        NavigationTitle("") {}
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun HomeBodyPreview() {
-    MuisicAppTheme {
-        HomeBody(
-            listOf(
-                Song(
-                    1,
-                    "Yêu anh hơn chính em",
-                    "image",
-                    "",
-                    3
-                ),
-                Song(2, "Chúng ta của hiện tại", "image", "link", 1),
-                Song(3, "Khu tao sống", "image", "link", 1),
-                Song(4, "Tại vì sao", "image", "link", 1),
-                Song(5, "Không còn nợ nhau", "image", "link", 3),
-                Song(6, "Ai nhớ chăng ai", "image", "link", 5),
-                Song(7, "Xót xa", "image", "link", 5),
-            )
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SongItemPreview() {
-    MuisicAppTheme {
-        SongItem(
-            Song(1, "Yêu anh hơn chính em", "image", "link", 3),
-        )
-    }
-}
