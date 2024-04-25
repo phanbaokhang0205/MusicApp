@@ -24,7 +24,7 @@ import com.example.muisicapp.Model.relations.SongTypeCrossRef
         SongPlaylistCrossRef::class,
         SongSingerCrossRef::class,
         SongTypeCrossRef::class],
-    version = 1
+    version = 2
 )
 abstract class MusicDatabase : RoomDatabase() {
     abstract fun musicDao(): MusicDao

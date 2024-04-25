@@ -13,6 +13,5 @@ data class Song(
     @ColumnInfo val songImage: String,
     @ColumnInfo val songLink: String,
     @ColumnInfo val albumId: Int,
-
 )
 

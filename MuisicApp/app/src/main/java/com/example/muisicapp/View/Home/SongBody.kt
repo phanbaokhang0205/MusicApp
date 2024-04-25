@@ -23,12 +23,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
+import com.example.muisicapp.Model.relations.SongWithSingers
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
 @Composable
 fun SongBody(
-    songList: List<Song>,
+    songList: List<SongWithSingers>,
 ) {
     Column(
         modifier = Modifier
@@ -48,15 +50,18 @@ fun SongBody(
 
 @Composable
 fun SongList(
-    songList: List<Song>,
+    songList: List<SongWithSingers>,
     modifier: Modifier = Modifier,
 ) {
     LazyRow(
         modifier = modifier.padding(start = 18.dp),
         horizontalArrangement = Arrangement.spacedBy(20.dp),
     ) {
-        items(items = songList, key = { it.songId!! }) { song ->
-            SongItem(song = song)
+        items(items = songList, key = { it.song.songId!! }) { song ->
+            SongItem(
+                song = song.song,
+                singers = song.singers
+            )
         }
     }
 }
@@ -64,6 +69,7 @@ fun SongList(
 @Composable
 fun SongItem(
     song: Song,
+    singers: List<Singer>
 ) {
     Column(
         modifier = Modifier
@@ -94,14 +100,17 @@ fun SongItem(
             overflow = TextOverflow.Ellipsis
         )
 
-        Text(
-            text = song.songName,
-            fontSize = 10.sp,
-            color = Color(0xff808080),
-            modifier = Modifier.width(120.dp),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
+        singers.forEach { singer ->
+            Text(
+                text = singer.singerName,
+                fontSize = 10.sp,
+                color = Color(0xff808080),
+                modifier = Modifier.width(120.dp),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+
     }
 }
 
@@ -109,23 +118,9 @@ fun SongItem(
 @Composable
 fun HomeBodyPreview() {
     MuisicAppTheme {
-        SongBody(
-            listOf(
-                Song(
-                    1,
-                    "Yêu anh hơn chính em",
-                    "image",
-                    "",
-                    3
-                ),
-                Song(2, "Chúng ta của hiện tại", "image", "link", 1),
-                Song(3, "Khu tao sống", "image", "link", 1),
-                Song(4, "Tại vì sao", "image", "link", 1),
-                Song(5, "Không còn nợ nhau", "image", "link", 3),
-                Song(6, "Ai nhớ chăng ai", "image", "link", 5),
-                Song(7, "Xót xa", "image", "link", 5),
-            ),
-        )
+//        SongBody(
+//
+//        )
     }
 }
 
@@ -133,8 +128,8 @@ fun HomeBodyPreview() {
 @Composable
 fun SongItemPreview() {
     MuisicAppTheme {
-        SongItem(
-            Song(1, "Yêu anh hơn chính em", "image", "link", 3),
-        )
+//        SongItem(
+//            Song(1, "Yêu anh hơn chính em", "image", "link", 3),
+//        )
     }
 }

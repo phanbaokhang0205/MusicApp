@@ -44,7 +44,7 @@ fun HomeScreen(
 
     val songUiState by viewModel.songUiState.collectAsState()
     val singerUiState by viewModel.singerUiState.collectAsState()
-
+    val songWithSingers by viewModel.songWithSingersUiState.collectAsState()
 
     var isFavourite by rememberSaveable {
         mutableStateOf(false)
@@ -99,7 +99,7 @@ fun HomeScreen(
                     //Chuyển qua trang bài hát
                 }
                 SongBody(
-                    songList = songUiState.songList,
+                    songList = songWithSingers.songSingerList,
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -115,7 +115,7 @@ fun HomeScreen(
                     //Chuyển qua trang bài hát
                 }
                 SongBody(
-                    songList = songUiState.songList,
+                    songList = songWithSingers.songSingerList
                 )
             }
         }

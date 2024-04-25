@@ -27,6 +27,16 @@ interface MusicDao {
     @Query("SELECT * FROM Singer ORDER BY singerName ASC")
     fun getAllSingers(): Flow<List<Singer>>
 
+    @Query("""
+    SELECT s.*, sg.*, GROUP_CONCAT(sg.singerName, ', ') AS singerNames
+    FROM song s
+    INNER JOIN songsingercrossref ref ON ref.songId = s.songId
+    INNER JOIN singer sg ON sg.singerId = ref.singerId
+    GROUP BY s.songId, s.songName;
+
+    """)
+    fun getSongWithSingers(): Flow<List<SongWithSingers>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSong(song: Song)
 
@@ -74,10 +84,6 @@ interface MusicDao {
     @Transaction
     @Query("SELECT * FROM song WHERE songId = :songId")
     suspend fun getSingersOfSong(songId: Int): List<SongWithSingers>
-
-
-
-
 
     @Update
     suspend fun update(song: Song)
