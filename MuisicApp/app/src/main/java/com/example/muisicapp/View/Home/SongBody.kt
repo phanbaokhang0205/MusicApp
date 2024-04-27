@@ -100,20 +100,35 @@ fun SongItem(
             overflow = TextOverflow.Ellipsis
         )
 
-        singers.forEach { singer ->
-            Text(
-                text = singer.singerName,
-                fontSize = 10.sp,
-                color = Color(0xff808080),
-                modifier = Modifier.width(120.dp),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
+
+
+        Text(
+            text = stringBuilder(singers),
+            fontSize = 10.sp,
+            color = Color(0xff808080),
+            modifier = Modifier.width(120.dp),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+
 
     }
 }
 
+@Composable
+private fun stringBuilder(singers: List<Singer>): String {
+    val builder = StringBuilder()
+
+    singers.forEachIndexed { index, singer ->
+        builder.append(singer.singerName)
+        if (index < singers.size - 1) {
+            builder.append(", ")
+        }
+    }
+
+    return builder.toString()
+
+}
 @Preview(showBackground = true)
 @Composable
 fun HomeBodyPreview() {
