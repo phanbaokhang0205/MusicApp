@@ -122,9 +122,8 @@ fun songList(songs:List<Song>){
             Column(modifier = Modifier
                 .padding(start = 15.dp, top = 15.dp)
                 .fillMaxSize()) {
-                Row(modifier = Modifier.fillMaxWidth()){
-                    Column{
-                        Row(verticalAlignment = Alignment.CenterVertically){
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween){
                             Image(
                                 painter = image, contentDescription = null,
                                 modifier = Modifier
@@ -133,23 +132,19 @@ fun songList(songs:List<Song>){
                             )
                             Spacer(modifier = Modifier.width(15.dp))
                             Column {
-                                Text(text = title, modifier = Modifier.padding(bottom = 5.dp))
+                                Text(text = title, modifier = Modifier.padding(bottom = 10.dp))
                                 Text(text = artist)
                             }
                         }
-                    }
-                        Row {
-                            Column(modifier = Modifier.fillMaxWidth()){
-                                Row {
-                                    IconButton(onClick = { /*TODO*/ }) {
-                                        Icon(imageVector = Icons.Filled.FavoriteBorder, contentDescription =null )
-                                    }
-                                    IconButton(onClick = { /*TODO*/ }) {
-                                        Icon(imageVector = Icons.Filled.MoreHoriz, contentDescription =null )
-                                    }
-                                }
+                        Row(modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
+                            IconButton(onClick = { /*TODO*/ }) {
+                                Icon(imageVector = Icons.Filled.FavoriteBorder, contentDescription =null )
+                            }
+                            IconButton(onClick = { /*TODO*/ }) {
+                                Icon(imageVector = Icons.Filled.MoreHoriz, contentDescription =null )
                             }
                         }
+
                 }
             }
         }
