@@ -15,9 +15,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -54,7 +59,6 @@ fun LoginScreen(
     //giaodien
     Column (
         modifier=Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Image(
@@ -64,21 +68,21 @@ fun LoginScreen(
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(
-            text = "Login to Your Account",
+            text = "Đăng nhập để tiếp tục",
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
-            label = { Text("Username") },
+            label = { Text("Tài khoản") },
             value = userName,
             onValueChange = {userName=it}
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
-            label = { Text("Password") },
+            label = { Text("Mật khẩu") },
             value = passWord,
-            onValueChange = {userName=it}
+            onValueChange = {passWord=it}
         )
         Spacer(modifier = Modifier.height(20.dp))
         Row {
@@ -87,13 +91,13 @@ fun LoginScreen(
                 onCheckedChange ={ isChecked = it },
             )
             Text(
-                text = "Remember me",
+                text = "Nhớ mật khẩu",
                 modifier = Modifier.padding(top=12.dp)
             )
         }
         Button(onClick = {}) {
             Text(
-                text = "Sign in",
+                text = "Đăng nhập",
                 modifier = Modifier.size(220.dp, 22.dp),
                 textAlign = TextAlign.Center,
                 fontSize = 17.sp
@@ -112,33 +116,57 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally // căn chỉnh Text vào giữa Column
             ) {
                 Text(
-                    text = "or continue with",
-                    modifier = Modifier.background(Color.White)
-                        .clickable {  }
+                    text = " hoặc tiếp tục với ",
+                    modifier = Modifier
+                        .background(Color.White)
+                        .clickable { }
                 )
             }
         }
         Spacer(modifier = Modifier.height(35.dp))
         Row (){
-            Image(
-                painter = painterResource(id = R.drawable.fb),
-                contentDescription = "LogoFb",
-                modifier = Modifier.size(40.dp)
-//                    .border(width = 2.dp, color = Color)
-            )
-            Spacer(modifier = Modifier.width(35.dp))
-            Image(
-                painter = painterResource(id = R.drawable.gg),
-                contentDescription = "LogoGg",
-                modifier = Modifier.size(40.dp)
-            )
+            Box(
+                modifier = modifier
+                    .size(62.dp)
+                    .border(
+                        width = 2.dp,
+                        color = Color.Black.copy(alpha = 0.3f),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .clickable { },
+                contentAlignment = Alignment.Center
+            ){
+                Image(
+                    painter = painterResource(id = R.drawable.fb),
+                    contentDescription = "LogoFb",
+                    modifier = Modifier.size(40.dp)
+                )
+            }
+            Spacer(modifier = Modifier.width(40.dp))
+            Box(
+                modifier = modifier
+                    .size(62.dp)
+                    .border(
+                        width = 2.dp,
+                        color = Color.Black.copy(alpha = 0.3f),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .clickable { },
+                contentAlignment = Alignment.Center
+            ){
+                Image(
+                    painter = painterResource(id = R.drawable.gg),
+                    contentDescription = "LogoGg",
+                    modifier = Modifier.size(40.dp)
+                )
+            }
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenn(){
+fun LoginTest(){
     MuisicAppTheme {
         LoginScreen()
     }
