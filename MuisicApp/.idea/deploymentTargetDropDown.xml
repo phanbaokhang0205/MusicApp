@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="deploymentTargetDropDown">
+    <value>
+      <entry key="LoginScreenn">
+      <entry key="ScaffoldPreview">
+        <State />
+      </entry>
+      <entry key="SongItemPreview">
+        <State />
+      </entry>
+      <entry key="app">
+        <State />
+      </entry>
+      <entry key="daoGetAllItems_returnsAllItemsFromDB()">
+        <State />
+      </entry>
+      <entry key="app">
+        <State />
+      </entry>
+      <entry key="daoInsert_insertsItemIntoDB() (1)">
+        <State />
+      </entry>
+    </value>
+  </component>
+</project>
