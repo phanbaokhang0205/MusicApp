@@ -1,7 +1,7 @@
 package com.example.muisicapp.ViewModel
 
-import android.text.Spannable.Factory
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -11,7 +11,8 @@ object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
             HomeViewModel(
-                musicApplication().container.songsRepository
+                this.createSavedStateHandle(),
+                musicApplication().container.musicRepository
             )
         }
     }

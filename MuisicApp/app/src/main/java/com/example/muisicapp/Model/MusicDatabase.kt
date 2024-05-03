@@ -5,21 +5,29 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.muisicapp.Model.data.Album
+import com.example.muisicapp.Model.data.MusicDao
 import com.example.muisicapp.Model.data.Playlist
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
-import com.example.muisicapp.Model.data.SongDao
 import com.example.muisicapp.Model.data.Type
+import com.example.muisicapp.Model.relations.SongPlaylistCrossRef
+import com.example.muisicapp.Model.relations.SongSingerCrossRef
+import com.example.muisicapp.Model.relations.SongTypeCrossRef
 
 @Database(
     entities = [
-        Song::class, Singer::class,
-        Playlist::class, Type::class,
-        Album::class],
-    version = 1
+        Song::class,
+        Singer::class,
+        Playlist::class,
+        Type::class,
+        Album::class,
+        SongPlaylistCrossRef::class,
+        SongSingerCrossRef::class,
+        SongTypeCrossRef::class],
+    version = 2
 )
-abstract class MusicDatabase : RoomDatabase(){
-    abstract fun songDao(): SongDao
+abstract class MusicDatabase : RoomDatabase() {
+    abstract fun musicDao(): MusicDao
 
     companion object {
         @Volatile
@@ -31,7 +39,7 @@ abstract class MusicDatabase : RoomDatabase(){
                 Room.databaseBuilder(
                     context,
                     MusicDatabase::class.java,
-                    "music_db"
+                    "test4_db"
                 )
                     .fallbackToDestructiveMigration()
                     .build()
