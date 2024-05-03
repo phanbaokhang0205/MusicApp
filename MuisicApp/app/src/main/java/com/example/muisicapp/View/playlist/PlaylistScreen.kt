@@ -1,4 +1,4 @@
-package com.example.muisicapp.View.Home
+package com.example.muisicapp.View.playlist
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -54,7 +54,8 @@ fun PlaylistScreen(){
                     Image(
                         painter = painterResource(R.drawable.img_1),
                         contentDescription = null,
-                        contentScale = ContentScale.Crop
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop,
                     )
                     Column(
                         modifier = Modifier

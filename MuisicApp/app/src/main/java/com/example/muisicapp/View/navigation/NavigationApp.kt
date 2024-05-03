@@ -1,4 +1,4 @@
-package com.example.muisicapp.View.Navigation
+package com.example.muisicapp.View.navigation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image

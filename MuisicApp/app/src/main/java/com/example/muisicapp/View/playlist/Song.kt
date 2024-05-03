@@ -1,4 +1,4 @@
-package com.example.muisicapp.View.Home
+package com.example.muisicapp.View.playlist
 
 data class Song(val image: Int,
                 val title: String,

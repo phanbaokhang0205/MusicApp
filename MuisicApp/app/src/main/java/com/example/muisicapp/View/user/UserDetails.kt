@@ -1,6 +1,6 @@
 @file:Suppress("UNUSED_EXPRESSION")
 
-package com.example.muisicapp.View.User
+package com.example.muisicapp.View.user
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image

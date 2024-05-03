@@ -57,6 +57,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.muisicapp.R
+import com.example.muisicapp.View.seekbar.CircleSeekBar
+import com.example.muisicapp.ui.theme.Black1
+import com.example.muisicapp.ui.theme.Gray1
+import com.example.muisicapp.ui.theme.Gray2
+import com.example.muisicapp.ui.theme.Green1
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -111,7 +116,7 @@ fun ScaffoldHome() {
                             text = "Xem hồ sơ",
                             modifier = Modifier,
                             fontSize = 12.sp,
-                            color = Color(0xff808080)
+                            color = Gray1
                         )
                     }
                 }
@@ -255,7 +260,7 @@ fun ContentTopAppBar(
             Text(
                 text = "Let's listen to something cool today",
                 fontSize = 12.sp,
-                color = Color(0xff808080)
+                color = Gray1
             )
         }
         Spacer(modifier = Modifier.weight(1f))
@@ -285,7 +290,7 @@ fun BottomAppBar(
     onClickFavourite: () -> Unit,
     onClickPlaying: () -> Unit,
     isFavourite: Boolean,
-    isPlaying: Boolean
+    isPlaying: Boolean,
 ) {
     Column(
         modifier = Modifier
@@ -293,7 +298,7 @@ fun BottomAppBar(
             .height(120.dp)
     ) {
         BottomAppBar(
-            containerColor = Color(0xff232323),
+            containerColor = Black1,
             contentColor = Color.White,
             modifier = Modifier.weight(1f)
         ) {
@@ -328,7 +333,7 @@ fun BottomAppBar(
                         Text(
                             text = "Sơn Tùng MTP",
                             fontSize = 10.sp,
-                            color = Color(0xff808080)
+                            color = Gray1
                         )
                     }
                 }
@@ -348,26 +353,17 @@ fun BottomAppBar(
                             imageVector = if (isFavourite) Icons.Filled.Favorite
                             else Icons.Filled.FavoriteBorder,
                             contentDescription = null,
-                            tint = if (isFavourite) Color(0xff059F05)
-                            else Color(0xff808080),
+                            tint = if (isFavourite) Green1
+                            else Gray1,
                         )
                     }
 
-                    IconButton(onClick = {
-                        onClickPlaying()
-                    }) {
-                        Icon(
-                            imageVector = if (isPlaying) Icons.Filled.Pause
-                            else Icons.Filled.PlayArrow,
-                            contentDescription = null,
-                            tint = Color(0xffD9D9D9)
-                        )
-                    }
+                    CircleSeekBar(30f)
                 }
             }
         }
         BottomAppBar(
-            containerColor = Color(0xff474747),
+            containerColor = Gray2,
             contentColor = Color.White,
             modifier = Modifier.weight(1f)
         ) {

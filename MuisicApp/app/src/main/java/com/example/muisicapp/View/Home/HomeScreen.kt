@@ -27,7 +27,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -53,6 +52,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.muisicapp.R
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.HomeViewModel
+import com.example.muisicapp.ui.theme.Gray1
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -110,7 +110,7 @@ fun HomeScreen(
                             text = "Xem hồ sơ",
                             modifier = Modifier,
                             fontSize = 12.sp,
-                            color = Color(0xff808080)
+                            color = Gray1
                         )
                     }
                 }

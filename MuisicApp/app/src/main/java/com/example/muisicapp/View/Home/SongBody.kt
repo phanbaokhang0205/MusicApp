@@ -99,9 +99,6 @@ fun SongItem(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-
-
-
         Text(
             text = stringBuilder(singers),
             fontSize = 10.sp,
