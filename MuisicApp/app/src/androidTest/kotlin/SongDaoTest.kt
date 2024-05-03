@@ -3,8 +3,8 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.muisicapp.Model.MusicDatabase
+import com.example.muisicapp.Model.data.MusicDao
 import com.example.muisicapp.Model.data.Song
-import com.example.muisicapp.Model.data.SongDao
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -16,8 +16,8 @@ import java.io.IOException
 
 
 @RunWith(AndroidJUnit4::class)
-class SongDaoTest {
-    private lateinit var songDao: SongDao
+class musicDaoTest {
+    private lateinit var musicDao: MusicDao
     private lateinit var musicDatabase: MusicDatabase
 
     @Before
@@ -29,7 +29,7 @@ class SongDaoTest {
             // Allowing main thread queries, just for testing.
             .allowMainThreadQueries()
             .build()
-        songDao = musicDatabase.songDao()
+        musicDao = musicDatabase.musicDao()
     }
     @After
     @Throws(IOException::class)
@@ -37,24 +37,25 @@ class SongDaoTest {
         musicDatabase.close()
     }
 
-    private var song1 = Song(1, "Chung ta cua hien tai", "mtp.png", "http://...")
-    private var song2 = Song(2, "Em cua ngay hom qua", "mtp2.png", "https://...")
+    private var song1 = Song(1, "Chung ta cua hien tai", "mtp.png", "MTP" ,2)
+    private var song2 = Song(2, "Em cua ngay hom qua", "mtp2.png", "MTP" ,3)
 
     private suspend fun addOneSongToDb() {
-        songDao.insert(song1)
+        musicDao.insertSong(song1)
     }
 
     private suspend fun addTwoSongsToDb() {
-        songDao.insert(song1)
-        songDao.insert(song2)
+        musicDao.insertSong(song1)
+        musicDao.insertSong(song2)
     }
+
 
 
     @Test
     @Throws(Exception::class)
     fun daoInsert_insertsItemIntoDB() = runBlocking {
         addOneSongToDb()
-        val allItems = songDao.getAllSongs().first()
+        val allItems = musicDao.getAllSongs().first()
         assertEquals(allItems[0], song1)
     }
 
@@ -63,7 +64,7 @@ class SongDaoTest {
     @Throws(Exception::class)
     fun daoGetAllItems_returnsAllItemsFromDB() = runBlocking {
         addTwoSongsToDb()
-        val allItems = songDao.getAllSongs().first()
+        val allItems = musicDao.getAllSongs().first()
         assertEquals(allItems[0], song1)
         assertEquals(allItems[1], song2)
     }

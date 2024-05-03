@@ -3,9 +3,22 @@
   <component name="deploymentTargetDropDown">
     <value>
       <entry key="LoginScreenn">
+      <entry key="ScaffoldPreview">
+        <State />
+      </entry>
+      <entry key="SongItemPreview">
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="daoGetAllItems_returnsAllItemsFromDB()">
+        <State />
+      </entry>
+      <entry key="app">
+        <State />
+      </entry>
+      <entry key="daoInsert_insertsItemIntoDB() (1)">
         <State />
       </entry>
     </value>

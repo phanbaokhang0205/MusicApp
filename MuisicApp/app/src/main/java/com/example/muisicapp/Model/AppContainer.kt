@@ -1,15 +1,15 @@
 package com.example.muisicapp.Model
 
 import android.content.Context
-import com.example.muisicapp.Model.data.OfflineSongsRepository
-import com.example.muisicapp.Model.data.SongsRepository
+import com.example.muisicapp.Model.repository.OfflineMusicRepository
+import com.example.muisicapp.Model.repository.MusicRepository
 
 interface AppContainer {
-    val songsRepository: SongsRepository
+    val musicRepository: MusicRepository
 }
 
 class AppDataContainer(private val context: Context) : AppContainer {
-    override val songsRepository: SongsRepository by lazy {
-        OfflineSongsRepository(MusicDatabase.getDatabase(context).songDao())
+    override val musicRepository: MusicRepository by lazy {
+        OfflineMusicRepository(MusicDatabase.getDatabase(context).musicDao())
     }
 }

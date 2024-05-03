@@ -49,7 +49,6 @@ android {
         }
     }
 }
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -79,5 +78,11 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+
+//    URL Image
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
+//    GG font
+    implementation("androidx.compose.material:material-icons-extended")
 
 }
