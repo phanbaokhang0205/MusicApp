@@ -1,6 +1,7 @@
 package com.example.muisicapp.View.Home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import com.example.muisicapp.ui.theme.MuisicAppTheme
 @Composable
 fun SongBody(
     songList: List<SongWithSingers>,
+    goToSongDetails: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -41,8 +43,10 @@ fun SongBody(
         } else {
             SongList(
                 songList,
-                modifier = Modifier,
-            )
+                modifier = Modifier
+            ) {
+                goToSongDetails(it.song.songId!!)
+            }
         }
 
     }
@@ -52,6 +56,7 @@ fun SongBody(
 fun SongList(
     songList: List<SongWithSingers>,
     modifier: Modifier = Modifier,
+    goToSongDetails: (SongWithSingers) -> Unit,
 ) {
     LazyRow(
         modifier = modifier.padding(start = 18.dp),
@@ -60,8 +65,8 @@ fun SongList(
         items(items = songList, key = { it.song.songId!! }) { song ->
             SongItem(
                 song = song.song,
-                singers = song.singers
-            )
+                singers = song.singers,
+            ) { goToSongDetails(song) }
         }
     }
 }
@@ -69,12 +74,14 @@ fun SongList(
 @Composable
 fun SongItem(
     song: Song,
-    singers: List<Singer>
+    singers: List<Singer>,
+    goToSongDetails:() -> Unit,
 ) {
     Column(
         modifier = Modifier
             .background(Color.Black)
             .width(120.dp)
+            .clickable { goToSongDetails() }
     ) {
 
         Box(

@@ -19,13 +19,6 @@ class HomeViewModel(
     musicRepository: MusicRepository
 ) : ViewModel() {
 
-    val songUiState: StateFlow<SongUiState> =
-        musicRepository.getAllSongsStream().map { SongUiState(it) }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = SongUiState()
-            )
 
     val singerUiState: StateFlow<SingerUiState> =
         musicRepository.getAllSingersStream().map { SingerUiState(it) }
@@ -50,5 +43,4 @@ class HomeViewModel(
 }
 
 data class SongSingersUiState(val songSingerList: List<SongWithSingers> = listOf())
-data class SongUiState(val songList: List<Song> = listOf())
 data class SingerUiState(val singerList: List<Singer> = listOf())

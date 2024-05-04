@@ -86,7 +86,7 @@ fun CircleSeekBar(
             }
         }) {
             Icon(
-                imageVector = if (isPlaying) Icons.Filled.PlayArrow else Icons.Filled.Pause,
+                imageVector = if (isPlaying)Icons.Filled.Pause  else Icons.Filled.PlayArrow,
                 contentDescription = if (isPlaying) "Play" else "Pause",
                 tint = Color.White,
                 modifier = Modifier.size(17.dp),

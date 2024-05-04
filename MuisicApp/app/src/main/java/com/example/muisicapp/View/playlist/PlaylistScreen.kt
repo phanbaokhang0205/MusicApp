@@ -46,7 +46,8 @@ fun PlaylistScreen() {
         TopBarOption(
             goBackEvent = { /*TODO*/ },
             goShareEvent = { /*TODO*/ },
-            goOptionEvent = { /*TODO*/ }
+            goOptionEvent = { /*TODO*/ },
+            Modifier.fillMaxWidth()
         )
     }) {
         Column {

@@ -20,13 +20,12 @@ fun TopBarOption(
     goBackEvent:() -> Unit,
     goShareEvent:() -> Unit,
     goOptionEvent:() -> Unit,
+    modifier: Modifier = Modifier
 ){
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 20.dp)
+        modifier = modifier
     ) {
         IconButton(
             onClick = { goBackEvent() },

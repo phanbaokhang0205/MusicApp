@@ -67,7 +67,12 @@ import kotlinx.coroutines.launch
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldHome() {
+fun ScaffoldHome(
+    goToHomeScreen:() -> Unit,
+    goToSearchScreen:() ->Unit,
+    goToAccountScreen:() -> Unit,
+    goToPlaylistScreen:() -> Unit,
+) {
 
     var isFavourite by rememberSaveable {
         mutableStateOf(false)
@@ -198,14 +203,12 @@ fun ScaffoldHome() {
             },
             bottomBar = {
                 BottomAppBar(
-                    onClickFavourite = {
-                        isFavourite = !isFavourite
-                    },
-                    onClickPlaying = {
-                        isPlay = !isPlay
-                    },
+                    onClickFavourite = { isFavourite = !isFavourite },
                     isFavourite = isFavourite,
-                    isPlaying = isPlay
+                    goToHomeScreen = { /*TODO*/ },
+                    goToSearchScreen = { /*TODO*/ },
+                    goToAccountScreen = { /*TODO*/ },
+                    goToPlaylistScreen = {  }
                 )
             },
 
@@ -286,9 +289,11 @@ fun ContentTopAppBar(
 @Composable
 fun BottomAppBar(
     onClickFavourite: () -> Unit,
-    onClickPlaying: () -> Unit,
     isFavourite: Boolean,
-    isPlaying: Boolean,
+    goToHomeScreen:() -> Unit,
+    goToSearchScreen:() ->Unit,
+    goToAccountScreen:() -> Unit,
+    goToPlaylistScreen:() -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -372,7 +377,7 @@ fun BottomAppBar(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 IconButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { goToHomeScreen() },
                     modifier = Modifier.size(80.dp),
                 ) {
                     Column(
@@ -391,7 +396,7 @@ fun BottomAppBar(
                 }
 
                 IconButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { goToSearchScreen() },
                     modifier = Modifier.size(80.dp),
                 ) {
                     Column(
@@ -410,7 +415,7 @@ fun BottomAppBar(
                 }
 
                 IconButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { goToPlaylistScreen() },
                     modifier = Modifier.size(80.dp),
 
                     ) {
@@ -429,7 +434,7 @@ fun BottomAppBar(
                 }
 
                 IconButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { goToAccountScreen() },
                     modifier = Modifier.size(80.dp),
                 ) {
                     Column(
@@ -454,6 +459,6 @@ fun BottomAppBar(
 @Composable
 fun ScaffoldPreview() {
     MuisicAppTheme {
-        ScaffoldHome()
+        ScaffoldHome({},{},{},{})
     }
 }

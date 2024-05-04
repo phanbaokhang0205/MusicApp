@@ -41,12 +41,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavDestination
+import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.View.scaffold.BottomAppBar
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
+object SearchDestination : NavigationDestination {
+    override val route: String = "search_screen"
+
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen() {
+fun SearchScreen(
+    goToHomeScreen:() -> Unit,
+    goToAccountScreen:() -> Unit,
+    goToPlaylistScreen:() -> Unit,
+    goBack:() -> Unit
+) {
     var isFavourite by rememberSaveable {
         mutableStateOf(false)
     }
@@ -84,9 +96,7 @@ fun SearchScreen() {
                                 .padding(end = 20.dp)
                                 .size(25.dp)
                                 .clickable {
-                                    /**
-                                     * TODO
-                                     */
+                                    goBack()
                                 }
                         )
 
@@ -103,14 +113,12 @@ fun SearchScreen() {
         },
         bottomBar = {
             BottomAppBar(
-                onClickFavourite = {
-                    isFavourite = !isFavourite
-                },
-                onClickPlaying = {
-                    isPlay = !isPlay
-                },
+                onClickFavourite = { isFavourite = !isFavourite },
                 isFavourite = isFavourite,
-                isPlaying = isPlay
+                goToHomeScreen = { goToHomeScreen() },
+                goToSearchScreen = {  },
+                goToAccountScreen = { goToAccountScreen() },
+                goToPlaylistScreen = { goToPlaylistScreen() }
             )
         },
 
@@ -135,7 +143,7 @@ fun SearchScreen() {
 @Composable
 fun SearchPreview() {
     MuisicAppTheme {
-        SearchScreen()
+        SearchScreen({},{},{},{})
     }
 }
 

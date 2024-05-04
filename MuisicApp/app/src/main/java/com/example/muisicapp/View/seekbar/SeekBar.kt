@@ -63,7 +63,9 @@ fun SeekBar(
     isPlaying: Boolean,
     playingEvent: () -> Unit,
     isFavourite: Boolean,
-    favouriteEvent: () -> Unit
+    favouriteEvent: () -> Unit,
+    songName: String,
+    singerName: String,
 
 ) {
     Box(modifier = Modifier.background(Color(0x66000000))) {
@@ -85,7 +87,7 @@ fun SeekBar(
                 Column {
                     /** Song name */
                     Text(
-                        text = "Chúng ta của tương lai",
+                        text = songName,
                         fontSize = 14.sp,
                         color = Color.White,
                         fontWeight = FontWeight.Bold
@@ -93,7 +95,7 @@ fun SeekBar(
 
                     /** Artist */
                     Text(
-                        text = "Sơn Tùng MTP.",
+                        text = singerName,
                         fontSize = 12.sp,
                         color = Gray1,
                         fontWeight = FontWeight.Bold

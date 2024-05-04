@@ -2,6 +2,7 @@ package com.example.muisicapp.View.Home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,7 @@ import com.example.muisicapp.ui.theme.MuisicAppTheme
 @Composable
 fun SingerBody(
     singerList: List<Singer>,
+    goToDetailSinger: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -46,6 +48,7 @@ fun SingerBody(
             SingerList(
                 singerList,
                 modifier = Modifier,
+                goToDetailSinger
             )
         }
 
@@ -56,26 +59,29 @@ fun SingerBody(
 fun SingerList(
     singerList: List<Singer>,
     modifier: Modifier,
+    goToDetailSinger: () -> Unit,
 ) {
     LazyRow(
         modifier = modifier.padding(start = 18.dp),
         horizontalArrangement = Arrangement.spacedBy(22.dp),
     ) {
         items(items = singerList, key = { it.singerId!! }) { singer ->
-            SingerItem(singer = singer)
+            SingerItem(singer = singer, goToDetailSinger)
         }
     }
 }
 
 @Composable
 fun SingerItem(
-    singer: Singer
+    singer: Singer,
+    goToDetailSinger: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .background(Color.Black)
             .width(66.dp)
-            .height(96.dp),
+            .height(96.dp)
+            .clickable { goToDetailSinger() },
     ) {
         Box(
             modifier = Modifier
