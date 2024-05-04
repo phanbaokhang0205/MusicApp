@@ -1,4 +1,4 @@
-package com.example.muisicapp.View.Home
+package com.example.muisicapp.View.scaffold
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -23,8 +23,6 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LibraryBooks
 import androidx.compose.material.icons.filled.Logout
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Timelapse
 import androidx.compose.material3.BottomAppBar

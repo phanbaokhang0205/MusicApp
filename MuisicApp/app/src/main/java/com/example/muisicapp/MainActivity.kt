@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.muisicapp.View.Home.HomeScreen
+import com.example.muisicapp.View.play.PlayScreen
 import com.example.muisicapp.View.search.SearchScreen
 import com.example.muisicapp.View.seekbar.SeekBar
 import com.example.muisicapp.ui.theme.MuisicAppTheme
@@ -24,14 +25,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    HomeScreen()
+                    HomeScreen()
 //                    ScaffoldHome()
 //                    LoginScreen()
 //                    LoginScreen2()
 //                    RegisterScreen()
 //                    PlaylistScreen()
 //                    SearchScreen()
-                    SeekBar()
+//                    PlayScreen()
                 }
             }
 

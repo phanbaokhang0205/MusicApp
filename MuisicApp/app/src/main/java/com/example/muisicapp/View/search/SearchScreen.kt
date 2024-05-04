@@ -41,7 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.muisicapp.View.Home.BottomAppBar
+import com.example.muisicapp.View.scaffold.BottomAppBar
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

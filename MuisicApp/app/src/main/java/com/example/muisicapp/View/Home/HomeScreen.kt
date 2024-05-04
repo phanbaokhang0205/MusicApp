@@ -50,6 +50,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.muisicapp.R
+import com.example.muisicapp.View.scaffold.BottomAppBar
+import com.example.muisicapp.View.scaffold.ContentTopAppBar
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.HomeViewModel
 import com.example.muisicapp.ui.theme.Gray1

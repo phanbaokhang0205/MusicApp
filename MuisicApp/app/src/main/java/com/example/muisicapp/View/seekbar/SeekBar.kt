@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -47,197 +46,183 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.muisicapp.R
 import com.example.muisicapp.ui.theme.Gray1
-import com.example.muisicapp.ui.theme.Gray2
 import com.example.muisicapp.ui.theme.Green1
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+
+
+/**
+ * Seek bar
+ */
 @Composable
-fun SeekBar() {
-    var progress by remember { mutableStateOf(0f) }
-    val coroutineScope = rememberCoroutineScope()
-    var isPlaying by remember { mutableStateOf(false) }
+fun SeekBar(
+    progress: Float,
+    onProgressChange: (Float) -> Unit,
+    isPlaying: Boolean,
+    playingEvent: () -> Unit,
+    isFavourite: Boolean,
+    favouriteEvent: () -> Unit
 
-    var isFavourite by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    Box(modifier = Modifier) {
-        Image(
-            painter = painterResource(id = R.drawable.img_1),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-        Box(modifier = Modifier.fillMaxSize().background(Color(0x6A454545)))
+) {
+    Box(modifier = Modifier.background(Color(0x66000000))) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(0.dp),
-            verticalArrangement = Arrangement.Bottom
+                .padding(12.dp)
+                .height(170.dp)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
+            /**
+             * Content song
+             */
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    /** Song name */
+                    Text(
+                        text = "Chúng ta của tương lai",
+                        fontSize = 14.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
 
-            Box(modifier = Modifier.background(Color(0x66000000))) {
-                Column(
-                    modifier = Modifier
-                        .padding(12.dp)
-                        .height(170.dp)
-                        .fillMaxWidth(),
-                    verticalArrangement = Arrangement.SpaceBetween
+                    /** Artist */
+                    Text(
+                        text = "Sơn Tùng MTP.",
+                        fontSize = 12.sp,
+                        color = Gray1,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                }
+
+                IconButton(
+                    onClick = {
+                        favouriteEvent()
+                    },
                 ) {
-                    /**
-                     * Content song
-                     */
-                    Row(
+                    Icon(
+                        imageVector = if (isFavourite) Icons.Filled.Favorite
+                        else Icons.Filled.FavoriteBorder,
+                        contentDescription = null,
+                        tint = if (isFavourite) Green1
+                        else Color.White,
+                    )
+                }
+            }
+
+            /**
+             * Seek bar
+             */
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Box(modifier = Modifier.height(20.dp)) {
+                    Slider(
+                        value = progress,
+                        onValueChange = { onProgressChange(it) },
+                        valueRange = 0f..60f,
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column {
-                            /** Song name */
-                            Text(text = "Chúng ta của tương lai", fontSize = 14.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                        colors = SliderDefaults.colors(
+                            thumbColor = Green1,
+                            activeTrackColor = Green1,
+                            inactiveTrackColor = MaterialTheme.colorScheme.secondaryContainer,
+                        ),
+                    )
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = progress.toString(),
+                        fontSize = 10.sp,
+                        color = Gray1
+                    )
+                    Text(
+                        text = "-" + (60f - progress).toString(),
+                        fontSize = 10.sp,
+                        color = Gray1
+                    )
+                }
+            }
 
-                            /** Artist */
-                            Text(text = "Sơn Tùng MTP.", fontSize = 12.sp, color = Gray1, fontWeight = FontWeight.Bold)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
 
-                        }
+                /**
+                 * Shuffle
+                 */
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Filled.Shuffle, contentDescription = "Shuffle",
+                        tint = Color.Black,
+                        modifier = Modifier.size(25.dp)
+                    )
+                }
 
-                        IconButton(
-                            onClick = {
-                                isFavourite = !isFavourite
-                            },
-                        ) {
-                            Icon(
-                                imageVector = if (isFavourite) Icons.Filled.Favorite
-                                else Icons.Filled.FavoriteBorder,
-                                contentDescription = null,
-                                tint = if (isFavourite) Green1
-                                else Color.White,
-                            )
-                        }
-                    }
+                /**
+                Previous
+                 */
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Filled.SkipPrevious,
+                        contentDescription = "Shuffle",
+                        tint = Color.Black,
+                        modifier = Modifier.size(25.dp)
+                    )
+                }
 
-                    /**
-                     * Seek bar
-                     */
-                    Column(
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Box(modifier = Modifier.height(20.dp)) {
-                            Slider(
-                                value = progress,
-                                onValueChange = { progress = it },
-                                valueRange = 0f..60f,
-                                modifier = Modifier.fillMaxWidth(),
-                                colors = SliderDefaults.colors(
-                                    thumbColor = Green1,
-                                    activeTrackColor = Green1,
-                                    inactiveTrackColor = MaterialTheme.colorScheme.secondaryContainer,
-                                ),
-                            )
-                        }
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                text = progress.toString(),
-                                fontSize = 10.sp,
-                                color = Gray1
-                            )
-                            Text(
-                                text = "-" + (60f - progress).toString(),
-                                fontSize = 10.sp,
-                                color = Gray1
-                            )
-                        }
-                    }
+                /**
+                 * Play / Pause
+                 */
+                IconButton(
+                    onClick = {
+                        playingEvent()
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
+                    },
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(RoundedCornerShape(100))
+                        .background(Green1)
+                ) {
+                    Icon(
+                        imageVector = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+                        contentDescription = if (isPlaying) "Play" else "Pause",
+                        tint = Color.Black,
+                        modifier = Modifier.size(25.dp)
+                    )
+                }
 
-                        /**
-                         * Shuffle
-                         */
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Filled.Shuffle, contentDescription = "Shuffle",
-                                tint = Color.Black,
-                                modifier = Modifier.size(25.dp)
-                            )
-                        }
+                /**
+                 * Next
+                 */
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Filled.SkipNext, contentDescription = "Shuffle",
+                        tint = Color.Black,
+                        modifier = Modifier.size(25.dp)
+                    )
+                }
 
-                        /**
-                        Previous
-                         */
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Filled.SkipPrevious, contentDescription = "Shuffle",
-                                tint = Color.Black,
-                                modifier = Modifier.size(25.dp)
-                            )
-                        }
-
-                        /**
-                         * Play / Pause
-                         */
-                        IconButton(
-                            onClick = {
-                                isPlaying = !isPlaying
-                                coroutineScope.launch {
-                                    while (isPlaying && progress < 60f) {
-                                        delay(1000)
-                                        progress += 1f
-                                    }
-                                }
-                            },
-                            modifier = Modifier
-                                .size(50.dp)
-                                .clip(RoundedCornerShape(100))
-                                .background(Green1)
-                        ) {
-                            Icon(
-                                imageVector = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                                contentDescription = if (isPlaying) "Play" else "Pause",
-                                tint = Color.Black,
-                                modifier = Modifier.size(25.dp)
-                            )
-                        }
-
-                        /**
-                         * Next
-                         */
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Filled.SkipNext, contentDescription = "Shuffle",
-                                tint = Color.Black,
-                                modifier = Modifier.size(25.dp)
-                            )
-                        }
-
-                        /**
-                         * Repeat
-                         */
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Filled.Repeat, contentDescription = "Shuffle",
-                                tint = Color.Black,
-                                modifier = Modifier.size(25.dp)
-                            )
-                        }
-                    }
+                /**
+                 * Repeat
+                 */
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Filled.Repeat, contentDescription = "Shuffle",
+                        tint = Color.Black,
+                        modifier = Modifier.size(25.dp)
+                    )
                 }
             }
         }
     }
-
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SeekBarPreview() {
-    SeekBar()
 }
