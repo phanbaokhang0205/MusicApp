@@ -61,7 +61,9 @@ fun DetailSingerScreen() {
     Scaffold(topBar = { TopBar() }) {
 
         LazyColumn(
-            modifier = Modifier.fillMaxSize().background(Color.Black)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black)
         ) {
             item {
                 imgSinger()
@@ -451,10 +453,4 @@ fun singerInfor() {
             Text(text = "Việt Nam,Rap Việt", fontWeight = FontWeight.Black)
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DtSingerPreview() {
-    singerInfor()
 }
