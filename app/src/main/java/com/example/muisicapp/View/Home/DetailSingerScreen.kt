@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,201 +18,443 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.MoreHoriz
+import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import com.example.muisicapp.R
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DetailSingerScreen() {
     Scaffold(topBar = { TopBar() }) {
-        Column {
-            Box(
-                modifier = Modifier
-                    .height(365.dp)
-                    .fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.img_1),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 15.dp),
-                    verticalArrangement = Arrangement.Bottom
-                ) {
-                    Row {
-                        singerName(name = "SƠN TÙNG MTP", care = "2.4M")
-                    }
-                    Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 15.dp)) {
-                        Button(onClick = { /*TODO*/ },border = BorderStroke(1.dp, Color.White),
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .width(155.dp) ) {
-                            Text(text = "Quan Tâm")
-                        }
-                        Button(onClick = { /*TODO*/ },modifier = Modifier
-                            .padding(8.dp)
-                            .width(155.dp)) {
-                            Text(text = "Phát Nhạc")
-                        }
-                    }
-                }
-            }
-            popularSong()
-        }
-    }
-}
-@Composable
-fun popularSong(){
-    Box(modifier = Modifier.padding(top = 20.dp, start = 15.dp)) {
-        Column {
-            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                Text(text = "Bài Hát Nổi Bật", fontSize = 18.sp, fontWeight = FontWeight.Bold,)
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.Filled.ArrowForwardIos , contentDescription = null, modifier = Modifier.height(20.dp))
-                }
-            }
-            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 10.dp)) {
-                popularSongList(popularSongItems.popularSongs)
+
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().background(Color.Black)
+        ) {
+            item {
+                imgSinger()
+                popularSong()
+                singerAlbum()
+                popularSinger()
+                singerInfor()
             }
         }
     }
 }
 
 @Composable
-fun popularSongList(songs:List<Song>){
-    LazyColumn {
-        items(songs){
-                song -> val image = painterResource(song.image)
-            val title = song.title
-            val artist = song.artist
-//            val likes = song.likes
-//            val duration = song.duration
-            Column(modifier = Modifier
-                .fillMaxSize()) {
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 10.dp)){
-                    Row(verticalAlignment = Alignment.CenterVertically){
-                        Image(
-                            painter = image, contentDescription = null,
-                            modifier = Modifier
-                                .size(64.dp)
-                                .clip(CircleShape),
-                        )
-                        Spacer(modifier = Modifier.width(15.dp))
-                        Column {
-                            Text(text = title, modifier = Modifier.padding(bottom = 10.dp))
-                            Text(text = artist)
-                        }
-                    }
-                    Row(modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(imageVector = Icons.Filled.FavoriteBorder, contentDescription =null )
-                        }
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(imageVector = Icons.Filled.MoreHoriz, contentDescription =null )
-                        }
-                    }
-
-                }
-            }
-        }
-
-    }
-}
-
-object popularSongItems{
-    val artist:String = "Sơn Tùng MTP"
-    val popularSongs = listOf(
-        Song(
-            image = R.drawable.img,
-            title = "Nơi Này Có Anh",
-            artist = artist,
-            likes = 53453235,
-            duration = "2:35"
-        ),
-        Song(
-            image = R.drawable.img_1,
-            title = "Âm Thầm Bên Em",
-            artist = artist,
-            likes = 4353453,
-            duration = "3:45"
-        ),
-        Song(
-            image = R.drawable.img,
-            title = "Chúng Ta Của Hiện Tại",
-            artist = artist,
-            likes = 3453453,
-            duration = "4:00"
-        ),
-        Song(
-            image = R.drawable.img_1,
-            title = "Khuôn Mặt Đáng Thương",
-            artist = artist,
-            likes = 2345345,
-            duration = "3:30"
-        ),
-        Song(
-            image = R.drawable.img_1,
-            title = "Lạc Trôi",
-            artist = artist,
-            likes = 1234534,
-            duration = "3:00"
-        ),
-        Song(
-            image = R.drawable.img,
-            title = "Chạy Ngay Đi",
-            artist = artist,
-            likes = 987654,
-            duration = "2:45"
-        ),
-        Song(
-            image = R.drawable.img_1,
-            title = "Đừng Về Trễ",
-            artist = artist,
-            likes = 654321,
-            duration = "3:15"
+fun imgSinger() {
+    Box(modifier = Modifier.height(400.dp)) {
+        Image(
+            painter = painterResource(R.drawable.img_1),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
         )
-    )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 15.dp),
+            verticalArrangement = Arrangement.Bottom,
+        ) {
+            Column() {
+                Text(
+                    text = "Sơn Tùng M-TP",
+                    fontSize = 25.sp,
+                    color = Color.White,
+                    fontFamily = FontFamily.SansSerif
+                )
+                Text(
+                    text = "2.4M quan tâm",
+                    fontSize = 17.sp,
+                    fontFamily = FontFamily.SansSerif,
+                    color = Color.LightGray
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Button(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier.width(150.dp),
+                    colors = ButtonDefaults.buttonColors(Color.Gray)
+                ) {
+                    Text(text = "QUAN TÂM")
+                }
+                Button(onClick = { /*TODO*/ }, modifier = Modifier.width(150.dp)) {
+                    Text(text = "PHÁT NHẠC")
+                }
+            }
+        }
+    }
 }
 
 @Composable
-fun singerName(name:String,care:String) {
+fun popularSong() {
     Column {
-        Text(text = name, fontSize = 25.sp, fontFamily = FontFamily.SansSerif, color = Color.White)
-        Text(text = care + " quan tâm", fontFamily = FontFamily.SansSerif, color = Color.LightGray)
+        NavigationTitle(navTitle = "Bài Hát Nổi Bật") {
+
+        }
+        popularSongItems()
+    }
+}
+
+@Composable
+fun singerAlbum() {
+    NavigationTitle(navTitle = "Album") {
+
+    }
+    LazyRow {
+        item { albumItems() }
+    }
+}
+
+@Composable
+fun popularSinger() {
+    NavigationTitle(navTitle = "Các ca sĩ liên quan") {
+
+    }
+    LazyRow {
+        item { popularSingerItems() }
+    }
+}
+
+@Composable
+fun NavigationTitle(
+    navTitle: String,
+    onClickNavigation: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .background(Color.Black)
+            .fillMaxWidth()
+            .padding(start = 18.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = navTitle,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+
+            IconButton(onClick = onClickNavigation) {
+                Icon(
+                    imageVector = Icons.Filled.NavigateNext,
+                    contentDescription = null,
+                    tint = Color.White
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun popularSongItems() {
+    Column(
+        verticalArrangement = Arrangement.Center, modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 15.dp, horizontal = 20.dp)
+    ) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 15.dp), verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                contentScale = ContentScale.Crop,
+                painter = painterResource(R.drawable.img_3),
+                contentDescription = null,
+                modifier = Modifier
+                    .clip(
+                        RoundedCornerShape(10.dp)
+                    )
+                    .size(68.dp)
+            )
+            Spacer(modifier = Modifier.width(15.dp))
+            Column {
+                Text(text = "Nơi Này Có Anh", modifier = Modifier.padding(bottom = 6.dp))
+                Text(text = "Sơn Tùng MTP", fontSize = 12.sp, color = Color.Gray)
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(imageVector = Icons.Filled.MoreHoriz, contentDescription = null)
+        }
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Image(
+                contentScale = ContentScale.Crop,
+                painter = painterResource(R.drawable.img_3),
+                contentDescription = null,
+                modifier = Modifier
+                    .clip(
+                        RoundedCornerShape(10.dp)
+                    )
+                    .size(68.dp)
+            )
+            Spacer(modifier = Modifier.width(15.dp))
+            Column {
+                Text(text = "Nơi Này Có Anh", modifier = Modifier.padding(bottom = 6.dp))
+                Text(text = "Sơn Tùng MTP", fontSize = 12.sp, color = Color.Gray)
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(imageVector = Icons.Filled.MoreHoriz, contentDescription = null)
+        }
+    }
+}
+
+@Composable
+fun albumItems() {
+    Column(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)) {
+        Image(
+            painter = painterResource(R.drawable.img),
+            contentDescription = null,
+            Modifier
+                .width(120.dp)
+                .clip(
+                    RoundedCornerShape(16.dp)
+                )
+        )
+        Text(
+            text = "Sky Tour (Original Motion Picture Soundtrack)",
+            modifier = Modifier
+                .width(120.dp)
+                .padding(vertical = 5.dp),
+            fontSize = 15.sp,
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Black,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(text = "12/06/2020")
+    }
+    Column(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)) {
+        Image(
+            painter = painterResource(R.drawable.img),
+            contentDescription = null,
+            Modifier
+                .width(120.dp)
+                .clip(
+                    RoundedCornerShape(16.dp)
+                )
+        )
+        Text(
+            text = "Sky Tour (Original Motion Picture Soundtrack)",
+            modifier = Modifier
+                .width(120.dp)
+                .padding(vertical = 5.dp),
+            fontSize = 15.sp,
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Black,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(text = "12/06/2020")
+    }
+    Column(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)) {
+        Image(
+            painter = painterResource(R.drawable.img),
+            contentDescription = null,
+            Modifier
+                .width(120.dp)
+                .clip(
+                    RoundedCornerShape(16.dp)
+                )
+        )
+        Text(
+            text = "Sky Tour (Original Motion Picture Soundtrack)",
+            modifier = Modifier
+                .width(120.dp)
+                .padding(vertical = 5.dp),
+            fontSize = 15.sp,
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Black,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(text = "12/06/2020")
+    }
+}
+
+@Composable
+fun popularSingerItems() {
+    Column(
+        modifier = Modifier
+            .padding(vertical = 15.dp, horizontal = 15.dp)
+            .width(150.dp)
+    ) {
+        Image(
+            painter = painterResource(R.drawable.img),
+            contentDescription = null,
+            modifier = Modifier
+                .clip(
+                    CircleShape
+                )
+        )
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Sơn Tùng MTP",
+                color = Color.Black,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(vertical = 6.dp)
+            )
+            Text(text = "2.4M quan tâm", color = Color.Gray)
+        }
+    }
+    Column(
+        modifier = Modifier
+            .padding(vertical = 15.dp, horizontal = 15.dp)
+            .width(150.dp)
+    ) {
+        Image(
+            painter = painterResource(R.drawable.img),
+            contentDescription = null,
+            modifier = Modifier
+                .clip(
+                    CircleShape
+                )
+        )
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Sơn Tùng MTP",
+                color = Color.Black,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(vertical = 6.dp)
+            )
+            Text(text = "2.4M quan tâm", color = Color.Gray)
+        }
+    }
+    Column(
+        modifier = Modifier
+            .padding(vertical = 15.dp, horizontal = 15.dp)
+            .width(150.dp)
+    ) {
+        Image(
+            painter = painterResource(R.drawable.img),
+            contentDescription = null,
+            modifier = Modifier
+                .clip(
+                    CircleShape
+                )
+        )
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Sơn Tùng MTP",
+                color = Color.Black,
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(vertical = 6.dp)
+            )
+            Text(text = "2.4M quan tâm", color = Color.Gray)
+        }
+    }
+}
+
+@Composable
+fun singerInfor() {
+    var click by remember {
+        mutableStateOf(false)
+    }
+    var maxLine by remember {
+        mutableStateOf(3)
+    }
+    Column (modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)){
+        Text(
+            text = "Thông tin",
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Black,
+            fontSize = 16.sp
+        )
+        Text(
+            text = "Thanh Tùng bắt đầu chơi nhạc từ cấp ba với nghệ danh M-TP và được biết đến với \"Cơn Mưa Ngang Qua\".\n" +
+                    "Năm 2012, anh đậu thủ khoa Nhạc viện TPHCM và ký hợp đồng với Văn Production, đổi nghệ danh sang Sơn Tùng M-TP.\n" +
+                    "Từ 2013 đến 2015, anh có nhiều bản hit như \"Em Của Ngày Hôm Qua\", \"Nắng Ấm Xa Dần\"...\n" +
+                    "Năm 2015, anh rời khỏi công ty cũ và gia nhập WePro, tổ chức minishow đầu tiên \"M-TP and Friends\".\n" +
+                    "Năm 2017, anh rời khỏi WePro để thành lập M-TP Entertainment, ra mắt \"Lạc Trôi\" và \"Nơi Này Có Anh\". Anh ra mắt album đầu tay \"m-tp M-TP\".\n" +
+                    "Năm 2018 anh ra mắt \"Chạy Ngay Đi\" và \"Hãy Trao Cho Anh\" năm 2019. Cả hai bài hát đều trở thành hit. Đặc biệt \"Hãy Trao Cho Anh\" kết hợp với Snopp Dogg đã đưa tên tuổi anh ra thế giới.",
+            maxLines = maxLine,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .padding(vertical = 10.dp)
+                .clickable {
+                    click = !click
+                    if (click) {
+                        maxLine = 30
+                    } else maxLine = 3
+                }
+        )
+        Row {
+            Text(text = "Tên thật", color = Color.Gray)
+            Spacer(modifier = Modifier.width(40.dp))
+            Text(text = "Nguyễn Thanh Tùng", fontWeight = FontWeight.Black)
+        }
+        Row {
+            Text(text = "Ngày sinh",color = Color.Gray)
+            Spacer(modifier = Modifier.width(40.dp))
+            Text(text = "05/07/1994", fontWeight = FontWeight.Black)
+        }
+        Row {
+            Text(text = "Quốc gia",color = Color.Gray)
+            Spacer(modifier = Modifier.width(40.dp))
+            Text(text = "Việt Nam", fontWeight = FontWeight.Black)
+        }
+        Row {
+            Text(text = "Thể loại",color = Color.Gray)
+            Spacer(modifier = Modifier.width(40.dp))
+            Text(text = "Việt Nam,Rap Việt", fontWeight = FontWeight.Black)
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DtSingerPreview(){
-    DetailSingerScreen()
+fun DtSingerPreview() {
+    singerInfor()
 }
