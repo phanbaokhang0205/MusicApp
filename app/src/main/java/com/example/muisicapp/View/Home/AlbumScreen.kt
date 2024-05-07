@@ -46,10 +46,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.muisicapp.R
 
+val gradient = Brush.linearGradient(
+    colors = listOf(Color(0xff5898E0), Color(0xff000000))
+)
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AlbumScreen() {
     Scaffold(topBar = { TopBar() }) {
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -64,6 +69,7 @@ fun AlbumScreen() {
         }
     }
 }
+
 @Composable
 fun albumBox() {
     Box(
@@ -76,12 +82,13 @@ fun albumBox() {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black)
+                .background(gradient)
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxSize()
+
             ) {
                 Image(
                     painter = painterResource(R.drawable.img_3),
@@ -92,6 +99,7 @@ fun albumBox() {
                     contentScale = ContentScale.Crop
                 )
                 Text(
+                    modifier = Modifier.padding(top = 7.dp),
                     text = "Sky Tour (Original Motion Picture Soundtrack)",
                     color = Color.White,
                     fontSize = 16.sp,
@@ -118,7 +126,9 @@ fun albumBox() {
             modifier = Modifier.fillMaxSize()
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 7.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -135,7 +145,10 @@ fun albumBox() {
                 }
                 Spacer(modifier = Modifier.width(20.dp))
                 Column {
-                    Button(onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(Color.Green)) {
+                    Button(
+                        onClick = { /*TODO*/ },
+                        colors = ButtonDefaults.buttonColors(Color(0xff1ED760))
+                    ) {
                         Text(text = "PHÁT NHẠC", color = Color.Black)
                     }
                 }
@@ -155,10 +168,14 @@ fun albumBox() {
         }
     }
 }
+
 @Composable
-fun albumSongs(){
+fun albumSongs() {
     Column(modifier = Modifier.padding(vertical = 15.dp)) {
-        Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)){
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)
+        ) {
             Text(text = "1", fontSize = 15.sp, color = Color.White)
             Spacer(modifier = Modifier.width(20.dp))
             Column {
@@ -167,10 +184,17 @@ fun albumSongs(){
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.MoreHoriz, contentDescription = null, tint = Color.White)
+                Icon(
+                    imageVector = Icons.Default.MoreHoriz,
+                    contentDescription = null,
+                    tint = Color.White
+                )
             }
         }
-        Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)){
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)
+        ) {
             Text(text = "2", fontSize = 15.sp, color = Color.White)
             Spacer(modifier = Modifier.width(20.dp))
             Column {
@@ -179,68 +203,105 @@ fun albumSongs(){
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.MoreHoriz, contentDescription = null, tint = Color.White)
+                Icon(
+                    imageVector = Icons.Default.MoreHoriz,
+                    contentDescription = null,
+                    tint = Color.White
+                )
             }
         }
-        Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)){
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)
+        ) {
             Text(text = "3", fontSize = 15.sp, color = Color.White)
             Spacer(modifier = Modifier.width(20.dp))
             Column {
-                heading2(content = "Chúng Ta Không Thuộc Về Nhau",)
+                heading2(content = "Chúng Ta Không Thuộc Về Nhau")
                 heading3(content = "Sơn Tùng MTP")
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.MoreHoriz, contentDescription = null, tint = Color.White)
+                Icon(
+                    imageVector = Icons.Default.MoreHoriz,
+                    contentDescription = null,
+                    tint = Color.White
+                )
             }
         }
-        Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)){
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)
+        ) {
             Text(text = "4", fontSize = 15.sp, color = Color.White)
             Spacer(modifier = Modifier.width(20.dp))
             Column {
-                heading2(content = "Lạc Trôi (Sky Tour 2019)",)
+                heading2(content = "Lạc Trôi (Sky Tour 2019)")
                 heading3(content = "Sơn Tùng MTP")
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.MoreHoriz, contentDescription = null, tint = Color.White)
+                Icon(
+                    imageVector = Icons.Default.MoreHoriz,
+                    contentDescription = null,
+                    tint = Color.White
+                )
             }
         }
     }
 }
 
 @Composable
-fun aboutArtist(){
+fun aboutArtist() {
     Column(modifier = Modifier.padding(horizontal = 15.dp, vertical = 20.dp)) {
         heading1(content = "Về nghệ sĩ")
-        Box(modifier = Modifier
-            .background(Color.LightGray)
-            .padding(horizontal = 10.dp)
-            .clip(RoundedCornerShape(16.dp))) {
+        Box(
+            modifier = Modifier
+                .background(Color.LightGray)
+                .padding(horizontal = 10.dp)
+                .clip(RoundedCornerShape(16.dp))
+        ) {
             Column {
-                Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(vertical = 15.dp)){
-                    Image(painter = painterResource(R.drawable.img_4), modifier = Modifier
-                        .size(68.dp)
-                        .clip(
-                            CircleShape
-                        ), contentDescription = null )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(vertical = 15.dp)
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.img_4), modifier = Modifier
+                            .size(68.dp)
+                            .clip(
+                                CircleShape
+                            ), contentDescription = null
+                    )
                     Spacer(modifier = Modifier.width(10.dp))
                     Column {
-                        Text(text = "Sơn Tùng MTP", fontSize = 17.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.SansSerif)
+                        Text(
+                            text = "Sơn Tùng MTP",
+                            fontSize = 17.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.SansSerif
+                        )
                         Text(text = "2.4M quan tâm")
                     }
                     Spacer(modifier = Modifier.weight(1f))
-                    Button(onClick = { /*TODO*/ }, modifier = Modifier.width(100.dp),colors = ButtonDefaults.buttonColors(
-                        Color.Transparent), border = BorderStroke(width = 1.dp, Color.White)
+                    Button(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier.width(100.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            Color.Transparent
+                        ),
+                        border = BorderStroke(width = 1.dp, Color.White)
                     ) {
                         Text(text = "QUAN TÂM", fontSize = 10.sp, color = Color.Black)
                     }
                 }
                 Row(modifier = Modifier.padding(bottom = 10.dp)) {
-                    Text(text = "Có chất giọng cao luyến láy cùng những bản hit R&B \n"+
-                            "hay Dance Pop, Sơn Tùng M-TP là ca sĩ rất thành \n" +
-                            "công, không chỉ nổi tiếng ở Việt Nam mà còn được \n" +
-                            "khán giả yêu nhạc Việt trên thế giới biết đến.")
+                    Text(
+                        text = "Có chất giọng cao luyến láy cùng những bản hit R&B \n" +
+                                "hay Dance Pop, Sơn Tùng M-TP là ca sĩ rất thành \n" +
+                                "công, không chỉ nổi tiếng ở Việt Nam mà còn được \n" +
+                                "khán giả yêu nhạc Việt trên thế giới biết đến."
+                    )
                 }
             }
         }
@@ -248,13 +309,14 @@ fun aboutArtist(){
 }
 
 @Composable
-fun dateAlbum(){
+fun dateAlbum() {
     Column(modifier = Modifier.padding(start = 15.dp)) {
         heading3(content = "Phát hành 12/06/2020")
         heading3(content = "7 bài hát, 28 phút")
         heading3(content = "Cung cấp b VIVI ENM")
     }
 }
+
 @Composable
 fun heading2(content: String) {
     Text(
@@ -264,13 +326,19 @@ fun heading2(content: String) {
         fontSize = 14.sp
     )
 }
+
 @Composable
 fun heading3(content: String) {
-    Text(text = content, color = Color.Gray, fontSize = 12.sp, modifier = Modifier.padding(vertical = 3.dp))
+    Text(
+        text = content,
+        color = Color.Gray,
+        fontSize = 12.sp,
+        modifier = Modifier.padding(vertical = 3.dp)
+    )
 }
 
 @Composable
-fun heading1(content: String){
+fun heading1(content: String) {
     Text(
         text = content,
         modifier = Modifier.padding(vertical = 5.dp),
@@ -278,8 +346,9 @@ fun heading1(content: String){
         fontSize = 17.sp
     )
 }
+
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
-    aboutArtist()
+    AlbumScreen()
 }
