@@ -11,7 +11,7 @@ interface MusicRepository {
 
     fun getAllSingersStream(): Flow<List<Singer>>
 
-    fun getSongWithSingersById(songId: Int): Flow<List<SongWithSingers>>
+    fun getSongWithSingersById(songId: Int): Flow<SongWithSingers>
 
     fun getSongWithSingers(): Flow<List<SongWithSingers>>
 

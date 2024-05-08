@@ -45,7 +45,7 @@ interface MusicDao {
     Where s.songId = :songId
     GROUP BY s.songId, s.songName 
     """)
-    fun getSongWithSingersById(songId: Int): Flow<List<SongWithSingers>>
+    fun getSongWithSingersById(songId: Int): Flow<SongWithSingers>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSong(song: Song)

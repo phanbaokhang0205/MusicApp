@@ -215,11 +215,13 @@ fun HomeScreen(
             },
 
             ) { innerPadding ->
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.Black)
                     .padding(innerPadding),
+
             ) {
                 item {
 
@@ -281,8 +283,6 @@ fun HomeScreen(
             }
         }
     }
-
-
 }
 
 

@@ -24,7 +24,7 @@ import com.example.muisicapp.Model.relations.SongTypeCrossRef
         SongPlaylistCrossRef::class,
         SongSingerCrossRef::class,
         SongTypeCrossRef::class],
-    version = 2
+    version = 1
 )
 abstract class MusicDatabase : RoomDatabase() {
     abstract fun musicDao(): MusicDao
@@ -39,7 +39,7 @@ abstract class MusicDatabase : RoomDatabase() {
                 Room.databaseBuilder(
                     context,
                     MusicDatabase::class.java,
-                    "test4_db"
+                    "test5_db"
                 )
                     .fallbackToDestructiveMigration()
                     .build()

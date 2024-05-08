@@ -1,5 +1,6 @@
 package com.example.muisicapp.ViewModel
 
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
@@ -19,7 +20,7 @@ object AppViewModelProvider {
         initializer {
             SongDetailsViewModel(
                 this.createSavedStateHandle(),
-                musicApplication().container.musicRepository
+                musicApplication().container.musicRepository,
             )
         }
     }

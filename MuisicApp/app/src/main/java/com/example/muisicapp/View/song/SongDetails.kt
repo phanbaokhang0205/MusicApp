@@ -1,10 +1,7 @@
 package com.example.muisicapp.View.song
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.tween
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,22 +15,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FiberManualRecord
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -46,6 +42,7 @@ import com.example.muisicapp.View.scaffold.TopBarOption
 import com.example.muisicapp.View.seekbar.SeekBar
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.SongDetailsViewModel
+import com.example.muisicapp.ViewModel.toSong
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -59,9 +56,9 @@ object SongDetailsDestination : NavigationDestination {
 @Composable
 fun SongDetailsScreen(
     viewModel: SongDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    goBackEvent:() -> Unit,
-    goShareEvent:() -> Unit,
-    goOptionEvent:() -> Unit,
+    goBackEvent: () -> Unit,
+    goShareEvent: () -> Unit,
+    goOptionEvent: () -> Unit,
 ) {
     var progress by rememberSaveable { mutableStateOf(0f) }
     var isPlaying by rememberSaveable { mutableStateOf(false) }
@@ -72,6 +69,7 @@ fun SongDetailsScreen(
 
     val uiState = viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
+    val context: Context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -83,11 +81,13 @@ fun SongDetailsScreen(
                     .background(Color(0x66000000))
                     .fillMaxWidth()
             )
+            Text(text = if (uiState.value.songDetails.song.songLink == "") "Rongg" else uiState.value.songDetails.song.songLink)
+
         }
     ) {
         Column(modifier = Modifier.padding(it)) {
             SongDetailsBody(
-                songList = uiState.value.songSingerList,
+                songDetails = uiState.value.songDetails.toSong(),
                 progress = progress,
                 onProgressChange = { progress = it },
                 isPlaying = isPlaying,
@@ -99,18 +99,27 @@ fun SongDetailsScreen(
                             progress += 1f
                         }
                     }
+                    if (isPlaying) {
+                        viewModel.playSong(
+                            uiState.value.songDetails.song.songLink,
+                            context
+                        )
+                    } else {
+                        viewModel.pauseSong()
+                    }
                 },
                 isFavourite = isFavourite,
-                favouriteEvent = { isFavourite = !isFavourite },
 
-            )
+                ) { isFavourite = !isFavourite }
+
+
         }
     }
 }
 
 @Composable
 fun SongDetailsBody(
-    songList: List<SongWithSingers>,
+    songDetails: SongWithSingers,
     modifier: Modifier = Modifier,
     progress: Float,
     onProgressChange: (Float) -> Unit,
@@ -122,18 +131,16 @@ fun SongDetailsBody(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        songList.forEach { song ->
-            SongDetails(
-                song = song.song,
-                singers = song.singers,
-                progress = progress,
-                onProgressChange = onProgressChange,
-                isPlaying = isPlaying,
-                playingEvent = playingEvent,
-                isFavourite = isFavourite,
-                favouriteEvent = favouriteEvent,
-            )
-        }
+        SongDetails(
+            song = songDetails.song,
+            singers = songDetails.singers,
+            progress = progress,
+            onProgressChange = onProgressChange,
+            isPlaying = isPlaying,
+            playingEvent = playingEvent,
+            isFavourite = isFavourite,
+            favouriteEvent = favouriteEvent,
+        )
     }
 }
 
@@ -147,7 +154,7 @@ fun SongDetails(
     playingEvent: () -> Unit,
     isFavourite: Boolean,
     favouriteEvent: () -> Unit,
-    ) {
+) {
 
 
     Box(modifier = Modifier) {
