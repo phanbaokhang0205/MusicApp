@@ -21,6 +21,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MusicDao {
 
+    //Check Login
+    @Transaction
+    @Query("SELECT * FROM User WHERE userName = :userName AND password = :password")
+    suspend fun checkLogin(userName: String, password: String): User?
+
     @Query("SELECT * FROM Song ORDER BY songName ASC")
     fun getAllSongs(): Flow<List<Song>>
 

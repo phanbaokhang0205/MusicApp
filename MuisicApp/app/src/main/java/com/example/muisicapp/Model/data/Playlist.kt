@@ -9,4 +9,5 @@ data class Playlist(
     @PrimaryKey(autoGenerate = true) val playlistId: Int? = 0,
     @ColumnInfo val playlistName: String,
     @ColumnInfo val playlistImage: String,
+    @ColumnInfo val userID: Int? = 0
 )

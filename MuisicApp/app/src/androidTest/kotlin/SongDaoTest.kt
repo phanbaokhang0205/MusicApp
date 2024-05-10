@@ -37,8 +37,8 @@ class musicDaoTest {
         musicDatabase.close()
     }
 
-    private var song1 = Song(1, "Chung ta cua hien tai", "mtp.png", "MTP" ,2)
-    private var song2 = Song(2, "Em cua ngay hom qua", "mtp2.png", "MTP" ,3)
+    private var song1 = Song(1, "Chung ta cua hien tai", "mtp.png", "MTP" ,2,0)
+    private var song2 = Song(2, "Em cua ngay hom qua", "mtp2.png", "MTP" ,3,0)
 
     private suspend fun addOneSongToDb() {
         musicDao.insertSong(song1)

@@ -29,11 +29,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.muisicapp.R
+import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
+
+object Login2Destination : NavigationDestination{
+    override val route: String="login2"
+}
 @Composable
 fun LoginScreen2(
+    loginScreen :()->Unit,
     modifier: Modifier=Modifier
+
 ){
     Column(
         modifier=Modifier.fillMaxSize(),
@@ -124,7 +131,9 @@ fun LoginScreen2(
         Button(
             modifier = Modifier.size(340.dp, 60.dp),
             shape = RoundedCornerShape(10.dp),
-            onClick = { /*TODO*/ }
+            onClick = {
+                loginScreen()
+            }
         ) {
             Text(
                 text = "Đăng nhập với mật khẩu ",
@@ -151,6 +160,6 @@ fun LoginScreen2(
 @Composable
 fun Login2Test(){
     MuisicAppTheme {
-        LoginScreen2()
+        LoginScreen2({})
     }
 }
