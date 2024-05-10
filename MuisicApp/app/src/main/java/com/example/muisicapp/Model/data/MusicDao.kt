@@ -21,12 +21,19 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MusicDao {
 
+
+    //Check Login
+    @Transaction
+    @Query("SELECT * FROM User WHERE userName = :userName AND password = :password")
+    suspend fun checkLogin(userName: String, password: String): User?
+
     @Query("SELECT * FROM Song ORDER BY songName ASC")
     fun getAllSongs(): Flow<List<Song>>
 
     @Query("SELECT * FROM Singer ORDER BY singerName ASC")
     fun getAllSingers(): Flow<List<Singer>>
 
+    //Lấy danh sách bài hát của ca sĩ
     @Query("""
     SELECT s.*, sg.*, GROUP_CONCAT(sg.singerName, ', ') AS singerNames
     FROM song s
@@ -36,6 +43,7 @@ interface MusicDao {
     """)
     fun getSongWithSingers(): Flow<List<SongWithSingers>>
 
+    //Lấy danh sách bài hát
     @Transaction
     @Query("""
     SELECT s.*, sg.*, GROUP_CONCAT(sg.singerName, ', ') AS singerNames
