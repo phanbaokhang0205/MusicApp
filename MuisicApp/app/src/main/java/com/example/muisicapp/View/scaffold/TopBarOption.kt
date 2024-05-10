@@ -25,7 +25,7 @@ fun TopBarOption(
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
+        modifier = modifier.fillMaxWidth()
     ) {
         IconButton(
             onClick = { goBackEvent() },

@@ -73,9 +73,10 @@ fun HomeScreen(
     goToAccountScreen: () -> Unit,
     goToPlaylistScreen: () -> Unit,
     goToSongDetails: (Int) -> Unit,
+    goToDetailSinger: (Int) -> Unit,
 ) {
 
-    val singerUiState by viewModel.singerUiState.collectAsState()
+    val singerWithSongs by viewModel.singerUiState.collectAsState()
     val songWithSingers by viewModel.songWithSingersUiState.collectAsState()
 
     var isFavourite by rememberSaveable {
@@ -236,11 +237,15 @@ fun HomeScreen(
                          * TODO: Mở danh sách các ca sĩ.
                          */
                     }
-                    SingerBody(singerList = singerUiState.singerList) {
+                    SingerBody(
+                        singerList = singerWithSongs.singerSongList,
                         /**
                          * TODO: Mở chi tiết ca sĩ
                          */
-                    }
+                        goToDetailSinger = goToDetailSinger
+                    )
+
+
 
                     Spacer(modifier = Modifier.height(20.dp))
 
@@ -264,7 +269,7 @@ fun HomeScreen(
                          * TODO: Mở danh sách các ca sĩ.
                          */
                     }
-                    SingerBody(singerList = singerUiState.singerList) {
+                    SingerBody(singerList = singerWithSongs.singerSongList) {
                         /**
                          * TODO: Mở chi tiết ca sĩ
                          */

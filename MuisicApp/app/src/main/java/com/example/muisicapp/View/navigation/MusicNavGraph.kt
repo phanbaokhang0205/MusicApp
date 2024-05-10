@@ -9,6 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.muisicapp.View.Home.HomeDestination
 import com.example.muisicapp.View.Home.HomeScreen
+import com.example.muisicapp.View.Singer.DetailSingerScreen
+import com.example.muisicapp.View.Singer.SingerDetailsDestination
 import com.example.muisicapp.View.search.SearchDestination
 import com.example.muisicapp.View.search.SearchScreen
 import com.example.muisicapp.View.song.SongDetailsDestination
@@ -33,7 +35,8 @@ fun MusicNavHost(
                 goToSearchScreen = { navController.navigate(SearchDestination.route) },
                 goToPlaylistScreen = { },
                 goToAccountScreen = { navController.navigate(AccountDestination.route) },
-                goToSongDetails = { navController.navigate("${SongDetailsDestination.route}/${it}") }
+                goToSongDetails = { navController.navigate("${SongDetailsDestination.route}/${it}") },
+                goToDetailSinger = { navController.navigate("${SingerDetailsDestination.route}/${it}") }
             )
         }
 
@@ -74,6 +77,20 @@ fun MusicNavHost(
                 goToSearchScreen = { navController.navigate(SearchDestination.route) },
                 goToPlaylistScreen = { },
                 goBack = { navController.popBackStack() }
+            )
+        }
+
+        /**
+         * Singer Details
+         */
+        composable(
+            route = SingerDetailsDestination.routeWithArgs,
+            arguments = listOf(navArgument(SingerDetailsDestination.singerIdAgr) {
+                type = NavType.IntType
+            })
+        ) {
+            DetailSingerScreen(
+
             )
         }
 

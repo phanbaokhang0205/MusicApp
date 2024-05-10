@@ -23,6 +23,13 @@ object AppViewModelProvider {
                 musicApplication().container.musicRepository,
             )
         }
+
+        initializer {
+            SingerDetailsViewModel(
+                this.createSavedStateHandle(),
+                musicApplication().container.musicRepository
+            )
+        }
     }
 }
 

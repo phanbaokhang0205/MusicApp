@@ -29,13 +29,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.muisicapp.Model.data.Singer
+import com.example.muisicapp.Model.relations.SingerWithSongs
 import com.example.muisicapp.R
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
 @Composable
 fun SingerBody(
-    singerList: List<Singer>,
-    goToDetailSinger: () -> Unit,
+    singerList: List<SingerWithSongs>,
+    goToDetailSinger: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -47,9 +48,8 @@ fun SingerBody(
         } else {
             SingerList(
                 singerList,
-                modifier = Modifier,
-                goToDetailSinger
-            )
+                modifier = Modifier
+            ) { goToDetailSinger(it.singer.singerId!!) }
         }
 
     }
@@ -57,16 +57,16 @@ fun SingerBody(
 
 @Composable
 fun SingerList(
-    singerList: List<Singer>,
+    singerList: List<SingerWithSongs>,
     modifier: Modifier,
-    goToDetailSinger: () -> Unit,
+    goToDetailSinger: (SingerWithSongs) -> Unit,
 ) {
     LazyRow(
         modifier = modifier.padding(start = 18.dp),
         horizontalArrangement = Arrangement.spacedBy(22.dp),
     ) {
-        items(items = singerList, key = { it.singerId!! }) { singer ->
-            SingerItem(singer = singer, goToDetailSinger)
+        items(items = singerList, key = { it.singer.singerId!! }) { singer ->
+            SingerItem(singer = singer.singer) { goToDetailSinger(singer) }
         }
     }
 }

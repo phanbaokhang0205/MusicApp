@@ -225,7 +225,7 @@ fun SeekBar(
     duration: Long,
     favouriteEvent: () -> Unit,
     playingEvent: () -> Unit,
-    onProgressChange: () -> Unit,
+    onProgressChange: (Float) -> Unit,
     onValueChangeFinished:() -> Unit
 ) {
     Box(modifier = Modifier.background(Color(0x66000000))) {
@@ -288,7 +288,7 @@ fun SeekBar(
                     Slider(
                         value = progress,
                         onValueChange = {
-                            onProgressChange()
+                            onProgressChange(it)
 //                            onProgressChange(it)
 //                            val seekPosition = (it * mediaPlayer.duration).toLong()
 //                            mediaPlayer.seekTo(seekPosition)

@@ -79,9 +79,9 @@ fun SongDetailsScreen(
     val coroutineScope = rememberCoroutineScope()
     val context: Context = LocalContext.current
 
-    viewModel.viewModelScope.launch {
-        duration = viewModel.getDuration()
-    }
+//    viewModel.viewModelScope.launch {
+//        duration = viewModel.getDuration()
+//    }
 
 
     Scaffold(
@@ -116,7 +116,7 @@ fun SongDetailsScreen(
                     viewModel.isPlayingChange()
                     viewModel.play(uiState.value.songDetails.song.songLink, context)
                     coroutineScope.launch {
-                        while (isPlaying.value && progress < viewModel.getDuration()
+                        while (isPlaying.value && progress < 600f
                         /**600f = duration **/
                         ) {
                             delay(100)
@@ -131,7 +131,7 @@ fun SongDetailsScreen(
                 },
                 isFavourite = isFavourite,
                 favouriteEvent = { isFavourite = !isFavourite },
-                duration = viewModel.getDuration()
+                duration = 0L
             )
 
 

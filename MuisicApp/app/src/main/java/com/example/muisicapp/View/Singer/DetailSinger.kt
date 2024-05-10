@@ -1,7 +1,6 @@
 package com.example.muisicapp.View.Singer
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,6 +29,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,7 +38,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -47,16 +45,34 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import com.example.muisicapp.Model.data.Singer
+import com.example.muisicapp.Model.relations.SingerWithSongs
 import com.example.muisicapp.R
+import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.View.scaffold.TopBarOption
+import com.example.muisicapp.ViewModel.AppViewModelProvider
+import com.example.muisicapp.ViewModel.SingerDetailsViewModel
+import com.example.muisicapp.ViewModel.SongDetailsViewModel
+import com.example.muisicapp.ViewModel.toSinger
 
+object SingerDetailsDestination : NavigationDestination {
+    override val route: String = "singer_details"
+    const val singerIdAgr = "singerId"
+    val routeWithArgs = "$route/{$singerIdAgr}"
+}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun DetailSingerScreen() {
-    Scaffold(topBar = { TopBarOption({},{},{}) }) {
+fun DetailSingerScreen(
+    viewModel: SingerDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory),
+) {
+
+    val uiState = viewModel.uiState.collectAsState()
+
+    Scaffold(topBar = { TopBarOption({}, {}, {}) }) {
 
         LazyColumn(
             modifier = Modifier
@@ -64,7 +80,7 @@ fun DetailSingerScreen() {
                 .background(Color.Black)
         ) {
             item {
-                imgSinger()
+                imgSinger(uiState.value.singeDetails.toSinger())
                 popularSong()
                 singerAlbum()
                 popularSinger()
@@ -75,11 +91,18 @@ fun DetailSingerScreen() {
 }
 
 @Composable
-fun imgSinger() {
+fun imgSinger(
+    singerWithSongs: SingerWithSongs
+) {
     Box(modifier = Modifier.height(400.dp)) {
-        Image(
-            painter = painterResource(R.drawable.img_1),
-            contentDescription = null,
+//        Image(
+//            painter = painterResource(R.drawable.img_1),
+//            contentDescription = null,
+//            contentScale = ContentScale.Crop,
+//            modifier = Modifier.fillMaxSize()
+//        )
+        AsyncImage(
+            model = singerWithSongs.singer.singerImage, contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
@@ -91,13 +114,13 @@ fun imgSinger() {
         ) {
             Column() {
                 Text(
-                    text = "Sơn Tùng M-TP",
+                    text = singerWithSongs.singer.singerName,
                     fontSize = 25.sp,
                     color = Color.White,
                     fontFamily = FontFamily.SansSerif
                 )
                 Text(
-                    text = "2.4M quan tâm",
+                    text = "999 luot",
                     fontSize = 17.sp,
                     fontFamily = FontFamily.SansSerif,
                     color = Color.LightGray
@@ -199,25 +222,6 @@ fun popularSongItems() {
                 .fillMaxWidth()
                 .padding(vertical = 15.dp), verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                contentScale = ContentScale.Crop,
-                painter = painterResource(R.drawable.img),
-                contentDescription = null,
-                modifier = Modifier
-                    .clip(
-                        RoundedCornerShape(10.dp)
-                    )
-                    .size(68.dp)
-            )
-            Spacer(modifier = Modifier.width(15.dp))
-            Column {
-                Text(text = "Nơi Này Có Anh", modifier = Modifier.padding(bottom = 6.dp))
-                Text(text = "Sơn Tùng MTP", fontSize = 12.sp, color = Color.Gray)
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(imageVector = Icons.Filled.MoreHoriz, contentDescription = null)
-        }
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Image(
                 contentScale = ContentScale.Crop,
                 painter = painterResource(R.drawable.img),
@@ -405,7 +409,7 @@ fun singerInfor() {
     var maxLine by remember {
         mutableStateOf(3)
     }
-    Column (modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)){
+    Column(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)) {
         Text(
             text = "Thông tin",
             fontFamily = FontFamily.SansSerif,
@@ -436,19 +440,25 @@ fun singerInfor() {
             Text(text = "Nguyễn Thanh Tùng", fontWeight = FontWeight.Black)
         }
         Row {
-            Text(text = "Ngày sinh",color = Color.Gray)
+            Text(text = "Ngày sinh", color = Color.Gray)
             Spacer(modifier = Modifier.width(40.dp))
             Text(text = "05/07/1994", fontWeight = FontWeight.Black)
         }
         Row {
-            Text(text = "Quốc gia",color = Color.Gray)
+            Text(text = "Quốc gia", color = Color.Gray)
             Spacer(modifier = Modifier.width(40.dp))
             Text(text = "Việt Nam", fontWeight = FontWeight.Black)
         }
         Row {
-            Text(text = "Thể loại",color = Color.Gray)
+            Text(text = "Thể loại", color = Color.Gray)
             Spacer(modifier = Modifier.width(40.dp))
             Text(text = "Việt Nam,Rap Việt", fontWeight = FontWeight.Black)
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun preview() {
+    DetailSingerScreen()
 }

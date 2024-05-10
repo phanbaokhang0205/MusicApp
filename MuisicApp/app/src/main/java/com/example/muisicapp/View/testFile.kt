@@ -128,74 +128,74 @@ fun TestFile(
     }
 }
 
-@Composable
-private fun SongDetails() {
-    var progress by rememberSaveable { mutableStateOf(0f) }
-    var isPlaying by rememberSaveable { mutableStateOf(false) }
-
-    var isFavourite by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    Box(modifier = Modifier) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 30.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Box(modifier = Modifier, contentAlignment = Alignment.Center) {
-                Image(
-                    painter = painterResource(id = R.drawable.chungtacuatuonglai_mtp),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(300.dp)
-                        .clip(CircleShape)
-                        .graphicsLayer {
-
-                        }
-                )
-                Icon(
-                    imageVector = Icons.Filled.FiberManualRecord,
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(60.dp)
-                )
-            }
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0x6A454545))
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            SeekBar(
-                progress = progress,
-                onProgressChange = { progress = it },
-                isPlaying = isPlaying,
-                playingEvent = {
-
-                },
-                isFavourite = isFavourite,
-                favouriteEvent = { },
-                songName = "Song name",
-                singerName = "Singer Name",
-                duration = 0
-            )
-
-        }
-    }
-}
+//@Composable
+//private fun SongDetails() {
+//    var progress by rememberSaveable { mutableStateOf(0f) }
+//    var isPlaying by rememberSaveable { mutableStateOf(false) }
+//
+//    var isFavourite by rememberSaveable {
+//        mutableStateOf(false)
+//    }
+//
+//    Box(modifier = Modifier) {
+//        Column(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(top = 30.dp),
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//        ) {
+//            Box(modifier = Modifier, contentAlignment = Alignment.Center) {
+//                Image(
+//                    painter = painterResource(id = R.drawable.chungtacuatuonglai_mtp),
+//                    contentDescription = null,
+//                    contentScale = ContentScale.Crop,
+//                    modifier = Modifier
+//                        .size(300.dp)
+//                        .clip(CircleShape)
+//                        .graphicsLayer {
+//
+//                        }
+//                )
+//                Icon(
+//                    imageVector = Icons.Filled.FiberManualRecord,
+//                    contentDescription = null,
+//                    tint = Color.White,
+//                    modifier = Modifier.size(60.dp)
+//                )
+//            }
+//        }
+//        Box(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .background(Color(0x6A454545))
+//        )
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize(),
+//            verticalArrangement = Arrangement.Bottom
+//        ) {
+//            SeekBar(
+//                progress = progress,
+//                onProgressChange = { progress = it },
+//                isPlaying = isPlaying,
+//                playingEvent = {
+//
+//                },
+//                isFavourite = isFavourite,
+//                favouriteEvent = { },
+//                songName = "Song name",
+//                singerName = "Singer Name",
+//                duration = 0
+//            )
+//
+//        }
+//    }
+//}
 
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
-    SongDetails()
+//    SongDetails()
 }
 
 
