@@ -62,7 +62,6 @@ import com.example.muisicapp.ui.theme.MuisicAppTheme
 
 object HomeDestination : NavigationDestination {
     override val route: String = "home_screen"
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

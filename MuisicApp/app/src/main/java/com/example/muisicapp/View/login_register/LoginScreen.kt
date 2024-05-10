@@ -35,11 +35,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.muisicapp.R
+import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
+object LoginDestination : NavigationDestination {
+    override val route: String="login"
+}
 @Composable
 fun LoginScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+
 ){
     var userName by rememberSaveable {
         mutableStateOf("")

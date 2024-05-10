@@ -12,6 +12,7 @@ import com.example.muisicapp.Model.data.Playlist
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
 import com.example.muisicapp.Model.data.Type
+import com.example.muisicapp.Model.data.User
 import com.example.muisicapp.Model.relations.SongPlaylistCrossRef
 import com.example.muisicapp.Model.relations.SongSingerCrossRef
 import com.example.muisicapp.Model.relations.SongTypeCrossRef
@@ -25,8 +26,9 @@ import com.example.muisicapp.Model.relations.SongTypeCrossRef
         Album::class,
         SongPlaylistCrossRef::class,
         SongSingerCrossRef::class,
-        SongTypeCrossRef::class],
-    version = 2
+        SongTypeCrossRef::class,
+        User::class],
+    version = 3
 )
 abstract class MusicDatabase : RoomDatabase() {
     abstract fun musicDao(): MusicDao

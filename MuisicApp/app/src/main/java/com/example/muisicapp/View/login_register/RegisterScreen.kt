@@ -37,6 +37,9 @@ import com.example.muisicapp.ui.theme.MuisicAppTheme
 fun RegisterScreen(
     modifier: Modifier = Modifier
 ){
+    var fullName by rememberSaveable {
+        mutableStateOf("")
+    }
     var userName by rememberSaveable {
         mutableStateOf("")
     }
@@ -64,6 +67,12 @@ fun RegisterScreen(
             text = "Tạo tài khoản mới để tiếp tục",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        OutlinedTextField(
+            label = { Text("Tên người dùng") },
+            value = fullName,
+            onValueChange = {fullName=it}
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
