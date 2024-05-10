@@ -15,6 +15,11 @@ class OfflineMusicRepository(private val musicDao: MusicDao) : MusicRepository {
         return musicDao.getAllSingers()
     }
 
+    override fun getSongWithSingersById(songId: Int): Flow<SongWithSingers> {
+        return musicDao.getSongWithSingersById(songId)
+    }
+
+
     override fun getSongWithSingers(): Flow<List<SongWithSingers>> {
         return musicDao.getSongWithSingers()
     }

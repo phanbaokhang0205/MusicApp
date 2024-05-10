@@ -10,4 +10,5 @@ data class Album(
     @ColumnInfo val albumName: String,
     @ColumnInfo val albumImage: String? = null,
     @ColumnInfo val singerId: Int,
+
 )

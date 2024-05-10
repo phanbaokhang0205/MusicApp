@@ -33,9 +33,19 @@ interface MusicDao {
     INNER JOIN songsingercrossref ref ON ref.songId = s.songId
     INNER JOIN singer sg ON sg.singerId = ref.singerId
     GROUP BY s.songId, s.songName;
-
     """)
     fun getSongWithSingers(): Flow<List<SongWithSingers>>
+
+    @Transaction
+    @Query("""
+    SELECT s.*, sg.*, GROUP_CONCAT(sg.singerName, ', ') AS singerNames
+    FROM song s
+    INNER JOIN songsingercrossref ref ON ref.songId = s.songId
+    INNER JOIN singer sg ON sg.singerId = ref.singerId
+    Where s.songId = :songId
+    GROUP BY s.songId, s.songName 
+    """)
+    fun getSongWithSingersById(songId: Int): Flow<SongWithSingers>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSong(song: Song)
@@ -61,29 +71,29 @@ interface MusicDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSongTypeCrossRef(crossRef: SongTypeCrossRef)
 
+
+
     @Transaction
     @Query("SELECT * FROM album WHERE albumId = :albumId")
-    suspend fun getAlbumWithSongs(albumId: Int): List<AlbumWithSongs>
+    fun getAlbumWithSongs(albumId: Int): List<AlbumWithSongs>
 
     @Transaction
     @Query("SELECT * FROM singer WHERE singerId = :singerId")
-    suspend fun getSingerWithAlbums(singerId: Int): List<SingerWithAlbums>
+    fun getSingerWithAlbums(singerId: Int): List<SingerWithAlbums>
 
     @Transaction
     @Query("SELECT * FROM playlist WHERE playlistId = :playlistId")
-    suspend fun getSongsOfPlaylist(playlistId: Int): List<PlaylistWithSongs>
+    fun getSongsOfPlaylist(playlistId: Int): List<PlaylistWithSongs>
 
     @Transaction
     @Query("SELECT * FROM song WHERE songId = :songId")
-    suspend fun getPlaylistOfSong(songId: Int): List<SongWithPlaylists>
+    fun getPlaylistOfSong(songId: Int): List<SongWithPlaylists>
 
     @Transaction
     @Query("SELECT * FROM singer WHERE singerId = :singerId")
-    suspend fun getSongsOfSinger(singerId: Int): List<SingerWithSongs>
+    fun getSongsOfSinger(singerId: Int): List<SingerWithSongs>
 
-    @Transaction
-    @Query("SELECT * FROM song WHERE songId = :songId")
-    suspend fun getSingersOfSong(songId: Int): List<SongWithSingers>
+
 
     @Update
     suspend fun update(song: Song)
