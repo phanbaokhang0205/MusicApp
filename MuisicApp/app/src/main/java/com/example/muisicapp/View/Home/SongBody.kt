@@ -1,6 +1,7 @@
 package com.example.muisicapp.View.Home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -31,6 +36,7 @@ import com.example.muisicapp.ui.theme.MuisicAppTheme
 @Composable
 fun SongBody(
     songList: List<SongWithSingers>,
+    goToSongDetails: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -41,8 +47,10 @@ fun SongBody(
         } else {
             SongList(
                 songList,
-                modifier = Modifier,
-            )
+                modifier = Modifier
+            ) {
+                goToSongDetails(it.song.songId!!)
+            }
         }
 
     }
@@ -52,7 +60,10 @@ fun SongBody(
 fun SongList(
     songList: List<SongWithSingers>,
     modifier: Modifier = Modifier,
+    goToSongDetails: (SongWithSingers) -> Unit,
 ) {
+    var isSongSelected by remember { mutableStateOf(false) }
+
     LazyRow(
         modifier = modifier.padding(start = 18.dp),
         horizontalArrangement = Arrangement.spacedBy(20.dp),
@@ -60,7 +71,8 @@ fun SongList(
         items(items = songList, key = { it.song.songId!! }) { song ->
             SongItem(
                 song = song.song,
-                singers = song.singers
+                singers = song.singers,
+                goToSongDetails = { goToSongDetails(song) },
             )
         }
     }
@@ -69,12 +81,14 @@ fun SongList(
 @Composable
 fun SongItem(
     song: Song,
-    singers: List<Singer>
+    singers: List<Singer>,
+    goToSongDetails:() -> Unit,
 ) {
     Column(
         modifier = Modifier
             .background(Color.Black)
             .width(120.dp)
+            .clickable { goToSongDetails() }
     ) {
 
         Box(
@@ -99,9 +113,6 @@ fun SongItem(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-
-
-
         Text(
             text = stringBuilder(singers),
             fontSize = 10.sp,

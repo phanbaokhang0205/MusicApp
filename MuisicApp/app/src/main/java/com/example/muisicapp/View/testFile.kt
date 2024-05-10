@@ -1,11 +1,18 @@
 package com.example.muisicapp.View
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.FiberManualRecord
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
@@ -24,13 +31,23 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.muisicapp.R
+import com.example.muisicapp.View.seekbar.SeekBar
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -101,25 +118,91 @@ fun TestFile(
                     .padding(innerPadding),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                Text(
-                    modifier = Modifier.padding(8.dp),
-                    text =
-                    """
-                    This is an example of a scaffold. It uses the Scaffold composable's parameters to create a screen with a simple top app bar, bottom app bar, and floating action button.
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                ) {
 
-                    It also contains some basic inner content, such as this text.
-
-                    You have pressed the floating action button $presses times.
-                """.trimIndent(),
-                )
+                }
             }
         }
     }
+}
 
+@Composable
+private fun SongDetails() {
+    var progress by rememberSaveable { mutableStateOf(0f) }
+    var isPlaying by rememberSaveable { mutableStateOf(false) }
+
+    var isFavourite by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    Box(modifier = Modifier) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 30.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Box(modifier = Modifier, contentAlignment = Alignment.Center) {
+                Image(
+                    painter = painterResource(id = R.drawable.chungtacuatuonglai_mtp),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(300.dp)
+                        .clip(CircleShape)
+                        .graphicsLayer {
+
+                        }
+                )
+                Icon(
+                    imageVector = Icons.Filled.FiberManualRecord,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(60.dp)
+                )
+            }
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0x6A454545))
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            SeekBar(
+                progress = progress,
+                onProgressChange = { progress = it },
+                isPlaying = isPlaying,
+                playingEvent = {
+
+                },
+                isFavourite = isFavourite,
+                favouriteEvent = { },
+                songName = "Song name",
+                singerName = "Singer Name",
+                duration = 0
+            )
+
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
+    SongDetails()
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun Preview2() {
     TestFile()
 }
+
+

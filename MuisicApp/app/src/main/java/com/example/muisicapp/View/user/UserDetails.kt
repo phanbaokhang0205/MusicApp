@@ -1,6 +1,6 @@
 @file:Suppress("UNUSED_EXPRESSION")
 
-package com.example.muisicapp.View.User
+package com.example.muisicapp.View.user
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -42,13 +42,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.muisicapp.R
-import com.example.muisicapp.View.Home.BottomAppBar
+import com.example.muisicapp.View.navigation.NavigationDestination
+import com.example.muisicapp.View.scaffold.BottomAppBar
+
+object AccountDestination : NavigationDestination {
+    override val route: String = "account_screen"
+
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun UserDetail(
-
+    goToHomeScreen:() -> Unit,
+    goToSearchScreen:() ->Unit,
+    goToPlaylistScreen:() -> Unit,
+    goBack:() -> Unit
 ) {
     var isFavourite by rememberSaveable {
         mutableStateOf(false)
@@ -66,7 +75,7 @@ fun UserDetail(
                     titleContentColor = Color.White,
                 ),
                 title = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { goBack() }) {
                         Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
                     }
                 }
@@ -74,14 +83,12 @@ fun UserDetail(
         },
         bottomBar = {
             BottomAppBar(
-                onClickFavourite = {
-                    isFavourite = !isFavourite
-                },
-                onClickPlaying = {
-                    isPlay = !isPlay
-                },
+                onClickFavourite = { isFavourite = !isFavourite },
                 isFavourite = isFavourite,
-                isPlaying = isPlay
+                goToHomeScreen = { goToHomeScreen() },
+                goToSearchScreen = { goToSearchScreen() },
+                goToPlaylistScreen = { goToPlaylistScreen() },
+                goToAccountScreen = {}
             )
         },
     ) {
@@ -203,5 +210,5 @@ fun UserDetail(
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
-    UserDetail()
+    UserDetail({},{},{},{})
 }

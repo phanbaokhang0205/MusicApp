@@ -1,6 +1,5 @@
-package com.example.muisicapp.View.Login
+package com.example.muisicapp.View.`login_register`
 
-import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

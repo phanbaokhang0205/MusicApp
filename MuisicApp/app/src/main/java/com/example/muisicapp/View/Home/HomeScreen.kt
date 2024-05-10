@@ -27,7 +27,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -37,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -50,18 +50,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.muisicapp.Model.relations.SongWithSingers
 import com.example.muisicapp.R
+import com.example.muisicapp.View.navigation.NavigationDestination
+import com.example.muisicapp.View.scaffold.BottomAppBar
+import com.example.muisicapp.View.scaffold.ContentTopAppBar
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.HomeViewModel
+import com.example.muisicapp.ui.theme.Gray1
 import com.example.muisicapp.ui.theme.MuisicAppTheme
+
+object HomeDestination : NavigationDestination {
+    override val route: String = "home_screen"
+
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    goToSearchScreen: () -> Unit,
+    goToAccountScreen: () -> Unit,
+    goToPlaylistScreen: () -> Unit,
+    goToSongDetails: (Int) -> Unit,
 ) {
 
-    val songUiState by viewModel.songUiState.collectAsState()
     val singerUiState by viewModel.singerUiState.collectAsState()
     val songWithSingers by viewModel.songWithSingersUiState.collectAsState()
 
@@ -75,6 +88,9 @@ fun HomeScreen(
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    var selectedSong by remember { mutableStateOf<SongWithSingers?>(null) }
+
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -110,7 +126,7 @@ fun HomeScreen(
                             text = "Xem hồ sơ",
                             modifier = Modifier,
                             fontSize = 12.sp,
-                            color = Color(0xff808080)
+                            color = Gray1
                         )
                     }
                 }
@@ -194,61 +210,86 @@ fun HomeScreen(
             },
             bottomBar = {
                 BottomAppBar(
-                    onClickFavourite = {
-                        isFavourite = !isFavourite
-                    },
-                    onClickPlaying = {
-                        isPlay = !isPlay
-                    },
+                    onClickFavourite = { isFavourite = !isFavourite },
                     isFavourite = isFavourite,
-                    isPlaying = isPlay
+                    goToHomeScreen = { },
+                    goToSearchScreen = { goToSearchScreen() },
+                    goToAccountScreen = { goToAccountScreen() },
+                    goToPlaylistScreen = { goToPlaylistScreen() },
                 )
             },
 
             ) { innerPadding ->
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.Black)
                     .padding(innerPadding),
+
             ) {
                 item {
 
                     NavigationTitle(navTitle = "Ca sĩ nổi bật") {
-                        //Chuyển sang trang ca sĩ
+
+                        /**
+                         * TODO: Mở danh sách các ca sĩ.
+                         */
                     }
-                    SingerBody(singerList = singerUiState.singerList)
+                    SingerBody(singerList = singerUiState.singerList) {
+                        /**
+                         * TODO: Mở chi tiết ca sĩ
+                         */
+                    }
 
                     Spacer(modifier = Modifier.height(20.dp))
 
                     NavigationTitle(navTitle = "Bài hát dành cho bạn") {
-                        //Chuyển qua trang bài hát
+                        /**
+                         * TODO: Mở danh sách các bài hát.
+                         */
                     }
                     SongBody(
                         songList = songWithSingers.songSingerList,
+                        /**
+                         * TODO: Mở chi tiết bài hát
+                         */
+                        goToSongDetails = goToSongDetails
                     )
 
                     Spacer(modifier = Modifier.height(20.dp))
 
                     NavigationTitle(navTitle = "Ca sĩ nổi bật") {
-                        //Chuyển sang trang ca sĩ
+                        /**
+                         * TODO: Mở danh sách các ca sĩ.
+                         */
                     }
-                    SingerBody(singerList = singerUiState.singerList)
+                    SingerBody(singerList = singerUiState.singerList) {
+                        /**
+                         * TODO: Mở chi tiết ca sĩ
+                         */
+                    }
 
                     Spacer(modifier = Modifier.height(20.dp))
 
                     NavigationTitle(navTitle = "Bài hát dành cho bạn") {
-                        //Chuyển qua trang bài hát
+                        /**
+                         * TODO: Mở danh sách các bài hát.
+                         */
                     }
                     SongBody(
-                        songList = songWithSingers.songSingerList
+                        songList = songWithSingers.songSingerList,
+                        /**
+                         * TODO: Mở chi tiết bài hát
+                         */
+                        goToSongDetails = goToSongDetails
                     )
                 }
             }
+
+
         }
     }
-
-
 }
 
 
@@ -293,4 +334,5 @@ fun TextButtonPreview() {
         NavigationTitle("") {}
     }
 }
+
 
