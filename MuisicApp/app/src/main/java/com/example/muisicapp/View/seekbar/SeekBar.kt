@@ -36,11 +36,6 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,10 +45,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.media3.exoplayer.ExoPlayer
 import com.example.muisicapp.ui.theme.Gray1
 import com.example.muisicapp.ui.theme.Green1
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 /**
@@ -131,7 +125,7 @@ fun TestSeekbar() {
             onClick = {
 
                 // on below line we are creating a variable for our audio url
-                var audioUrl = "https://breakingnews2222.000webhostapp.com/File%20MP3/Ch%C3%BAng%20Ta%20C%E1%BB%A7a%20Hi%E1%BB%87n%20T%E1%BA%A1i.mp4"
+                val audioUrl = "https://breakingnews2222.000webhostapp.com/File%20MP3/Ch%C3%BAng%20Ta%20C%E1%BB%A7a%20Hi%E1%BB%87n%20T%E1%BA%A1i.mp4"
 
                 // on below line we are setting audio stream type as
                 // stream music on below line.
@@ -224,15 +218,16 @@ fun SeekBarPreview() {
 @Composable
 fun SeekBar(
     progress: Float,
-    onProgressChange: (Float) -> Unit,
     isPlaying: Boolean,
-    playingEvent: () -> Unit,
     isFavourite: Boolean,
-    favouriteEvent: () -> Unit,
     songName: String,
     singerName: String,
-
-    ) {
+    duration: Long,
+    favouriteEvent: () -> Unit,
+    playingEvent: () -> Unit,
+    onProgressChange: () -> Unit,
+    onValueChangeFinished:() -> Unit
+) {
     Box(modifier = Modifier.background(Color(0x66000000))) {
         Column(
             modifier = Modifier
@@ -292,8 +287,17 @@ fun SeekBar(
                 Box(modifier = Modifier.height(20.dp)) {
                     Slider(
                         value = progress,
-                        onValueChange = { onProgressChange(it) },
-                        valueRange = 0f..60f,
+                        onValueChange = {
+                            onProgressChange()
+//                            onProgressChange(it)
+//                            val seekPosition = (it * mediaPlayer.duration).toLong()
+//                            mediaPlayer.seekTo(seekPosition)
+                                        },
+                        onValueChangeFinished = {
+                                                onValueChangeFinished()
+//                                                mediaPlayer.play()
+                        },
+                        valueRange = 0f..duration.toFloat(),
                         modifier = Modifier.fillMaxWidth(),
                         colors = SliderDefaults.colors(
                             thumbColor = Green1,
@@ -312,7 +316,7 @@ fun SeekBar(
                         color = Gray1
                     )
                     Text(
-                        text = "-" + (60f - progress).toString(),
+                        text = "-" + (duration - progress).toString(),
                         fontSize = 10.sp,
                         color = Gray1
                     )

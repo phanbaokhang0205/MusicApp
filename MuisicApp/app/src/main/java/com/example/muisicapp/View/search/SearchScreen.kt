@@ -41,7 +41,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavDestination
 import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.View.scaffold.BottomAppBar
 import com.example.muisicapp.ui.theme.MuisicAppTheme
@@ -111,16 +110,19 @@ fun SearchScreen(
 
 
         },
-        bottomBar = {
-            BottomAppBar(
-                onClickFavourite = { isFavourite = !isFavourite },
-                isFavourite = isFavourite,
-                goToHomeScreen = { goToHomeScreen() },
-                goToSearchScreen = {  },
-                goToAccountScreen = { goToAccountScreen() },
-                goToPlaylistScreen = { goToPlaylistScreen() }
-            )
-        },
+//        bottomBar = {
+//            BottomAppBar(
+//                onClickFavourite = { isFavourite = !isFavourite },
+//                isFavourite = isFavourite,
+//                goToHomeScreen = { goToHomeScreen() },
+//                goToSearchScreen = {  },
+//                goToAccountScreen = { goToAccountScreen() },
+//                goToPlaylistScreen = { goToPlaylistScreen() },
+//                selectedSong = ,
+//                song =
+//
+//            )
+//        },
 
         ) {
         Column(

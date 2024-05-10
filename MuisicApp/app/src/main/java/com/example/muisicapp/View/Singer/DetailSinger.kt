@@ -1,4 +1,4 @@
-package com.example.muisicapp.View.Home
+package com.example.muisicapp.View.Singer
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
@@ -19,12 +19,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForwardIos
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.Button
@@ -53,12 +50,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import com.example.muisicapp.R
+import com.example.muisicapp.View.scaffold.TopBarOption
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DetailSingerScreen() {
-    Scaffold(topBar = { TopBar() }) {
+    Scaffold(topBar = { TopBarOption({},{},{}) }) {
 
         LazyColumn(
             modifier = Modifier
@@ -203,7 +201,7 @@ fun popularSongItems() {
         ) {
             Image(
                 contentScale = ContentScale.Crop,
-                painter = painterResource(R.drawable.img_3),
+                painter = painterResource(R.drawable.img),
                 contentDescription = null,
                 modifier = Modifier
                     .clip(
@@ -222,7 +220,7 @@ fun popularSongItems() {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Image(
                 contentScale = ContentScale.Crop,
-                painter = painterResource(R.drawable.img_3),
+                painter = painterResource(R.drawable.img),
                 contentDescription = null,
                 modifier = Modifier
                     .clip(

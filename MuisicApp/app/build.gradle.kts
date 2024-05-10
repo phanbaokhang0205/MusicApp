@@ -80,6 +80,8 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+
+
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("androidx.compose.material:material-icons-extended")
 
@@ -94,9 +96,10 @@ dependencies {
 //    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
 //    ExoMedia
-    implementation ("androidx.media3:media3-exoplayer:1.2.1")
-    implementation ("androidx.media3:media3-ui:1.2.1")
-    implementation ("androidx.media3:media3-common:1.2.1")
+    implementation ("androidx.media3:media3-exoplayer:1.3.1")
+    implementation ("androidx.media3:media3-ui:1.3.1")
+    implementation ("androidx.media3:media3-common:1.3.1")
+
 
 
 }

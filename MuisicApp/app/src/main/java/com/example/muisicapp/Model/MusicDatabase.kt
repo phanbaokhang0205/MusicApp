@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.muisicapp.Model.data.Album
 import com.example.muisicapp.Model.data.MusicDao
 import com.example.muisicapp.Model.data.Playlist
@@ -24,7 +26,7 @@ import com.example.muisicapp.Model.relations.SongTypeCrossRef
         SongPlaylistCrossRef::class,
         SongSingerCrossRef::class,
         SongTypeCrossRef::class],
-    version = 1
+    version = 2
 )
 abstract class MusicDatabase : RoomDatabase() {
     abstract fun musicDao(): MusicDao
@@ -39,13 +41,19 @@ abstract class MusicDatabase : RoomDatabase() {
                 Room.databaseBuilder(
                     context,
                     MusicDatabase::class.java,
-                    "test5_db"
+                    "test6_db"
                 )
+//                    .addMigrations(MIGRATION_1_2)
                     .fallbackToDestructiveMigration()
                     .build()
                     .also { Instance = it }
             }
         }
+//        private val MIGRATION_1_2 = object : Migration(3,4) {
+//            override fun migrate(db: SupportSQLiteDatabase) {
+//                db.execSQL("ALTER TABLE Song ADD COLUMN duration LONG NOT NULL DEFAULT 0")
+//            }
+//        }
     }
 
 }

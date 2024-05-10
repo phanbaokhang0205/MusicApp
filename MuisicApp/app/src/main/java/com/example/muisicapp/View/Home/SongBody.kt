@@ -15,6 +15,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -58,6 +62,8 @@ fun SongList(
     modifier: Modifier = Modifier,
     goToSongDetails: (SongWithSingers) -> Unit,
 ) {
+    var isSongSelected by remember { mutableStateOf(false) }
+
     LazyRow(
         modifier = modifier.padding(start = 18.dp),
         horizontalArrangement = Arrangement.spacedBy(20.dp),
@@ -66,7 +72,8 @@ fun SongList(
             SongItem(
                 song = song.song,
                 singers = song.singers,
-            ) { goToSongDetails(song) }
+                goToSongDetails = { goToSongDetails(song) },
+            )
         }
     }
 }

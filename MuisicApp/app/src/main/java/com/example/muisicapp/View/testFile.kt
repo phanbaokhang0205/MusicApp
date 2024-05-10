@@ -184,7 +184,8 @@ private fun SongDetails() {
                 isFavourite = isFavourite,
                 favouriteEvent = { },
                 songName = "Song name",
-                singerName = "Singer Name"
+                singerName = "Singer Name",
+                duration = 0
             )
 
         }

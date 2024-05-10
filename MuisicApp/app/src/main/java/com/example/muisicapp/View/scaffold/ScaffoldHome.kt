@@ -68,10 +68,10 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldHome(
-    goToHomeScreen:() -> Unit,
-    goToSearchScreen:() ->Unit,
-    goToAccountScreen:() -> Unit,
-    goToPlaylistScreen:() -> Unit,
+    goToHomeScreen: () -> Unit,
+    goToSearchScreen: () -> Unit,
+    goToAccountScreen: () -> Unit,
+    goToPlaylistScreen: () -> Unit,
 ) {
 
     var isFavourite by rememberSaveable {
@@ -208,7 +208,7 @@ fun ScaffoldHome(
                     goToHomeScreen = { /*TODO*/ },
                     goToSearchScreen = { /*TODO*/ },
                     goToAccountScreen = { /*TODO*/ },
-                    goToPlaylistScreen = {  }
+                    goToPlaylistScreen = { }
                 )
             },
 
@@ -290,10 +290,10 @@ fun ContentTopAppBar(
 fun BottomAppBar(
     onClickFavourite: () -> Unit,
     isFavourite: Boolean,
-    goToHomeScreen:() -> Unit,
-    goToSearchScreen:() ->Unit,
-    goToAccountScreen:() -> Unit,
-    goToPlaylistScreen:() -> Unit,
+    goToHomeScreen: () -> Unit,
+    goToSearchScreen: () -> Unit,
+    goToAccountScreen: () -> Unit,
+    goToPlaylistScreen: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -459,6 +459,6 @@ fun BottomAppBar(
 @Composable
 fun ScaffoldPreview() {
     MuisicAppTheme {
-        ScaffoldHome({},{},{},{})
+        ScaffoldHome({}, {}, {}, {})
     }
 }

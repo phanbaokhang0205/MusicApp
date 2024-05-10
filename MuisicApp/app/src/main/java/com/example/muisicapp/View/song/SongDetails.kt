@@ -19,7 +19,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -32,7 +34,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.media3.exoplayer.ExoPlayer
 import coil.compose.AsyncImage
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
@@ -52,7 +56,7 @@ object SongDetailsDestination : NavigationDestination {
     val routeWithArgs = "$route/{$songIdAgr}"
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "CoroutineCreationDuringComposition")
 @Composable
 fun SongDetailsScreen(
     viewModel: SongDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory),
@@ -61,15 +65,24 @@ fun SongDetailsScreen(
     goOptionEvent: () -> Unit,
 ) {
     var progress by rememberSaveable { mutableStateOf(0f) }
-    var isPlaying by rememberSaveable { mutableStateOf(false) }
 
     var isFavourite by rememberSaveable {
         mutableStateOf(false)
     }
 
     val uiState = viewModel.uiState.collectAsState()
+    val isPlaying = viewModel.isPlaying.collectAsState()
+    var duration by remember {
+        mutableLongStateOf(0L)
+    }
+
     val coroutineScope = rememberCoroutineScope()
     val context: Context = LocalContext.current
+
+    viewModel.viewModelScope.launch {
+        duration = viewModel.getDuration()
+    }
+
 
     Scaffold(
         topBar = {
@@ -81,36 +94,45 @@ fun SongDetailsScreen(
                     .background(Color(0x66000000))
                     .fillMaxWidth()
             )
-            Text(text = if (uiState.value.songDetails.song.songLink == "") "Rongg" else uiState.value.songDetails.song.songLink)
+            Text(text = if (uiState.value.songDetails.song.songLink == "")
+                "Rongg $duration"
+            else
+                uiState.value.songDetails.song.songLink + duration)
 
         }
     ) {
         Column(modifier = Modifier.padding(it)) {
+
             SongDetailsBody(
                 songDetails = uiState.value.songDetails.toSong(),
                 progress = progress,
-                onProgressChange = { progress = it },
-                isPlaying = isPlaying,
+                onProgressChange = {
+//                            val seekPosition = (it * mediaPlayer.duration).toLong()
+//                            mediaPlayer.seekTo(seekPosition)
+                                   },
+
+                isPlaying = isPlaying.value,
                 playingEvent = {
-                    isPlaying = !isPlaying
+                    viewModel.isPlayingChange()
+                    viewModel.play(uiState.value.songDetails.song.songLink, context)
                     coroutineScope.launch {
-                        while (isPlaying && progress < 60f) {
-                            delay(1000)
-                            progress += 1f
+                        while (isPlaying.value && progress < viewModel.getDuration()
+                        /**600f = duration **/
+                        ) {
+                            delay(100)
+                            progress += 0.3f
                         }
                     }
-                    if (isPlaying) {
-                        viewModel.playSong(
-                            uiState.value.songDetails.song.songLink,
-                            context
-                        )
+                    if (!isPlaying.value) {
+                        viewModel.resume()
                     } else {
                         viewModel.pauseSong()
                     }
                 },
                 isFavourite = isFavourite,
-
-                ) { isFavourite = !isFavourite }
+                favouriteEvent = { isFavourite = !isFavourite },
+                duration = viewModel.getDuration()
+            )
 
 
         }
@@ -122,11 +144,12 @@ fun SongDetailsBody(
     songDetails: SongWithSingers,
     modifier: Modifier = Modifier,
     progress: Float,
-    onProgressChange: (Float) -> Unit,
+    onProgressChange: () -> Unit,
     isPlaying: Boolean,
     playingEvent: () -> Unit,
     isFavourite: Boolean,
     favouriteEvent: () -> Unit,
+    duration: Long
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -140,6 +163,7 @@ fun SongDetailsBody(
             playingEvent = playingEvent,
             isFavourite = isFavourite,
             favouriteEvent = favouriteEvent,
+            duration = duration,
         )
     }
 }
@@ -149,11 +173,12 @@ fun SongDetails(
     song: Song,
     singers: List<Singer>,
     progress: Float,
-    onProgressChange: (Float) -> Unit,
+    onProgressChange: () -> Unit,
     isPlaying: Boolean,
     playingEvent: () -> Unit,
     isFavourite: Boolean,
     favouriteEvent: () -> Unit,
+    duration: Long,
 ) {
 
 
@@ -199,7 +224,7 @@ fun SongDetails(
         ) {
             SeekBar(
                 progress = progress,
-                onProgressChange = { onProgressChange(it) },
+                onProgressChange = { onProgressChange() },
                 isPlaying = isPlaying,
                 playingEvent = {
                     playingEvent()
@@ -208,7 +233,10 @@ fun SongDetails(
                 isFavourite = isFavourite,
                 favouriteEvent = { favouriteEvent() },
                 songName = song.songName,
-                singerName = stringBuilder(singers)
+                singerName = stringBuilder(singers),
+                duration = duration,
+                onValueChangeFinished = {},
+
             )
 
         }
