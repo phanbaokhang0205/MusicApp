@@ -110,19 +110,6 @@ fun SearchScreen(
 
 
         },
-//        bottomBar = {
-//            BottomAppBar(
-//                onClickFavourite = { isFavourite = !isFavourite },
-//                isFavourite = isFavourite,
-//                goToHomeScreen = { goToHomeScreen() },
-//                goToSearchScreen = {  },
-//                goToAccountScreen = { goToAccountScreen() },
-//                goToPlaylistScreen = { goToPlaylistScreen() },
-//                selectedSong = ,
-//                song =
-//
-//            )
-//        },
 
         ) {
         Column(
@@ -149,10 +136,9 @@ fun SearchPreview() {
     }
 }
 
-
 //          Ô nhập tìm kiếm
 @Composable
-private fun SearchTextField(
+fun SearchTextField(
     searchValue: String,
     searchOnValueChange: () -> Unit,
     modifier: Modifier,
@@ -169,7 +155,7 @@ private fun SearchTextField(
             )
         },
         placeholder = {
-            Text(text = "Tìm kiếm bài hát, nghệ sĩ...", fontSize = 12.sp)
+            Text(text = "Tìm kiếm bài hát, nghệ sĩ...", fontSize = 14.sp)
 
         },
         shape = RoundedCornerShape(30.dp),

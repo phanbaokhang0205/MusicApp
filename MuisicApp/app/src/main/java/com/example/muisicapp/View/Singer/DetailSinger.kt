@@ -26,10 +26,12 @@ import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,10 +53,18 @@ import com.example.muisicapp.R
 import com.example.muisicapp.View.scaffold.TopBarOption
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DetailSingerScreen() {
-    Scaffold(topBar = { TopBarOption({},{},{}) }) {
+    Scaffold(topBar = {
+        TopAppBar(title = {
+            TopBarOption(
+                goBackEvent = {},
+                goShareEvent = {},
+                goOptionEvent = {})
+        })
+    }) {
 
         LazyColumn(
             modifier = Modifier
