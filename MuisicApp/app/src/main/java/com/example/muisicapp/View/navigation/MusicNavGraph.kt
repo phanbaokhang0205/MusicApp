@@ -2,6 +2,7 @@ package com.example.muisicapp.View.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -14,12 +15,16 @@ import com.example.muisicapp.View.Singer.SingerDetailsDestination
 import com.example.muisicapp.View.login_register.Login2Destination
 import com.example.muisicapp.View.login_register.LoginDestination
 import com.example.muisicapp.View.login_register.LoginScreen
+import com.example.muisicapp.View.login_register.LoginScreen2
+import com.example.muisicapp.View.login_register.RegisterDestination
+import com.example.muisicapp.View.login_register.RegisterScreen
 import com.example.muisicapp.View.search.SearchDestination
 import com.example.muisicapp.View.search.SearchScreen
 import com.example.muisicapp.View.song.SongDetailsDestination
 import com.example.muisicapp.View.song.SongDetailsScreen
 import com.example.muisicapp.View.user.AccountDestination
 import com.example.muisicapp.View.user.UserDetail
+import com.example.muisicapp.ViewModel.LoginViewModel
 
 @Composable
 fun MusicNavHost(
@@ -27,14 +32,32 @@ fun MusicNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeDestination.route,
+        startDestination = Login2Destination.route,
         modifier = Modifier,
     ) {
         /**
          *Login Screen
          */
-        composable(route= LoginDestination.route){
-            LoginScreen()
+        composable(route = LoginDestination.route) {
+            val viewModel: LoginViewModel = viewModel()
+            LoginScreen(viewModel = viewModel)
+        }
+
+        /**
+         *Login2 Screen
+         */
+        composable(route = Login2Destination.route) {
+            LoginScreen2(
+                loginScreen = { navController.navigate(LoginDestination.route) },
+                registerScreen = { navController.navigate(RegisterDestination.route) })
+        }
+
+
+        /**
+         *Register Screen
+         */
+        composable(route = RegisterDestination.route) {
+            RegisterScreen()
         }
 
         /**
