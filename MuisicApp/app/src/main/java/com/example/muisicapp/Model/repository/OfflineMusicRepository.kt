@@ -3,6 +3,7 @@ package com.example.muisicapp.Model.repository
 import com.example.muisicapp.Model.data.MusicDao
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
+import com.example.muisicapp.Model.data.User
 import com.example.muisicapp.Model.relations.SingerWithSongs
 import com.example.muisicapp.Model.relations.SongWithSingers
 import kotlinx.coroutines.flow.Flow
@@ -31,6 +32,18 @@ class OfflineMusicRepository(private val musicDao: MusicDao) : MusicRepository {
 
     override fun getSingerWithSongs(): Flow<List<SingerWithSongs>> {
         return musicDao.getSingerWithSongs()
+    }
+
+//    override fun checkLogin(userName: String, password: String): Flow<User?> {
+//        return musicDao.checkLogin(userName, password)
+//    }
+
+    override fun getAllUser(): Flow<User> {
+        return musicDao.getAllUsers()
+    }
+
+    override fun checkLogin(userName: String, password: String): Flow<User?> {
+        TODO("Not yet implemented")
     }
 
 

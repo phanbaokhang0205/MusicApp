@@ -33,17 +33,20 @@ import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
 
-object Login2Destination : NavigationDestination{
-    override val route: String="login2"
+object Login2Destination : NavigationDestination {
+    override val route: String = "login2"
 }
+
+
 @Composable
 fun LoginScreen2(
-    loginScreen :()->Unit,
-    modifier: Modifier=Modifier
+    loginScreen: () -> Unit,
+    registerScreen: () -> Unit,
+    modifier: Modifier = Modifier
 
-){
+) {
     Column(
-        modifier=Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -61,7 +64,7 @@ fun LoginScreen2(
         Spacer(modifier = Modifier.height(20.dp))
         //dki bang fb
         Box(
-            modifier= Modifier
+            modifier = Modifier
                 .size(340.dp, 60.dp)
                 .border(
                     width = 2.dp,
@@ -70,10 +73,10 @@ fun LoginScreen2(
                 )
                 .clickable { },
             contentAlignment = Alignment.Center
-        ){
-            Row (
+        ) {
+            Row(
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.fb),
                     contentDescription = "Logo FB",
@@ -86,7 +89,7 @@ fun LoginScreen2(
         Spacer(modifier = Modifier.height(20.dp))
         //dki bang gg
         Box(
-            modifier= Modifier
+            modifier = Modifier
                 .size(340.dp, 60.dp)
                 .border(
                     width = 2.dp,
@@ -95,10 +98,10 @@ fun LoginScreen2(
                 )
                 .clickable { },
             contentAlignment = Alignment.Center
-        ){
-            Row (
+        ) {
+            Row(
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.gg),
                     contentDescription = "Logo FB",
@@ -147,7 +150,7 @@ fun LoginScreen2(
             Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = "Đăng ký",
-                modifier = Modifier.clickable {  },
+                modifier = Modifier.clickable { registerScreen()},
                 color = Color.Blue,
                 fontWeight = FontWeight.Bold
             )
@@ -158,8 +161,8 @@ fun LoginScreen2(
 
 @Preview(showBackground = true)
 @Composable
-fun Login2Test(){
+fun Login2Test() {
     MuisicAppTheme {
-        LoginScreen2({})
+        LoginScreen2({},{})
     }
 }

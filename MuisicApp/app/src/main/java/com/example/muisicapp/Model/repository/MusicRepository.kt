@@ -3,6 +3,7 @@ package com.example.muisicapp.Model.repository
 import androidx.room.Query
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
+import com.example.muisicapp.Model.data.User
 import com.example.muisicapp.Model.relations.SingerWithSongs
 import com.example.muisicapp.Model.relations.SongWithSingers
 import kotlinx.coroutines.flow.Flow
@@ -20,11 +21,16 @@ interface MusicRepository {
 
     fun getSingerWithSongs(): Flow<List<SingerWithSongs>>
 
+    fun getAllUser(): Flow<User>
+    fun checkLogin(userName: String, password: String): Flow<User?>
+
     suspend fun insertSong(song: Song)
 
     suspend fun updateSong(song: Song)
 
     suspend fun deleteSong(song: Song)
+
+
 
 
 }

@@ -34,18 +34,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.muisicapp.R
 import com.example.muisicapp.View.navigation.NavigationDestination
+import com.example.muisicapp.ViewModel.AppViewModelProvider
+import com.example.muisicapp.ViewModel.LoginViewModel
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
 object LoginDestination : NavigationDestination {
-    override val route: String="login"
+    override val route: String = "login"
 }
+
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-
-){
+    viewModel: LoginViewModel
+) {
     var userName by rememberSaveable {
         mutableStateOf("")
     }
@@ -56,14 +61,14 @@ fun LoginScreen(
         mutableStateOf(false)
     }
     //giaodien
-    Column (
-        modifier=Modifier.fillMaxSize(),
+    Column(
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Image(
             painter = painterResource(id = R.drawable.login),
             contentDescription = "Login avatar",
-            modifier=Modifier.size(200.dp)
+            modifier = Modifier.size(200.dp)
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(
@@ -75,26 +80,28 @@ fun LoginScreen(
         OutlinedTextField(
             label = { Text("Tài khoản") },
             value = userName,
-            onValueChange = {userName=it}
+            onValueChange = { userName = it }
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
             label = { Text("Mật khẩu") },
             value = passWord,
-            onValueChange = {passWord=it}
+            onValueChange = { passWord = it }
         )
         Spacer(modifier = Modifier.height(20.dp))
         Row {
             Checkbox(
                 checked = isChecked,
-                onCheckedChange ={ isChecked = it },
+                onCheckedChange = { isChecked = it },
             )
             Text(
                 text = "Nhớ mật khẩu",
-                modifier = Modifier.padding(top=12.dp)
+                modifier = Modifier.padding(top = 12.dp)
             )
         }
-        Button(onClick = {}) {
+        Button(onClick = {
+//            viewModel.login(userName, passWord)
+        }) {
             Text(
                 text = "Đăng nhập",
                 modifier = Modifier.size(220.dp, 22.dp),
@@ -123,7 +130,7 @@ fun LoginScreen(
             }
         }
         Spacer(modifier = Modifier.height(35.dp))
-        Row (){
+        Row() {
             Box(
                 modifier = modifier
                     .size(62.dp)
@@ -134,7 +141,7 @@ fun LoginScreen(
                     )
                     .clickable { },
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.fb),
                     contentDescription = "LogoFb",
@@ -152,7 +159,7 @@ fun LoginScreen(
                     )
                     .clickable { },
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.gg),
                     contentDescription = "LogoGg",
@@ -163,10 +170,10 @@ fun LoginScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun LoginTest(){
-    MuisicAppTheme {
-        LoginScreen()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun LoginTest(){
+//    MuisicAppTheme {
+//        LoginScreen()
+//    }
+//}

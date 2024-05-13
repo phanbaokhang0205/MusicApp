@@ -31,8 +31,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.muisicapp.R
+import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
+
+object RegisterDestination : NavigationDestination {
+    override val route: String = "register"
+}
 @Composable
 fun RegisterScreen(
     modifier: Modifier = Modifier
