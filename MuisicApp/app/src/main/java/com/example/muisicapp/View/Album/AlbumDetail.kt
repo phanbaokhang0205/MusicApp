@@ -49,10 +49,9 @@ import com.example.muisicapp.View.scaffold.TopBarOption
 val gradient = Brush.linearGradient(
     colors = listOf(Color(0xff5898E0), Color(0xff000000))
 )
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun AlbumScreen() {
+fun AlbumDetail() {
     Scaffold(topBar = { TopBarOption({},{},{}) }) {
 
         LazyColumn(
@@ -323,7 +322,7 @@ fun heading2(content: String) {
         text = content,
         modifier = Modifier.padding(vertical = 5.dp),
         color = Color.White,
-        fontSize = 14.sp
+        fontSize = 15.sp
     )
 }
 
@@ -332,7 +331,7 @@ fun heading3(content: String) {
     Text(
         text = content,
         color = Color.Gray,
-        fontSize = 12.sp,
+        fontSize = 13.sp,
         modifier = Modifier.padding(vertical = 3.dp)
     )
 }
@@ -343,12 +342,13 @@ fun heading1(content: String) {
         text = content,
         modifier = Modifier.padding(vertical = 5.dp),
         color = Color.White,
-        fontSize = 17.sp
+        fontSize = 18.sp,
+        fontFamily = FontFamily.SansSerif
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun Preview() {
-    AlbumScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun Preview() {
+//    AlbumDetail()
+//}
