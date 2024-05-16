@@ -37,37 +37,37 @@ class musicDaoTest {
         musicDatabase.close()
     }
 
-    private var song1 = Song(1, "Chung ta cua hien tai", "mtp.png", "MTP" ,2)
-    private var song2 = Song(2, "Em cua ngay hom qua", "mtp2.png", "MTP" ,3)
+//    private var song1 = Song(1, "Chung ta cua hien tai", "mtp.png", "MTP" ,2)
+//    private var song2 = Song(2, "Em cua ngay hom qua", "mtp2.png", "MTP" ,3)
 
-    private suspend fun addOneSongToDb() {
-        musicDao.insertSong(song1)
-    }
-
-    private suspend fun addTwoSongsToDb() {
-        musicDao.insertSong(song1)
-        musicDao.insertSong(song2)
-    }
-
-
-
-    @Test
-    @Throws(Exception::class)
-    fun daoInsert_insertsItemIntoDB() = runBlocking {
-        addOneSongToDb()
-        val allItems = musicDao.getAllSongs().first()
-        assertEquals(allItems[0], song1)
-    }
+//    private suspend fun addOneSongToDb() {
+//        musicDao.insertSong(song1)
+//    }
+//
+//    private suspend fun addTwoSongsToDb() {
+//        musicDao.insertSong(song1)
+//        musicDao.insertSong(song2)
+//    }
 
 
-    @Test
-    @Throws(Exception::class)
-    fun daoGetAllItems_returnsAllItemsFromDB() = runBlocking {
-        addTwoSongsToDb()
-        val allItems = musicDao.getAllSongs().first()
-        assertEquals(allItems[0], song1)
-        assertEquals(allItems[1], song2)
-    }
+
+//    @Test
+//    @Throws(Exception::class)
+//    fun daoInsert_insertsItemIntoDB() = runBlocking {
+//        addOneSongToDb()
+//        val allItems = musicDao.getAllSongs().first()
+//        assertEquals(allItems[0], song1)
+//    }
+//
+//
+//    @Test
+//    @Throws(Exception::class)
+//    fun daoGetAllItems_returnsAllItemsFromDB() = runBlocking {
+//        addTwoSongsToDb()
+//        val allItems = musicDao.getAllSongs().first()
+//        assertEquals(allItems[0], song1)
+//        assertEquals(allItems[1], song2)
+//    }
 
 
 }

@@ -74,18 +74,22 @@ fun HomeScreen(
     goToPlaylistScreen: () -> Unit,
     goToSongDetails: (Int) -> Unit,
     goToDetailSinger: (Int) -> Unit,
+    goToDetailAlbum: (Int) -> Unit,
+    goToDetailPlaylist: (Int) -> Unit,
 ) {
 
     val singerWithSongs by viewModel.singerUiState.collectAsState()
     val songWithSingers by viewModel.songWithSingersUiState.collectAsState()
+    val playList by viewModel.playListUiState.collectAsState()
+    val albumList by viewModel.albumUiState.collectAsState()
 
     var isFavourite by rememberSaveable {
         mutableStateOf(false)
     }
 
-    var isPlay by rememberSaveable {
-        mutableStateOf(false)
-    }
+//    var isPlay by rememberSaveable {
+//        mutableStateOf(false)
+//    }
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -228,7 +232,7 @@ fun HomeScreen(
                     .background(Color.Black)
                     .padding(innerPadding),
 
-            ) {
+                ) {
                 item {
 
                     NavigationTitle(navTitle = "Ca sĩ nổi bật") {
@@ -264,31 +268,29 @@ fun HomeScreen(
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    NavigationTitle(navTitle = "Ca sĩ nổi bật") {
+                    NavigationTitle(navTitle = "Album nổi bật") {
                         /**
-                         * TODO: Mở danh sách các ca sĩ.
+                         * TODO: Mở danh sách các Album.
                          */
                     }
-                    SingerBody(singerList = singerWithSongs.singerSongList) {
-                        /**
-                         * TODO: Mở chi tiết ca sĩ
-                         */
-                    }
+                    AlbumBody(
+                        albumList = albumList.albumList,
+                        goToDetailAlbum = goToDetailAlbum
+                    )
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    NavigationTitle(navTitle = "Bài hát dành cho bạn") {
+                    NavigationTitle(navTitle = "PlayList của bạn") {
                         /**
-                         * TODO: Mở danh sách các bài hát.
+                         * TODO: Mở danh sách các playList.
                          */
                     }
-                    SongBody(
-                        songList = songWithSingers.songSingerList,
-                        /**
-                         * TODO: Mở chi tiết bài hát
-                         */
-                        goToSongDetails = goToSongDetails
+                    PlayListBody(
+                        playList = playList.playList,
+                        goToPlaylistDetails = goToDetailPlaylist
                     )
+
+
                 }
             }
 

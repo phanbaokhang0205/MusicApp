@@ -7,10 +7,14 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.muisicapp.View.Album.AlbumDestination
+import com.example.muisicapp.View.Album.AlbumScreen
 import com.example.muisicapp.View.Home.HomeDestination
 import com.example.muisicapp.View.Home.HomeScreen
 import com.example.muisicapp.View.Singer.DetailSingerScreen
 import com.example.muisicapp.View.Singer.SingerDetailsDestination
+import com.example.muisicapp.View.playlist.PlayListDestination
+import com.example.muisicapp.View.playlist.PlaylistScreen
 import com.example.muisicapp.View.search.SearchDestination
 import com.example.muisicapp.View.search.SearchScreen
 import com.example.muisicapp.View.song.SongDetailsDestination
@@ -36,7 +40,9 @@ fun MusicNavHost(
                 goToPlaylistScreen = { },
                 goToAccountScreen = { navController.navigate(AccountDestination.route) },
                 goToSongDetails = { navController.navigate("${SongDetailsDestination.route}/${it}") },
-                goToDetailSinger = { navController.navigate("${SingerDetailsDestination.route}/${it}") }
+                goToDetailSinger = { navController.navigate("${SingerDetailsDestination.route}/${it}") },
+                goToDetailAlbum = { navController.navigate("${AlbumDestination.route}/${it}") },
+                goToDetailPlaylist = { navController.navigate("${PlayListDestination.route}/${it}") }
             )
         }
 
@@ -52,8 +58,22 @@ fun MusicNavHost(
             )
         }
 
+
         /**
-         * Song Details Screen
+         * Account Screen
+         */
+        composable(route = AccountDestination.route) {
+            UserDetail(
+                goToHomeScreen = { navController.navigate(HomeDestination.route) },
+                goToSearchScreen = { navController.navigate(SearchDestination.route) },
+                goToPlaylistScreen = { },
+                goBack = { navController.popBackStack() }
+            )
+        }
+
+
+        /**
+         * Song Details
          */
         composable(
             route = SongDetailsDestination.routeWithArgs,
@@ -69,18 +89,6 @@ fun MusicNavHost(
         }
 
         /**
-         * Account Screen
-         */
-        composable(route = AccountDestination.route) {
-            UserDetail(
-                goToHomeScreen = { navController.navigate(HomeDestination.route) },
-                goToSearchScreen = { navController.navigate(SearchDestination.route) },
-                goToPlaylistScreen = { },
-                goBack = { navController.popBackStack() }
-            )
-        }
-
-        /**
          * Singer Details
          */
         composable(
@@ -90,8 +98,41 @@ fun MusicNavHost(
             })
         ) {
             DetailSingerScreen(
+                goBackEvent = { navController.popBackStack() },
+                goShareEvent = { /*TODO*/ },
+                goOptionEvent = {})
+        }
 
+        /**
+         * Album Details
+         */
+        composable(
+            route = AlbumDestination.routeWithArgs,
+            arguments = listOf(navArgument(AlbumDestination.albumIdAgr) {
+                type = NavType.IntType
+            })
+        ) {
+            AlbumScreen(
+                goBackEvent = { navController.popBackStack() },
+                goShareEvent = { /*TODO*/ },
+                goOptionEvent = { /*TODO*/ },
+                goToDetailSingerOfAlbum = {}
             )
+        }
+
+        /**
+         * PlayList Details
+         */
+        composable(
+            route = PlayListDestination.routeWithArgs,
+            arguments = listOf(navArgument(PlayListDestination.playListIdAgr) {
+                type = NavType.IntType
+            })
+        ) {
+            PlaylistScreen(
+                goBackEvent = { navController.popBackStack() },
+                goShareEvent = { /*TODO*/ },
+                goOptionEvent = { /*TODO*/ })
         }
 
 

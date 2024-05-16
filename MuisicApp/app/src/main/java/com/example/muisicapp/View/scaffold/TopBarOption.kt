@@ -17,11 +17,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TopBarOption(
-    goBackEvent:() -> Unit,
-    goShareEvent:() -> Unit,
-    goOptionEvent:() -> Unit,
+    goBackEvent: () -> Unit,
+    goShareEvent: () -> Unit,
+    goOptionEvent: () -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -32,14 +32,18 @@ fun TopBarOption(
             modifier = Modifier.padding(start = 10.dp)
 
         ) {
-            Icon(imageVector = Icons.Default.ArrowBack, contentDescription =null )
+            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
         }
         Row(Modifier.padding(end = 15.dp)) {
             IconButton(onClick = { goShareEvent() }) {
-                Icon(imageVector = Icons.Default.Share, contentDescription =null, modifier = Modifier.padding() )
+                Icon(
+                    imageVector = Icons.Default.Share,
+                    contentDescription = null,
+                    modifier = Modifier.padding()
+                )
             }
             IconButton(onClick = { goOptionEvent() }) {
-                Icon(imageVector = Icons.Filled.MoreHoriz, contentDescription =null )
+                Icon(imageVector = Icons.Filled.MoreHoriz, contentDescription = null)
             }
         }
     }

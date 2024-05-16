@@ -32,7 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,15 +48,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.muisicapp.Model.data.Album
 import com.example.muisicapp.Model.data.Singer
+import com.example.muisicapp.Model.data.Song
+import com.example.muisicapp.Model.relations.SingerWithAlbums
 import com.example.muisicapp.Model.relations.SingerWithSongs
 import com.example.muisicapp.R
+import com.example.muisicapp.View.Album.heading2
+import com.example.muisicapp.View.Album.heading3
 import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.View.scaffold.TopBarOption
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.SingerDetailsViewModel
-import com.example.muisicapp.ViewModel.SongDetailsViewModel
 import com.example.muisicapp.ViewModel.toSinger
+import com.example.muisicapp.ViewModel.toSingerAlbum
 
 object SingerDetailsDestination : NavigationDestination {
     override val route: String = "singer_details"
@@ -68,11 +73,16 @@ object SingerDetailsDestination : NavigationDestination {
 @Composable
 fun DetailSingerScreen(
     viewModel: SingerDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    goBackEvent: () -> Unit,
+    goShareEvent: () -> Unit,
+    goOptionEvent: () -> Unit,
 ) {
 
     val uiState = viewModel.uiState.collectAsState()
 
-    Scaffold(topBar = { TopBarOption({}, {}, {}) }) {
+    val singerAlbum = viewModel.singerWithAlbums.collectAsState()
+
+    Scaffold(topBar = { TopBarOption(goBackEvent, goShareEvent, goOptionEvent) }) {
 
         LazyColumn(
             modifier = Modifier
@@ -80,11 +90,19 @@ fun DetailSingerScreen(
                 .background(Color.Black)
         ) {
             item {
-                imgSinger(uiState.value.singeDetails.toSinger())
-                popularSong()
-                singerAlbum()
-                popularSinger()
-                singerInfor()
+                imgSinger(
+                    uiState.value.singeDetails.toSinger()
+                )
+                popularSong(
+                    uiState.value.singeDetails.toSinger()
+                )
+                singerAlbum(
+                    singerAlbum.value.singerAlbum.toSingerAlbum()
+                )
+                popularSinger(
+
+                )
+                singerInfor(uiState.value.singeDetails.singer)
             }
         }
     }
@@ -95,12 +113,6 @@ fun imgSinger(
     singerWithSongs: SingerWithSongs
 ) {
     Box(modifier = Modifier.height(400.dp)) {
-//        Image(
-//            painter = painterResource(R.drawable.img_1),
-//            contentDescription = null,
-//            contentScale = ContentScale.Crop,
-//            modifier = Modifier.fillMaxSize()
-//        )
         AsyncImage(
             model = singerWithSongs.singer.singerImage, contentDescription = null,
             contentScale = ContentScale.Crop,
@@ -147,22 +159,107 @@ fun imgSinger(
 }
 
 @Composable
-fun popularSong() {
+fun popularSong(
+    singerWithSongs: SingerWithSongs
+) {
     Column {
         NavigationTitle(navTitle = "Bài Hát Nổi Bật") {
 
         }
-        popularSongItems()
+        singerWithSongs.songs.forEach {
+            popularSongItems(
+                song = it,
+                singer = singerWithSongs.singer
+            )
+        }
     }
 }
 
 @Composable
-fun singerAlbum() {
+fun popularSongItems(
+    song: Song,
+    singer: Singer
+) {
+    Column(
+        verticalArrangement = Arrangement.Center, modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 15.dp, horizontal = 20.dp)
+    ) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 15.dp), verticalAlignment = Alignment.CenterVertically
+        ) {
+            AsyncImage(
+                model = song.songImage,
+                contentDescription = null,
+                error = painterResource(id = R.drawable.ic_broken_image),
+                placeholder = painterResource(R.drawable.loading_image),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .clip(
+                        RoundedCornerShape(10.dp)
+                    )
+                    .background(Color.Black)
+                    .size(68.dp)
+            )
+            Spacer(modifier = Modifier.width(15.dp))
+            Column {
+                heading2(content = song.songName)
+                heading3(content = singer.singerName)
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(imageVector = Icons.Filled.MoreHoriz, contentDescription = null)
+        }
+    }
+}
+
+@Composable
+fun singerAlbum(
+    singerWithAlbums: SingerWithAlbums
+) {
     NavigationTitle(navTitle = "Album") {
 
     }
-    LazyRow {
-        item { albumItems() }
+    singerWithAlbums.albums.forEach {
+        albumItems(
+            it
+        )
+    }
+}
+
+@Composable
+fun albumItems(
+    album: Album
+) {
+    Column(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)) {
+        AsyncImage(
+            model = album.albumImage,
+            contentDescription = null,
+            error = painterResource(id = R.drawable.ic_broken_image),
+            placeholder = painterResource(R.drawable.loading_image),
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .background(Color.Black)
+                .fillMaxSize()
+                .width(120.dp)
+                .clip(
+                    RoundedCornerShape(16.dp)
+                )
+        )
+        Text(
+            text = album.albumName,
+            modifier = Modifier
+                .width(120.dp)
+                .padding(vertical = 5.dp),
+            color = Color.White,
+            fontSize = 15.sp,
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Black,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(text = "12/06/2020", color = Color.White)
     }
 }
 
@@ -175,6 +272,7 @@ fun popularSinger() {
         item { popularSingerItems() }
     }
 }
+
 
 @Composable
 fun NavigationTitle(
@@ -210,111 +308,6 @@ fun NavigationTitle(
     }
 }
 
-@Composable
-fun popularSongItems() {
-    Column(
-        verticalArrangement = Arrangement.Center, modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 15.dp, horizontal = 20.dp)
-    ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 15.dp), verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                contentScale = ContentScale.Crop,
-                painter = painterResource(R.drawable.img),
-                contentDescription = null,
-                modifier = Modifier
-                    .clip(
-                        RoundedCornerShape(10.dp)
-                    )
-                    .size(68.dp)
-            )
-            Spacer(modifier = Modifier.width(15.dp))
-            Column {
-                Text(text = "Nơi Này Có Anh", modifier = Modifier.padding(bottom = 6.dp))
-                Text(text = "Sơn Tùng MTP", fontSize = 12.sp, color = Color.Gray)
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(imageVector = Icons.Filled.MoreHoriz, contentDescription = null)
-        }
-    }
-}
-
-@Composable
-fun albumItems() {
-    Column(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)) {
-        Image(
-            painter = painterResource(R.drawable.img),
-            contentDescription = null,
-            Modifier
-                .width(120.dp)
-                .clip(
-                    RoundedCornerShape(16.dp)
-                )
-        )
-        Text(
-            text = "Sky Tour (Original Motion Picture Soundtrack)",
-            modifier = Modifier
-                .width(120.dp)
-                .padding(vertical = 5.dp),
-            fontSize = 15.sp,
-            fontFamily = FontFamily.SansSerif,
-            fontWeight = FontWeight.Black,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-        Text(text = "12/06/2020")
-    }
-    Column(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)) {
-        Image(
-            painter = painterResource(R.drawable.img),
-            contentDescription = null,
-            Modifier
-                .width(120.dp)
-                .clip(
-                    RoundedCornerShape(16.dp)
-                )
-        )
-        Text(
-            text = "Sky Tour (Original Motion Picture Soundtrack)",
-            modifier = Modifier
-                .width(120.dp)
-                .padding(vertical = 5.dp),
-            fontSize = 15.sp,
-            fontFamily = FontFamily.SansSerif,
-            fontWeight = FontWeight.Black,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-        Text(text = "12/06/2020")
-    }
-    Column(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)) {
-        Image(
-            painter = painterResource(R.drawable.img),
-            contentDescription = null,
-            Modifier
-                .width(120.dp)
-                .clip(
-                    RoundedCornerShape(16.dp)
-                )
-        )
-        Text(
-            text = "Sky Tour (Original Motion Picture Soundtrack)",
-            modifier = Modifier
-                .width(120.dp)
-                .padding(vertical = 5.dp),
-            fontSize = 15.sp,
-            fontFamily = FontFamily.SansSerif,
-            fontWeight = FontWeight.Black,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-        Text(text = "12/06/2020")
-    }
-}
 
 @Composable
 fun popularSingerItems() {
@@ -337,7 +330,7 @@ fun popularSingerItems() {
         ) {
             Text(
                 text = "Sơn Tùng MTP",
-                color = Color.Black,
+                color = Color.White,
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 14.sp,
                 modifier = Modifier.padding(vertical = 6.dp)
@@ -402,29 +395,27 @@ fun popularSingerItems() {
 }
 
 @Composable
-fun singerInfor() {
-    var click by remember {
+fun singerInfor(
+    singer: Singer
+) {
+    var click by rememberSaveable {
         mutableStateOf(false)
     }
-    var maxLine by remember {
+    var maxLine by rememberSaveable {
         mutableStateOf(3)
     }
     Column(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)) {
         Text(
             text = "Thông tin",
             fontFamily = FontFamily.SansSerif,
-            fontWeight = FontWeight.Black,
+            color = Color.White,
             fontSize = 16.sp
         )
         Text(
-            text = "Thanh Tùng bắt đầu chơi nhạc từ cấp ba với nghệ danh M-TP và được biết đến với \"Cơn Mưa Ngang Qua\".\n" +
-                    "Năm 2012, anh đậu thủ khoa Nhạc viện TPHCM và ký hợp đồng với Văn Production, đổi nghệ danh sang Sơn Tùng M-TP.\n" +
-                    "Từ 2013 đến 2015, anh có nhiều bản hit như \"Em Của Ngày Hôm Qua\", \"Nắng Ấm Xa Dần\"...\n" +
-                    "Năm 2015, anh rời khỏi công ty cũ và gia nhập WePro, tổ chức minishow đầu tiên \"M-TP and Friends\".\n" +
-                    "Năm 2017, anh rời khỏi WePro để thành lập M-TP Entertainment, ra mắt \"Lạc Trôi\" và \"Nơi Này Có Anh\". Anh ra mắt album đầu tay \"m-tp M-TP\".\n" +
-                    "Năm 2018 anh ra mắt \"Chạy Ngay Đi\" và \"Hãy Trao Cho Anh\" năm 2019. Cả hai bài hát đều trở thành hit. Đặc biệt \"Hãy Trao Cho Anh\" kết hợp với Snopp Dogg đã đưa tên tuổi anh ra thế giới.",
+            text = singer.singerInfo,
             maxLines = maxLine,
             overflow = TextOverflow.Ellipsis,
+            color = Color.White,
             modifier = Modifier
                 .padding(vertical = 10.dp)
                 .clickable {
@@ -460,5 +451,7 @@ fun singerInfor() {
 @Preview(showBackground = true)
 @Composable
 fun preview() {
-    DetailSingerScreen()
+    DetailSingerScreen(goBackEvent = { /*TODO*/ }, goShareEvent = { /*TODO*/ }) {
+
+    }
 }

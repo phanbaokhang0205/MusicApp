@@ -132,7 +132,7 @@ fun LoginScreen(
             ){
                 Image(
                     painter = painterResource(id = R.drawable.fb),
-                    contentDescription = "LogoFb",
+                    contentDescription = "LogoFB",
                     modifier = Modifier.size(40.dp)
                 )
             }
@@ -150,7 +150,7 @@ fun LoginScreen(
             ){
                 Image(
                     painter = painterResource(id = R.drawable.gg),
-                    contentDescription = "LogoGg",
+                    contentDescription = "LogoGG",
                     modifier = Modifier.size(40.dp)
                 )
             }

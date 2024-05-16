@@ -1,5 +1,6 @@
 package com.example.muisicapp.View.Home
 
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,78 +24,78 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.muisicapp.Model.data.Singer
-import com.example.muisicapp.Model.relations.SingerWithSongs
+import com.example.muisicapp.Model.data.Album
+import com.example.muisicapp.Model.relations.AlbumWithSongs
+import com.example.muisicapp.Model.relations.AlbumWithSongsAndSingers
 import com.example.muisicapp.R
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
 @Composable
-fun SingerBody(
-    singerList: List<SingerWithSongs>,
-    goToDetailSinger: (Int) -> Unit,
+fun AlbumBody(
+    albumList: List<AlbumWithSongsAndSingers>,
+    goToDetailAlbum: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .background(Color.Black)
 
     ) {
-        if (singerList.isEmpty()) {
+        if (albumList.isEmpty()) {
             Text(text = "The list is empty")
         } else {
-            SingerList(
-                singerList,
+            AlbumList(
+                albumList,
                 modifier = Modifier
-            ) { goToDetailSinger(it.singer.singerId!!) }
+            ) { goToDetailAlbum(it.album.albumId!!) }
         }
 
     }
 }
 
 @Composable
-fun SingerList(
-    singerList: List<SingerWithSongs>,
+fun AlbumList(
+    albumList: List<AlbumWithSongsAndSingers>,
     modifier: Modifier,
-    goToDetailSinger: (SingerWithSongs) -> Unit,
+    goToDetailAlbum: (AlbumWithSongsAndSingers) -> Unit,
 ) {
     LazyRow(
         modifier = modifier.padding(start = 18.dp),
         horizontalArrangement = Arrangement.spacedBy(22.dp),
     ) {
-        items(items = singerList, key = { it.singer.singerId!! }) { singer ->
-            SingerItem(singer = singer.singer) { goToDetailSinger(singer) }
+        items(items = albumList, key = { it.album.albumId!! }) { album ->
+            AlbumItem(album = album) { goToDetailAlbum(album) }
         }
     }
 }
 
 @Composable
-fun SingerItem(
-    singer: Singer,
-    goToDetailSinger: () -> Unit,
+fun AlbumItem(
+    album: AlbumWithSongsAndSingers,
+    goToDetailAlbum: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .background(Color.Black)
-            .width(66.dp)
-            .height(96.dp)
-            .clickable { goToDetailSinger() },
+            .width(120.dp)
+            .clickable { goToDetailAlbum() }
     ) {
+
         Box(
             modifier = Modifier
-                .size(64.dp)
-                .clip(RoundedCornerShape(100))
+                .size(120.dp)
+                .clip(RoundedCornerShape(16.dp))
                 .background(Color.Black)
         ) {
             AsyncImage(
-                model = singer.singerImage,
+                model = album.album.albumImage,
+                contentDescription = null,
                 error = painterResource(id = R.drawable.ic_broken_image),
                 placeholder = painterResource(R.drawable.loading_image),
-                contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .background(Color.Black)
@@ -102,15 +103,14 @@ fun SingerItem(
                     .align(Alignment.Center),
             )
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = singer.singerName,
+            text = album.album.albumName,
             fontSize = 12.sp,
             color = Color.White,
-            modifier = Modifier.width(62.dp),
+            modifier = Modifier.width(120.dp),
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            textAlign = TextAlign.Center
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
@@ -120,22 +120,22 @@ fun SingerItem(
  * Test UI
  */
 @Composable
-fun SingerListTest() {
+fun AlbumListTest() {
     LazyRow(
         modifier = Modifier,
         horizontalArrangement = Arrangement.spacedBy(22.dp),
     ) {
         item {
-            SingerTestItem()
-            SingerTestItem()
-            SingerTestItem()
-            SingerTestItem()
+            AlbumTestItem()
+            AlbumTestItem()
+            AlbumTestItem()
+            AlbumTestItem()
         }
     }
 }
 
 @Composable
-fun SingerTestItem() {
+fun AlbumTestItem() {
     Column(
         modifier = Modifier
             .background(Color.Black)
@@ -168,16 +168,16 @@ fun SingerTestItem() {
 
 @Preview(showBackground = true)
 @Composable
-fun SingerItemPreview() {
+fun AlbumItemPreview() {
     MuisicAppTheme {
-        SingerTestItem()
+        AlbumTestItem()
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SingerItemListPreview() {
+fun AlbumItemListPreview() {
     MuisicAppTheme {
-        SingerListTest()
+        AlbumListTest()
     }
 }

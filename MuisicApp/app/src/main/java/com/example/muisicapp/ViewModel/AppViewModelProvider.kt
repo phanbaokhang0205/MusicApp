@@ -30,6 +30,21 @@ object AppViewModelProvider {
                 musicApplication().container.musicRepository
             )
         }
+
+        initializer {
+            PlayListDetailsViewModel(
+                this.createSavedStateHandle(),
+                musicApplication().container.musicRepository
+            )
+        }
+
+        initializer {
+            AlbumDetailsViewModel(
+                this.createSavedStateHandle(),
+                musicApplication().container.musicRepository
+            )
+        }
+
     }
 }
 

@@ -72,12 +72,14 @@ fun SongDetailsScreen(
 
     val uiState = viewModel.uiState.collectAsState()
     val isPlaying = viewModel.isPlaying.collectAsState()
-    var duration by remember {
-        mutableLongStateOf(0L)
-    }
+
 
     val coroutineScope = rememberCoroutineScope()
     val context: Context = LocalContext.current
+
+    val duration = viewModel.formatDuration(uiState.value.songDetails.song.duration)
+
+    val onLoading = viewModel.playBackChange()
 
 //    viewModel.viewModelScope.launch {
 //        duration = viewModel.getDuration()
@@ -95,7 +97,7 @@ fun SongDetailsScreen(
                     .fillMaxWidth()
             )
             Text(text = if (uiState.value.songDetails.song.songLink == "")
-                "Rongg $duration"
+                "Rongg ${duration}"
             else
                 uiState.value.songDetails.song.songLink + duration)
 
@@ -119,7 +121,7 @@ fun SongDetailsScreen(
                         while (isPlaying.value && progress < 600f
                         /**600f = duration **/
                         ) {
-                            delay(100)
+                            delay(1000)
                             progress += 0.3f
                         }
                     }
@@ -131,7 +133,8 @@ fun SongDetailsScreen(
                 },
                 isFavourite = isFavourite,
                 favouriteEvent = { isFavourite = !isFavourite },
-                duration = 0L
+                duration = 0L,
+                onLoading = onLoading
             )
 
 
@@ -149,7 +152,8 @@ fun SongDetailsBody(
     playingEvent: () -> Unit,
     isFavourite: Boolean,
     favouriteEvent: () -> Unit,
-    duration: Long
+    duration: Long,
+    onLoading: Boolean,
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -164,6 +168,7 @@ fun SongDetailsBody(
             isFavourite = isFavourite,
             favouriteEvent = favouriteEvent,
             duration = duration,
+            onLoading = onLoading
         )
     }
 }
@@ -179,6 +184,7 @@ fun SongDetails(
     isFavourite: Boolean,
     favouriteEvent: () -> Unit,
     duration: Long,
+    onLoading: Boolean,
 ) {
 
 
@@ -196,11 +202,13 @@ fun SongDetails(
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
+                        .align(Alignment.Center)
                         .size(350.dp)
                         .clip(CircleShape)
                         .graphicsLayer {
                             rotationZ = progress
-                        }
+                        },
+
                 )
                 Icon(
                     imageVector = Icons.Filled.FiberManualRecord,
@@ -236,6 +244,7 @@ fun SongDetails(
                 singerName = stringBuilder(singers),
                 duration = duration,
                 onValueChangeFinished = {},
+                onLoading = onLoading
 
             )
 
@@ -243,8 +252,9 @@ fun SongDetails(
     }
 }
 
+
 @Composable
-private fun stringBuilder(singers: List<Singer>): String {
+fun stringBuilder(singers: List<Singer>): String {
     val builder = StringBuilder()
 
     singers.forEachIndexed { index, singer ->

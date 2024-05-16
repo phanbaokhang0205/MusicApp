@@ -31,29 +31,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.muisicapp.Model.data.Singer
-import com.example.muisicapp.Model.data.Song
-import com.example.muisicapp.Model.relations.SongWithSingers
+import com.example.muisicapp.Model.data.Playlist
+import com.example.muisicapp.Model.relations.PlaylistWithSongs
+import com.example.muisicapp.Model.relations.PlaylistWithSongsAndSingers
 import com.example.muisicapp.R
+import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
 @Composable
-fun SongBody(
-    songList: List<SongWithSingers>,
-    goToSongDetails: (Int) -> Unit,
+fun PlayListBody(
+    playList: List<PlaylistWithSongsAndSingers>,
+    goToPlaylistDetails: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .background(Color.Black)
     ) {
-        if (songList.isEmpty()) {
+        if (playList.isEmpty()) {
             Text(text = "The list is empty")
         } else {
-            SongList(
-                songList,
+            PlayList(
+                playList,
                 modifier = Modifier
             ) {
-                goToSongDetails(it.song.songId!!)
+                goToPlaylistDetails(it.playlist.playlistId!!)
             }
         }
 
@@ -61,10 +62,10 @@ fun SongBody(
 }
 
 @Composable
-fun SongList(
-    songList: List<SongWithSingers>,
+fun PlayList(
+    playList: List<PlaylistWithSongsAndSingers>,
     modifier: Modifier = Modifier,
-    goToSongDetails: (SongWithSingers) -> Unit,
+    goToPlaylistDetails: (PlaylistWithSongsAndSingers) -> Unit,
 ) {
     var isSongSelected by remember { mutableStateOf(false) }
 
@@ -72,27 +73,25 @@ fun SongList(
         modifier = modifier.padding(start = 18.dp),
         horizontalArrangement = Arrangement.spacedBy(20.dp),
     ) {
-        items(items = songList, key = { it.song.songId!! }) { song ->
-            SongItem(
-                song = song.song,
-                singers = song.singers,
-                goToSongDetails = { goToSongDetails(song) },
+        items(items = playList, key = { it.playlist.playlistId!! }) { playList ->
+            PlaylistItem(
+                playList = playList,
+                goToPlaylistDetails = { goToPlaylistDetails(playList) },
             )
         }
     }
 }
 
 @Composable
-fun SongItem(
-    song: Song,
-    singers: List<Singer>,
-    goToSongDetails:() -> Unit,
+fun PlaylistItem(
+    playList: PlaylistWithSongsAndSingers,
+    goToPlaylistDetails:() -> Unit,
 ) {
     Column(
         modifier = Modifier
             .background(Color.Black)
             .width(120.dp)
-            .clickable { goToSongDetails() }
+            .clickable { goToPlaylistDetails() }
     ) {
 
         Box(
@@ -102,7 +101,7 @@ fun SongItem(
                 .background(Color.Black)
         ) {
             AsyncImage(
-                model = song.songImage,
+                model = playList.playlist.playlistImage,
                 contentDescription = null,
                 error = painterResource(id = R.drawable.ic_broken_image),
                 placeholder = painterResource(R.drawable.loading_image),
@@ -115,56 +114,20 @@ fun SongItem(
         }
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = song.songName,
+            text = playList.playlist.playlistName,
             fontSize = 12.sp,
             color = Color.White,
             modifier = Modifier.width(120.dp),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-        Text(
-            text = stringBuilder(singers),
-            fontSize = 10.sp,
-            color = Color(0xff808080),
-            modifier = Modifier.width(120.dp),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-
-
-    }
-}
-
-@Composable
-private fun stringBuilder(singers: List<Singer>): String {
-    val builder = StringBuilder()
-
-    singers.forEachIndexed { index, singer ->
-        builder.append(singer.singerName)
-        if (index < singers.size - 1) {
-            builder.append(", ")
-        }
-    }
-
-    return builder.toString()
-
-}
-@Preview(showBackground = true)
-@Composable
-fun HomeBodyPreview() {
-    MuisicAppTheme {
-//        SongBody(
-//
-//        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SongItemPreview() {
+fun PlaylistItemPreview() {
     MuisicAppTheme {
-//        SongItem(
-//            Song(1, "Yêu anh hơn chính em", "image", "link", 3),
-//        )
+
     }
 }
