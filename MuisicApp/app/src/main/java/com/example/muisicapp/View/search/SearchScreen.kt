@@ -53,10 +53,10 @@ object SearchDestination : NavigationDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    goToHomeScreen:() -> Unit,
-    goToAccountScreen:() -> Unit,
-    goToPlaylistScreen:() -> Unit,
-    goBack:() -> Unit
+    goToHomeScreen: () -> Unit,
+    goToAccountScreen: () -> Unit,
+    goToPlaylistScreen: () -> Unit,
+    goBack: () -> Unit
 ) {
     var isFavourite by rememberSaveable {
         mutableStateOf(false)
@@ -83,46 +83,14 @@ fun SearchScreen(
                     titleContentColor = Color.White,
                 ),
                 title = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = null,
+                    SearchTopBar {
 
-                            modifier = Modifier
-                                .padding(end = 20.dp)
-                                .size(25.dp)
-                                .clickable {
-                                    goBack()
-                                }
-                        )
-
-                        SearchTextField(
-                            searchValue = "",
-                            searchOnValueChange = { /*TODO*/ },
-                            modifier = Modifier
-                        )
                     }
                 },
             )
 
 
         },
-//        bottomBar = {
-//            BottomAppBar(
-//                onClickFavourite = { isFavourite = !isFavourite },
-//                isFavourite = isFavourite,
-//                goToHomeScreen = { goToHomeScreen() },
-//                goToSearchScreen = {  },
-//                goToAccountScreen = { goToAccountScreen() },
-//                goToPlaylistScreen = { goToPlaylistScreen() },
-//                selectedSong = ,
-//                song =
-//
-//            )
-//        },
 
         ) {
         Column(
@@ -145,20 +113,18 @@ fun SearchScreen(
 @Composable
 fun SearchPreview() {
     MuisicAppTheme {
-        SearchScreen({},{},{},{})
+        SearchScreen({}, {}, {}, {})
     }
 }
 
-
 //          Ô nhập tìm kiếm
 @Composable
-private fun SearchTextField(
+fun SearchTextField(
     searchValue: String,
     searchOnValueChange: () -> Unit,
     modifier: Modifier,
 ) {
-    OutlinedTextField(
-        value = searchValue,
+    OutlinedTextField(value = searchValue,
         onValueChange = { searchOnValueChange() },
         singleLine = true,
         leadingIcon = {
@@ -169,7 +135,7 @@ private fun SearchTextField(
             )
         },
         placeholder = {
-            Text(text = "Tìm kiếm bài hát, nghệ sĩ...", fontSize = 12.sp)
+            Text(text = "Tìm kiếm bài hát, nghệ sĩ...", fontSize = 14.sp)
 
         },
         shape = RoundedCornerShape(30.dp),
@@ -192,9 +158,7 @@ fun SearchTextFieldPreview() {
 //          Đề xuất tìm kiếm
 @Composable
 private fun RecommendSearch(
-    showAllItems: Boolean,
-    onEventChange: () -> Unit,
-    itemsToShow: List<Recommendation>
+    showAllItems: Boolean, onEventChange: () -> Unit, itemsToShow: List<Recommendation>
 ) {
 
 
@@ -270,7 +234,8 @@ private fun RecommendItem(
     content: String,
 ) {
     TextButton(
-        onClick = { /*TODO*/ }, modifier = Modifier
+        onClick = { /*TODO*/ },
+        modifier = Modifier
             .wrapContentSize()
             .clip(RoundedCornerShape(22.dp))
             .background(Color(0xff232323))

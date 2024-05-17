@@ -1,6 +1,3 @@
-package com.example.muisicapp.View
-
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
@@ -36,5 +33,3 @@ fun TestFile() {
 fun Preview2() {
     TestFile()
 }
-
-

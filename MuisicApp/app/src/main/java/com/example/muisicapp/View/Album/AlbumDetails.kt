@@ -3,7 +3,6 @@ package com.example.muisicapp.View.Album
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,17 +40,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.room.Index
 import coil.compose.AsyncImage
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
 import com.example.muisicapp.Model.relations.AlbumWithSongsAndSingers
 import com.example.muisicapp.Model.relations.SingerWithAlbums
-import com.example.muisicapp.Model.relations.SingerWithSongs
 import com.example.muisicapp.R
 import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.View.scaffold.TopBarOption
@@ -85,7 +81,7 @@ fun AlbumScreen(
     val albumUi = viewModel.uiState.collectAsState()
     val singerUi = viewModel.singerUiState.collectAsState()
 
-    Scaffold(topBar = { TopBarOption(goBackEvent,goShareEvent,goOptionEvent) }) {
+    Scaffold(topBar = { TopBarOption(goBackEvent, goShareEvent, goOptionEvent) }) {
 
         LazyColumn(
             modifier = Modifier
@@ -366,10 +362,4 @@ fun heading1(content: String) {
         color = Color.White,
         fontSize = 17.sp
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Preview() {
-    AlbumScreen({}, {}, {}, {})
 }
