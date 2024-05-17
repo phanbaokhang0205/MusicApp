@@ -18,6 +18,7 @@ import com.example.muisicapp.Model.data.Song
 import com.example.muisicapp.Model.relations.SongWithSingers
 import com.example.muisicapp.Model.repository.MusicRepository
 import com.example.muisicapp.View.song.SongDetailsDestination
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -25,6 +26,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 @SuppressLint("StaticFieldLeak")
 class SongDetailsViewModel(
@@ -36,8 +38,6 @@ class SongDetailsViewModel(
 
     private var exoPlayer: ExoPlayer? = null
 
-    private var currentPosition = 0
-
     private val _isPlaying = MutableStateFlow(false)
     var isPlaying: StateFlow<Boolean> = _isPlaying.asStateFlow()
 
@@ -46,6 +46,9 @@ class SongDetailsViewModel(
 
     private val _loading = MutableStateFlow(false)
     var loading: StateFlow<Boolean> = _loading.asStateFlow()
+
+    private val _duration = MutableStateFlow(0L)
+    val duration: StateFlow<Long> = _duration.asStateFlow()
 
 
     val uiState: StateFlow<SongDetailUiState> =
@@ -70,18 +73,12 @@ class SongDetailsViewModel(
         return _loading.value
     }
 
+
+
     fun isPlayingChange() {
         _isPlaying.value = !_isPlaying.value
     }
 
-
-//        fun getDuration(): Long {
-//        return exoPlayer?.duration ?: 0L
-//    }
-//
-//        fun updateProgress(progress: Float) {
-//        _progress.value = progress
-//    }
     fun pauseSong() {
         exoPlayer?.pause()
 
@@ -95,7 +92,11 @@ class SongDetailsViewModel(
         exoPlayer?.addMediaItem(mediaItem)
         exoPlayer?.prepare()
         exoPlayer?.play()
+
     }
+
+
+
     fun resume() {
         _isPlaying.value = true
         exoPlayer?.play()

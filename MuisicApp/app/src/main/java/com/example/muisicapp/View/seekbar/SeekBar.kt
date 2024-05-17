@@ -365,13 +365,9 @@ fun SeekBar(
                         value = progress,
                         onValueChange = {
                             onProgressChange(it)
-//                            onProgressChange(it)
-//                            val seekPosition = (it * mediaPlayer.duration).toLong()
-//                            mediaPlayer.seekTo(seekPosition)
                         },
                         onValueChangeFinished = {
                             onValueChangeFinished()
-//                                                mediaPlayer.play()
                         },
                         valueRange = 0f..duration.toFloat(),
                         modifier = Modifier.fillMaxWidth(),
@@ -392,7 +388,7 @@ fun SeekBar(
                         color = Gray1
                     )
                     Text(
-                        text = "-" + (duration - progress).toString(),
+                        text = "-" + (duration - progress.toLong()).toString(),
                         fontSize = 10.sp,
                         color = Gray1
                     )

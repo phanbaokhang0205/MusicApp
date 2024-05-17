@@ -19,9 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -34,9 +32,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.media3.exoplayer.ExoPlayer
 import coil.compose.AsyncImage
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
@@ -64,7 +60,6 @@ fun SongDetailsScreen(
     goShareEvent: () -> Unit,
     goOptionEvent: () -> Unit,
 ) {
-    var progress by rememberSaveable { mutableStateOf(0f) }
 
     var isFavourite by rememberSaveable {
         mutableStateOf(false)
@@ -77,13 +72,11 @@ fun SongDetailsScreen(
     val coroutineScope = rememberCoroutineScope()
     val context: Context = LocalContext.current
 
-    val duration = viewModel.formatDuration(uiState.value.songDetails.song.duration)
+    val duration = viewModel.duration.collectAsState()
+    val durationFormat = viewModel.formatDuration(uiState.value.songDetails.song.duration)
+    val progress = viewModel.progress.collectAsState()
 
     val onLoading = viewModel.playBackChange()
-
-//    viewModel.viewModelScope.launch {
-//        duration = viewModel.getDuration()
-//    }
 
 
     Scaffold(
@@ -96,34 +89,35 @@ fun SongDetailsScreen(
                     .background(Color(0x66000000))
                     .fillMaxWidth()
             )
-            Text(text = if (uiState.value.songDetails.song.songLink == "")
-                "Rongg ${duration}"
-            else
-                uiState.value.songDetails.song.songLink + duration)
+            Text(
+                text = if (uiState.value.songDetails.song.songLink == "")
+                    "Rongg ${durationFormat}"
+                else
+                    uiState.value.songDetails.song.songLink + durationFormat
+            )
 
         }
-    ) {
-        Column(modifier = Modifier.padding(it)) {
+    ) { valuePadding ->
+        Column(modifier = Modifier.padding(valuePadding)) {
 
             SongDetailsBody(
                 songDetails = uiState.value.songDetails.toSong(),
-                progress = progress,
+                progress = progress.value,
                 onProgressChange = {
-//                            val seekPosition = (it * mediaPlayer.duration).toLong()
-//                            mediaPlayer.seekTo(seekPosition)
-                                   },
+//                    viewModel.seekTo(progress.value)
+                },
 
                 isPlaying = isPlaying.value,
                 playingEvent = {
                     viewModel.isPlayingChange()
                     viewModel.play(uiState.value.songDetails.song.songLink, context)
                     coroutineScope.launch {
-                        while (isPlaying.value && progress < 600f
-                        /**600f = duration **/
-                        ) {
-                            delay(1000)
-                            progress += 0.3f
-                        }
+//                        while (isPlaying.value && progress < 600f
+//                        /**600f = duration **/
+//                        ) {
+//                            delay(1000)
+//                            progress.value += 0.3f
+//                        }
                     }
                     if (!isPlaying.value) {
                         viewModel.resume()
@@ -133,12 +127,13 @@ fun SongDetailsScreen(
                 },
                 isFavourite = isFavourite,
                 favouriteEvent = { isFavourite = !isFavourite },
-                duration = 0L,
+                duration = durationFormat.toLong(),
                 onLoading = onLoading
             )
 
 
         }
+
     }
 }
 
@@ -209,7 +204,7 @@ fun SongDetails(
                             rotationZ = progress
                         },
 
-                )
+                    )
                 Icon(
                     imageVector = Icons.Filled.FiberManualRecord,
                     contentDescription = null,
