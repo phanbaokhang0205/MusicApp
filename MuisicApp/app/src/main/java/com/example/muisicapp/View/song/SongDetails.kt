@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -37,6 +38,7 @@ import coil.compose.AsyncImage
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
 import com.example.muisicapp.Model.relations.SongWithSingers
+import com.example.muisicapp.R
 import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.View.scaffold.TopBarOption
 import com.example.muisicapp.View.seekbar.SeekBar
@@ -194,6 +196,8 @@ fun SongDetails(
             Box(modifier = Modifier, contentAlignment = Alignment.Center) {
                 AsyncImage(
                     model = song.songImage,
+                    error = painterResource(id = R.drawable.ic_broken_image),
+                    placeholder = painterResource(R.drawable.loading_image),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -203,8 +207,7 @@ fun SongDetails(
                         .graphicsLayer {
                             rotationZ = progress
                         },
-
-                    )
+                )
                 Icon(
                     imageVector = Icons.Filled.FiberManualRecord,
                     contentDescription = null,

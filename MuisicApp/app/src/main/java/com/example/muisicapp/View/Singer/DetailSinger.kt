@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -113,8 +114,12 @@ fun imgSinger(
     singerWithSongs: SingerWithSongs
 ) {
     Box(modifier = Modifier.height(400.dp)) {
+
         AsyncImage(
-            model = singerWithSongs.singer.singerImage, contentDescription = null,
+            model = singerWithSongs.singer.singerImage,
+            error = painterResource(id = R.drawable.ic_broken_image),
+            placeholder = painterResource(R.drawable.loading_image),
+            contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )

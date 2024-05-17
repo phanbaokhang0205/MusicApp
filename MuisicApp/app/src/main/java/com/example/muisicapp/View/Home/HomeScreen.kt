@@ -76,6 +76,9 @@ fun HomeScreen(
     goToDetailSinger: (Int) -> Unit,
     goToDetailAlbum: (Int) -> Unit,
     goToDetailPlaylist: (Int) -> Unit,
+    goToSingerList:() -> Unit,
+    goToSongList:() -> Unit,
+    goToAlbumList:() -> Unit,
 ) {
 
     val singerWithSongs by viewModel.singerUiState.collectAsState()
@@ -236,15 +239,15 @@ fun HomeScreen(
                 item {
 
                     NavigationTitle(navTitle = "Ca sĩ nổi bật") {
-
                         /**
-                         * TODO: Mở danh sách các ca sĩ.
+                         * Mở danh sách các ca sĩ.
                          */
+                        goToSingerList()
                     }
                     SingerBody(
                         singerList = singerWithSongs.singerSongList,
                         /**
-                         * TODO: Mở chi tiết ca sĩ
+                         * Mở chi tiết ca sĩ
                          */
                         goToDetailSinger = goToDetailSinger
                     )
@@ -255,13 +258,14 @@ fun HomeScreen(
 
                     NavigationTitle(navTitle = "Bài hát dành cho bạn") {
                         /**
-                         * TODO: Mở danh sách các bài hát.
+                         * Mở danh sách các bài hát.
                          */
+                        goToSongList()
                     }
                     SongBody(
                         songList = songWithSingers.songSingerList,
                         /**
-                         * TODO: Mở chi tiết bài hát
+                         * Mở chi tiết bài hát
                          */
                         goToSongDetails = goToSongDetails
                     )
@@ -270,8 +274,9 @@ fun HomeScreen(
 
                     NavigationTitle(navTitle = "Album nổi bật") {
                         /**
-                         * TODO: Mở danh sách các Album.
+                         * Mở danh sách các Album.
                          */
+                        goToAlbumList()
                     }
                     AlbumBody(
                         albumList = albumList.albumList,
