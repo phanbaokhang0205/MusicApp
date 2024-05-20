@@ -47,7 +47,7 @@ import com.example.muisicapp.View.Singer.songList
 @Composable
 fun PlaylistListScreen() {
     val gradient = Brush.verticalGradient(
-        colors = listOf(Color(0xffA5678E), Color(0xff000000))
+        colors = listOf(Color(0xFF068D36), Color(0xff000000))
     )
     Box(modifier = Modifier.background(gradient)) {
         Scaffold(containerColor = Color.Transparent,topBar = {
