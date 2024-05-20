@@ -35,6 +35,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -78,9 +80,8 @@ fun SingerListScreen() {
                         .padding(horizontal = 15.dp)
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    heading1(content = "NGHỆ SĨ NỔI BẬT")
+                    Text(text = "NGHỆ SĨ NỔI BẬT", fontWeight = FontWeight.Bold,fontFamily = FontFamily.SansSerif, fontSize = 20.sp, color = Color.White)
                 }
                 LazyColumn(
                     modifier = Modifier.padding(top = 15.dp),
@@ -123,8 +124,8 @@ fun songList() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun Preview() {
-    SingerListScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun Preview() {
+//    SingerListScreen()
+//}

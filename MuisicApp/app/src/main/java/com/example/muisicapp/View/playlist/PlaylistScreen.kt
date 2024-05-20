@@ -151,102 +151,7 @@ fun topSongList(){
 @Composable
 fun topSongItems(){
     Column {
-        Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxSize()){
-            Image(painter = painterResource(R.drawable.img), contentDescription =null, modifier = Modifier
-                .size(68.dp)
-                .clip(
-                    RoundedCornerShape(10.dp)
-                )
-            )
-            Spacer(modifier = Modifier.width(15.dp))
-            Column {
-                Text(text = "Nơi này có anh",color = Color.White, modifier = Modifier.padding(bottom = 10.dp), fontSize = 15.sp)
-                Text(text = "Sơn Tùng MTP", color = Color.Gray, fontSize = 12.sp)
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(imageVector = Icons.Filled.PlayCircleOutline, tint = Color.Gray, contentDescription = null)
-            Spacer(modifier = Modifier.width(10.dp))
-            Icon(imageVector = Icons.Filled.FavoriteBorder, tint = Color.Gray, contentDescription = null)
-            Spacer(modifier = Modifier.width(10.dp))
-            Icon(imageVector = Icons.Filled.MoreHoriz,tint = Color.White, contentDescription = null)
-        }
-        Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxSize()){
-            Image(painter = painterResource(R.drawable.img), contentDescription =null, modifier = Modifier
-                .size(68.dp)
-                .clip(
-                    RoundedCornerShape(10.dp)
-                )
-            )
-            Spacer(modifier = Modifier.width(15.dp))
-            Column {
-                Text(text = "Nơi này có anh",color = Color.White, modifier = Modifier.padding(bottom = 10.dp), fontSize = 15.sp)
-                Text(text = "Sơn Tùng MTP", color = Color.Gray, fontSize = 12.sp)
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(imageVector = Icons.Filled.PlayCircleOutline, tint = Color.Gray, contentDescription = null)
-            Spacer(modifier = Modifier.width(10.dp))
-            Icon(imageVector = Icons.Filled.FavoriteBorder, tint = Color.Gray, contentDescription = null)
-            Spacer(modifier = Modifier.width(10.dp))
-            Icon(imageVector = Icons.Filled.MoreHoriz,tint = Color.White, contentDescription = null)
-        }
-        Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxSize()){
-            Image(painter = painterResource(R.drawable.img), contentDescription =null, modifier = Modifier
-                .size(68.dp)
-                .clip(
-                    RoundedCornerShape(10.dp)
-                )
-            )
-            Spacer(modifier = Modifier.width(15.dp))
-            Column {
-                Text(text = "Nơi này có anh",color = Color.White, modifier = Modifier.padding(bottom = 10.dp), fontSize = 15.sp)
-                Text(text = "Sơn Tùng MTP", color = Color.Gray, fontSize = 12.sp)
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(imageVector = Icons.Filled.PlayCircleOutline, tint = Color.Gray, contentDescription = null)
-            Spacer(modifier = Modifier.width(10.dp))
-            Icon(imageVector = Icons.Filled.FavoriteBorder, tint = Color.Gray, contentDescription = null)
-            Spacer(modifier = Modifier.width(10.dp))
-            Icon(imageVector = Icons.Filled.MoreHoriz,tint = Color.White, contentDescription = null)
-        }
-        Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxSize()){
-            Image(painter = painterResource(R.drawable.img), contentDescription =null, modifier = Modifier
-                .size(68.dp)
-                .clip(
-                    RoundedCornerShape(10.dp)
-                )
-            )
-            Spacer(modifier = Modifier.width(15.dp))
-            Column {
-                Text(text = "Nơi này có anh",color = Color.White, modifier = Modifier.padding(bottom = 10.dp), fontSize = 15.sp)
-                Text(text = "Sơn Tùng MTP", color = Color.Gray, fontSize = 12.sp)
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(imageVector = Icons.Filled.PlayCircleOutline, tint = Color.Gray, contentDescription = null)
-            Spacer(modifier = Modifier.width(10.dp))
-            Icon(imageVector = Icons.Filled.FavoriteBorder, tint = Color.Gray, contentDescription = null)
-            Spacer(modifier = Modifier.width(10.dp))
-            Icon(imageVector = Icons.Filled.MoreHoriz,tint = Color.White, contentDescription = null)
-        }
-        Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxSize()){
-            Image(painter = painterResource(R.drawable.img), contentDescription =null, modifier = Modifier
-                .size(68.dp)
-                .clip(
-                    RoundedCornerShape(10.dp)
-                )
-            )
-            Spacer(modifier = Modifier.width(15.dp))
-            Column {
-                Text(text = "Nơi này có anh",color = Color.White, modifier = Modifier.padding(bottom = 10.dp), fontSize = 15.sp)
-                Text(text = "Sơn Tùng MTP", color = Color.Gray, fontSize = 12.sp)
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(imageVector = Icons.Filled.PlayCircleOutline, tint = Color.Gray, contentDescription = null)
-            Spacer(modifier = Modifier.width(10.dp))
-            Icon(imageVector = Icons.Filled.FavoriteBorder, tint = Color.Gray, contentDescription = null)
-            Spacer(modifier = Modifier.width(10.dp))
-            Icon(imageVector = Icons.Filled.MoreHoriz,tint = Color.White, contentDescription = null)
-        }
-        Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxSize()){
+        Row (verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxSize().padding(vertical = 10.dp)){
             Image(painter = painterResource(R.drawable.img), contentDescription =null, modifier = Modifier
                 .size(68.dp)
                 .clip(
@@ -309,8 +214,8 @@ fun TopBar() {
 
 
 
-@Preview(showBackground = true)
-@Composable
-fun Preview() {
-    PlaylistScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun Preview() {
+//    PlaylistScreen()
+//}
