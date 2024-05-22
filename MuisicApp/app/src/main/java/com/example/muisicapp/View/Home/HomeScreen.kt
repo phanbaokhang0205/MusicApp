@@ -286,8 +286,9 @@ fun HomeScreen(
 
                     NavigationTitle(navTitle = "PlayList của bạn") {
                         /**
-                         * TODO: Mở danh sách các playList.
+                         * Mở danh sách các playList.
                          */
+                        goToPlaylistScreen()
                     }
                     PlayListBody(
                         playList = playList.playList,

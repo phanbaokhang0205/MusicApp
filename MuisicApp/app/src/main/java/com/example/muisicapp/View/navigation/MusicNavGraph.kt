@@ -18,6 +18,8 @@ import com.example.muisicapp.View.Singer.SingerDetailsDestination
 import com.example.muisicapp.View.Singer.SingerListDestination
 import com.example.muisicapp.View.Singer.SingerListScreen
 import com.example.muisicapp.View.playlist.PlayListDestination
+import com.example.muisicapp.View.playlist.PlaylistListDestination
+import com.example.muisicapp.View.playlist.PlaylistListScreen
 import com.example.muisicapp.View.playlist.PlaylistScreen
 import com.example.muisicapp.View.search.SearchDestination
 import com.example.muisicapp.View.search.SearchResultDestination
@@ -45,7 +47,7 @@ fun MusicNavHost(
         composable(route = HomeDestination.route) {
             HomeScreen(
                 goToSearchScreen = { navController.navigate(SearchResultDestination.route) },
-                goToPlaylistScreen = { },
+                goToPlaylistScreen = { navController.navigate(PlaylistListDestination.route) },
                 goToAccountScreen = { navController.navigate(AccountDestination.route) },
                 goToSingerList = { navController.navigate(SingerListDestination.route) },
                 goToSongList = { navController.navigate(SongListDestination.route) },
@@ -88,16 +90,14 @@ fun MusicNavHost(
         }
 
         /**
-         * Search Screen
+         * Playlist List Screen
          */
-//        composable(route = SearchDestination.route) {
-//            SearchScreen(
-//                goToHomeScreen = { navController.navigate(HomeDestination.route) },
-//                goToAccountScreen = { navController.navigate(AccountDestination.route) },
-//                goToPlaylistScreen = { },
-//                goBack = { navController.popBackStack() }
-//            )
-//        }
+        composable(route = PlaylistListDestination.route) {
+            PlaylistListScreen(
+                goBack = { navController.popBackStack() },
+                goToPlaylistDetails = { navController.navigate("${PlayListDestination.route}/${it}") }
+            )
+        }
 
         /**
          * Search Result
