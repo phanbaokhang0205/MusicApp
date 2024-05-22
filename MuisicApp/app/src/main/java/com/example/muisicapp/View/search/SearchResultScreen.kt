@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -78,26 +76,28 @@ fun SearchResultScreen(
 @Composable
 fun SearchResultList(
     paddingValues: PaddingValues,
-    result: List<SongWithSingers>
+    result: List<SongWithSingers>,
+
 ) {
-    LazyColumn(
+    Column(
         modifier = Modifier
             .padding(paddingValues)
             .background(Color.Black)
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
-        items(items = result, key = {it.song.songId!!}) {
-            SearchResult(song = it.song, singers = it.singers)
+        result.forEachIndexed { index, item ->
+            SearchResult(song = item.song, singers = item.singers, goToSongDetails =  {})
         }
     }
 }
 
 
-
 @Composable
 fun SearchResult(
     song: Song,
-    singers: List<Singer>
+    singers: List<Singer>,
+    goToSongDetails: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -106,7 +106,8 @@ fun SearchResult(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 15.dp), verticalAlignment = Alignment.CenterVertically
+                .padding(bottom = 15.dp)
+                .clickable { goToSongDetails() }, verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
                 model = song.songImage,

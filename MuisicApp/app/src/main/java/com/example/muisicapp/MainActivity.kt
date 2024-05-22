@@ -204,6 +204,14 @@ class MainActivity : ComponentActivity() {
                     "",
                     ""
                 ),
+                Singer(
+                    8,
+                    "Obito",
+                    "https://breakingnews2222.000webhostapp.com/H%C3%ACnh%20%E1%BA%A2nh/obito.jpg",
+                    "",
+                    "",
+                    ""
+                )
             )
 
             val songSingerRelations = listOf(
@@ -239,6 +247,13 @@ class MainActivity : ComponentActivity() {
                     "https://breakingnews2222.000webhostapp.com/H%C3%ACnh%20%E1%BA%A3nh%20Album/ktx.jpg",
                     4
                 ),
+                Album(
+                    6,
+                    "Đánh đổi",
+                    "https://breakingnews2222.000webhostapp.com/H%C3%ACnh%20%E1%BA%A3nh%20Album/obito_album.jpg",
+                    8
+                )
+
             )
 
             val playlists = listOf(

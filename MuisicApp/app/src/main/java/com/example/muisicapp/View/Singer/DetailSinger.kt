@@ -226,10 +226,12 @@ fun singerAlbum(
     NavigationTitle(navTitle = "Album") {
 
     }
-    singerWithAlbums.albums.forEach {
-        albumItems(
-            it
-        )
+    Row {
+        singerWithAlbums.albums.forEach {
+            albumItems(
+                it
+            )
+        }
     }
 }
 
@@ -246,7 +248,6 @@ fun albumItems(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .background(Color.Black)
-                .fillMaxSize()
                 .width(120.dp)
                 .clip(
                     RoundedCornerShape(16.dp)
@@ -340,7 +341,7 @@ fun popularSingerItems() {
                 fontSize = 14.sp,
                 modifier = Modifier.padding(vertical = 6.dp)
             )
-            Text(text = "2.4M quan tâm", color = Color.Gray)
+            Text(text = "7.4M quan tâm", color = Color.Gray)
         }
     }
     Column(
@@ -349,7 +350,7 @@ fun popularSingerItems() {
             .width(150.dp)
     ) {
         Image(
-            painter = painterResource(R.drawable.img),
+            painter = painterResource(R.drawable.mck),
             contentDescription = null,
             modifier = Modifier
                 .clip(
@@ -361,13 +362,13 @@ fun popularSingerItems() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Sơn Tùng MTP",
-                color = Color.Black,
+                text = "MCK",
+                color = Color.White,
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 14.sp,
                 modifier = Modifier.padding(vertical = 6.dp)
             )
-            Text(text = "2.4M quan tâm", color = Color.Gray)
+            Text(text = "3.4M quan tâm", color = Color.Gray)
         }
     }
     Column(
@@ -376,7 +377,7 @@ fun popularSingerItems() {
             .width(150.dp)
     ) {
         Image(
-            painter = painterResource(R.drawable.img),
+            painter = painterResource(R.drawable.mck99),
             contentDescription = null,
             modifier = Modifier
                 .clip(
@@ -388,13 +389,13 @@ fun popularSingerItems() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Sơn Tùng MTP",
-                color = Color.Black,
+                text = "Karik",
+                color = Color.White,
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 14.sp,
                 modifier = Modifier.padding(vertical = 6.dp)
             )
-            Text(text = "2.4M quan tâm", color = Color.Gray)
+            Text(text = "1.1M quan tâm", color = Color.Gray)
         }
     }
 }
@@ -433,22 +434,22 @@ fun singerInfor(
         Row {
             Text(text = "Tên thật", color = Color.Gray)
             Spacer(modifier = Modifier.width(40.dp))
-            Text(text = "Nguyễn Thanh Tùng", fontWeight = FontWeight.Black)
+            Text(text = "Vũ Lệ Quyên", color = Color.White)
         }
         Row {
             Text(text = "Ngày sinh", color = Color.Gray)
             Spacer(modifier = Modifier.width(40.dp))
-            Text(text = "05/07/1994", fontWeight = FontWeight.Black)
+            Text(text = "02/03/1981", color = Color.White)
         }
         Row {
             Text(text = "Quốc gia", color = Color.Gray)
             Spacer(modifier = Modifier.width(40.dp))
-            Text(text = "Việt Nam", fontWeight = FontWeight.Black)
+            Text(text = "Việt Nam", color = Color.White)
         }
         Row {
             Text(text = "Thể loại", color = Color.Gray)
             Spacer(modifier = Modifier.width(40.dp))
-            Text(text = "Việt Nam,Rap Việt", fontWeight = FontWeight.Black)
+            Text(text = "Bollero, trữ tình", color = Color.White)
         }
     }
 }
