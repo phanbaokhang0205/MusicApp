@@ -1,7 +1,6 @@
 package com.example.muisicapp.View.search
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +17,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -37,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,82 +49,87 @@ object SearchDestination : NavigationDestination {
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SearchScreen(
-    goToHomeScreen: () -> Unit,
-    goToAccountScreen: () -> Unit,
-    goToPlaylistScreen: () -> Unit,
-    goBack: () -> Unit
-) {
-    var isFavourite by rememberSaveable {
-        mutableStateOf(false)
-    }
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun SearchScreen(
+//    goToHomeScreen: () -> Unit,
+//    goToAccountScreen: () -> Unit,
+//    goToPlaylistScreen: () -> Unit,
+//    goBack: () -> Unit,
+//) {
+//    var isFavourite by rememberSaveable {
+//        mutableStateOf(false)
+//    }
+//
+//    var isPlay by rememberSaveable {
+//        mutableStateOf(false)
+//    }
+//
+//    var showAllItems by rememberSaveable {
+//        mutableStateOf(false)
+//    }
+//    val itemsToShow = if (showAllItems) {
+//        RecommendList.recommends
+//    } else {
+//        RecommendList.recommends.take(6)
+//    }
+//
+//    Scaffold(
+//        topBar = {
+//            TopAppBar(
+//                colors = TopAppBarDefaults.topAppBarColors(
+//                    containerColor = Color.Black,
+//                    titleContentColor = Color.White,
+//                ),
+//                title = {
+//                    SearchTopBar(
+//                        goBack(),
+//
+//                    )
+//                },
+//            )
+//
+//
+//        },
+//
+//        ) {
+//        Column(
+//            modifier = Modifier
+//                .padding(it)
+//                .background(Color.Black)
+//                .fillMaxSize()
+//        ) {
+////            Đề xuất tìm kiếm
+//            RecommendSearch(
+//                showAllItems = showAllItems,
+//                onEventChange = { showAllItems = !showAllItems },
+//                itemsToShow = itemsToShow
+//            )
+//        }
+//    }
+//}
 
-    var isPlay by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    var showAllItems by rememberSaveable {
-        mutableStateOf(false)
-    }
-    val itemsToShow = if (showAllItems) {
-        RecommendList.recommends
-    } else {
-        RecommendList.recommends.take(6)
-    }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Black,
-                    titleContentColor = Color.White,
-                ),
-                title = {
-                    SearchTopBar {
-
-                    }
-                },
-            )
-
-
-        },
-
-        ) {
-        Column(
-            modifier = Modifier
-                .padding(it)
-                .background(Color.Black)
-                .fillMaxSize()
-        ) {
-//            Đề xuất tìm kiếm
-            RecommendSearch(
-                showAllItems = showAllItems,
-                onEventChange = { showAllItems = !showAllItems },
-                itemsToShow = itemsToShow
-            )
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SearchPreview() {
-    MuisicAppTheme {
-        SearchScreen({}, {}, {}, {})
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SearchPreview() {
+//    MuisicAppTheme {
+//        SearchScreen({}, {}, {}, {})
+//    }
+//}
 
 //          Ô nhập tìm kiếm
 @Composable
 fun SearchTextField(
     searchValue: String,
-    searchOnValueChange: () -> Unit,
+    searchOnValueChange: (String) -> Unit,
     modifier: Modifier,
 ) {
-    OutlinedTextField(value = searchValue,
-        onValueChange = { searchOnValueChange() },
+    OutlinedTextField(
+        value = searchValue,
+        onValueChange = searchOnValueChange,
+        textStyle = TextStyle(
+            color = Color.White
+        ),
         singleLine = true,
         leadingIcon = {
             Icon(

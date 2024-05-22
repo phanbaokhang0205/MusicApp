@@ -9,6 +9,7 @@ interface AppContainer {
 }
 
 class AppDataContainer(private val context: Context) : AppContainer {
+    //Biến lazy chỉ được khởi tạo khi lần đầu được truy cập giúp tiết kiệm tài nguyên.
     override val musicRepository: MusicRepository by lazy {
         OfflineMusicRepository(MusicDatabase.getDatabase(context).musicDao())
     }

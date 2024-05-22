@@ -45,6 +45,12 @@ object AppViewModelProvider {
             )
         }
 
+        initializer {
+            SearchViewModel(
+                musicApplication().container.musicRepository
+            )
+        }
+
     }
 }
 

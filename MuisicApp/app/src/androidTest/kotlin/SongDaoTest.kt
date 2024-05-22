@@ -69,5 +69,15 @@ class musicDaoTest {
 //        assertEquals(allItems[1], song2)
 //    }
 
+    private suspend fun searching() {
+        musicDao.getSearchResult("le quyen", "le quyen")
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun search() = runBlocking {
+        searching()
+    }
+
 
 }

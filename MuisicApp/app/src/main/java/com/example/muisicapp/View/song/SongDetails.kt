@@ -45,7 +45,6 @@ import com.example.muisicapp.View.seekbar.SeekBar
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.SongDetailsViewModel
 import com.example.muisicapp.ViewModel.toSong
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 object SongDetailsDestination : NavigationDestination {
@@ -75,7 +74,7 @@ fun SongDetailsScreen(
     val context: Context = LocalContext.current
 
     val duration = viewModel.duration.collectAsState()
-    val durationFormat = viewModel.formatDuration(uiState.value.songDetails.song.duration)
+//    val durationFormat = viewModel.formatDuration(uiState.value.songDetails.song.duration)
     val progress = viewModel.progress.collectAsState()
 
     val onLoading = viewModel.playBackChange()
@@ -91,12 +90,6 @@ fun SongDetailsScreen(
                     .background(Color(0x66000000))
                     .fillMaxWidth()
             )
-            Text(
-                text = if (uiState.value.songDetails.song.songLink == "")
-                    "Rongg ${durationFormat}"
-                else
-                    uiState.value.songDetails.song.songLink + durationFormat
-            )
 
         }
     ) { valuePadding ->
@@ -105,22 +98,20 @@ fun SongDetailsScreen(
             SongDetailsBody(
                 songDetails = uiState.value.songDetails.toSong(),
                 progress = progress.value,
-                onProgressChange = {
-//                    viewModel.seekTo(progress.value)
-                },
+                onProgressChange = { },
 
                 isPlaying = isPlaying.value,
                 playingEvent = {
                     viewModel.isPlayingChange()
                     viewModel.play(uiState.value.songDetails.song.songLink, context)
-                    coroutineScope.launch {
+//                    coroutineScope.launch {
 //                        while (isPlaying.value && progress < 600f
 //                        /**600f = duration **/
 //                        ) {
 //                            delay(1000)
 //                            progress.value += 0.3f
 //                        }
-                    }
+//                    }
                     if (!isPlaying.value) {
                         viewModel.resume()
                     } else {
@@ -129,7 +120,7 @@ fun SongDetailsScreen(
                 },
                 isFavourite = isFavourite,
                 favouriteEvent = { isFavourite = !isFavourite },
-                duration = durationFormat.toLong(),
+                duration = 60L,
                 onLoading = onLoading
             )
 

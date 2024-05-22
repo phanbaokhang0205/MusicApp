@@ -51,6 +51,12 @@ interface MusicRepository {
 
     fun getPlayListById(playListId: Int): Flow<PlaylistWithSongsAndSingers>
 
+    /**
+     * search
+     */
+
+    fun getSearchResult(songName: String): Flow<List<SongWithSingers>>
+
 
     /**
      * CRUD

@@ -51,246 +51,6 @@ import com.example.muisicapp.ui.theme.Green1
  */
 
 @Composable
-fun TestSeekbar() {
-
-    var isFavourite by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    var isPlaying by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    val progress by rememberSaveable {
-        mutableStateOf(0F)
-    }
-
-    Column(
-        modifier = Modifier
-            .background(Color(0x66000000))
-            .fillMaxSize()
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.loading_image),
-                contentDescription = null,
-                modifier = Modifier.size(200.dp),
-                tint = Color.Black
-            )
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(12.dp)
-                    .height(170.dp)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.SpaceBetween,
-            ) {
-
-
-                /**
-                 * Content song
-                 */
-                /**
-                 * Content song
-                 */
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column {
-                        /** Song name */
-                        /** Song name */
-                        Text(
-                            text = "songName",
-                            fontSize = 14.sp,
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        /** Artist */
-
-                        /** Artist */
-                        Text(
-                            text = "singerName",
-                            fontSize = 12.sp,
-                            color = Gray1,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                    }
-
-                    IconButton(
-                        onClick = {
-                        },
-                    ) {
-                        Icon(
-                            imageVector = if (isFavourite) Icons.Filled.Favorite
-                            else Icons.Filled.FavoriteBorder,
-                            contentDescription = null,
-                            tint = if (isFavourite) Green1
-                            else Color.White,
-                        )
-                    }
-                }
-
-                /**
-                 * Seek bar
-                 */
-
-                /**
-                 * Seek bar
-                 */
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Box(modifier = Modifier.height(20.dp)) {
-                        Slider(
-                            value = progress,
-                            onValueChange = {
-                                //                            onProgressChange(it)
-                                //                            val seekPosition = (it * mediaPlayer.duration).toLong()
-                                //                            mediaPlayer.seekTo(seekPosition)
-                            },
-                            onValueChangeFinished = {
-                                //                                                mediaPlayer.play()
-                            },
-                            valueRange = 0f..100f,
-                            modifier = Modifier.fillMaxWidth(),
-                            colors = SliderDefaults.colors(
-                                thumbColor = Green1,
-                                activeTrackColor = Green1,
-                                inactiveTrackColor = MaterialTheme.colorScheme.secondaryContainer,
-                            ),
-                        )
-                    }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "",
-                            fontSize = 10.sp,
-                            color = Gray1
-                        )
-                        Text(
-                            text = "-",
-                            fontSize = 10.sp,
-                            color = Gray1
-                        )
-                    }
-                }
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-
-                    /**
-                     * Shuffle
-                     */
-                    /**
-                     * Shuffle
-                     */
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Filled.Shuffle,
-                            contentDescription = "Shuffle",
-                            tint = Color.Black,
-                            modifier = Modifier.size(25.dp)
-                        )
-                    }
-
-                    /**
-                    Previous
-                     */
-
-                    /**
-                    Previous
-                     */
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Filled.SkipPrevious,
-                            contentDescription = "Skip Previous",
-                            tint = Color.Black,
-                            modifier = Modifier.size(25.dp)
-                        )
-                    }
-
-                    /**
-                     * Play / Pause
-                     */
-
-                    /**
-                     * Play / Pause
-                     */
-                    IconButton(
-                        onClick = {
-
-                        },
-                        modifier = Modifier
-                            .size(50.dp)
-                            .clip(RoundedCornerShape(100))
-                            .background(Green1)
-                    ) {
-                        Icon(
-                            imageVector = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                            contentDescription = if (isPlaying) "Play" else "Pause",
-                            tint = Color.Black,
-                            modifier = Modifier.size(25.dp)
-                        )
-                    }
-
-                    /**
-                     * Next
-                     */
-
-                    /**
-                     * Next
-                     */
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Filled.SkipNext, contentDescription = "Skip Next",
-                            tint = Color.Black,
-                            modifier = Modifier.size(25.dp)
-                        )
-                    }
-
-                    /**
-                     * Repeat
-                     */
-
-                    /**
-                     * Repeat
-                     */
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Filled.Repeat, contentDescription = "Repeat",
-                            tint = Color.Black,
-                            modifier = Modifier.size(25.dp)
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SeekBarPreview() {
-    TestSeekbar()
-}
-
-@Composable
 fun SeekBar(
     progress: Float,
     isPlaying: Boolean,
@@ -476,3 +236,245 @@ fun SeekBar(
         }
     }
 }
+
+
+//@Composable
+//fun TestSeekbar() {
+//
+//    var isFavourite by rememberSaveable {
+//        mutableStateOf(false)
+//    }
+//
+//    var isPlaying by rememberSaveable {
+//        mutableStateOf(false)
+//    }
+//
+//    val progress by rememberSaveable {
+//        mutableStateOf(0F)
+//    }
+//
+//    Column(
+//        modifier = Modifier
+//            .background(Color(0x66000000))
+//            .fillMaxSize()
+//    ) {
+//        Row(
+//            modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.Center
+//        ) {
+//            Icon(
+//                painter = painterResource(id = R.drawable.loading_image),
+//                contentDescription = null,
+//                modifier = Modifier.size(200.dp),
+//                tint = Color.Black
+//            )
+//        }
+//
+//        Box(
+//            modifier = Modifier
+//                .fillMaxSize()
+//        ) {
+//            Column(
+//                modifier = Modifier
+//                    .padding(12.dp)
+//                    .height(170.dp)
+//                    .fillMaxWidth(),
+//                verticalArrangement = Arrangement.SpaceBetween,
+//            ) {
+//
+//
+//                /**
+//                 * Content song
+//                 */
+//                /**
+//                 * Content song
+//                 */
+//                Row(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    horizontalArrangement = Arrangement.SpaceBetween,
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
+//                    Column {
+//                        /** Song name */
+//                        /** Song name */
+//                        Text(
+//                            text = "songName",
+//                            fontSize = 14.sp,
+//                            color = Color.White,
+//                            fontWeight = FontWeight.Bold
+//                        )
+//
+//                        /** Artist */
+//
+//                        /** Artist */
+//                        Text(
+//                            text = "singerName",
+//                            fontSize = 12.sp,
+//                            color = Gray1,
+//                            fontWeight = FontWeight.Bold
+//                        )
+//
+//                    }
+//
+//                    IconButton(
+//                        onClick = {
+//                        },
+//                    ) {
+//                        Icon(
+//                            imageVector = if (isFavourite) Icons.Filled.Favorite
+//                            else Icons.Filled.FavoriteBorder,
+//                            contentDescription = null,
+//                            tint = if (isFavourite) Green1
+//                            else Color.White,
+//                        )
+//                    }
+//                }
+//
+//                /**
+//                 * Seek bar
+//                 */
+//
+//                /**
+//                 * Seek bar
+//                 */
+//                Column(
+//                    modifier = Modifier.fillMaxWidth()
+//                ) {
+//                    Box(modifier = Modifier.height(20.dp)) {
+//                        Slider(
+//                            value = progress,
+//                            onValueChange = {
+//                                //                            onProgressChange(it)
+//                                //                            val seekPosition = (it * mediaPlayer.duration).toLong()
+//                                //                            mediaPlayer.seekTo(seekPosition)
+//                            },
+//                            onValueChangeFinished = {
+//                                //                                                mediaPlayer.play()
+//                            },
+//                            valueRange = 0f..100f,
+//                            modifier = Modifier.fillMaxWidth(),
+//                            colors = SliderDefaults.colors(
+//                                thumbColor = Green1,
+//                                activeTrackColor = Green1,
+//                                inactiveTrackColor = MaterialTheme.colorScheme.secondaryContainer,
+//                            ),
+//                        )
+//                    }
+//                    Row(
+//                        modifier = Modifier.fillMaxWidth(),
+//                        horizontalArrangement = Arrangement.SpaceBetween
+//                    ) {
+//                        Text(
+//                            text = "",
+//                            fontSize = 10.sp,
+//                            color = Gray1
+//                        )
+//                        Text(
+//                            text = "-",
+//                            fontSize = 10.sp,
+//                            color = Gray1
+//                        )
+//                    }
+//                }
+//
+//                Row(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    horizontalArrangement = Arrangement.SpaceBetween
+//                ) {
+//
+//                    /**
+//                     * Shuffle
+//                     */
+//                    /**
+//                     * Shuffle
+//                     */
+//                    IconButton(onClick = { /*TODO*/ }) {
+//                        Icon(
+//                            imageVector = Icons.Filled.Shuffle,
+//                            contentDescription = "Shuffle",
+//                            tint = Color.Black,
+//                            modifier = Modifier.size(25.dp)
+//                        )
+//                    }
+//
+//                    /**
+//                    Previous
+//                     */
+//
+//                    /**
+//                    Previous
+//                     */
+//                    IconButton(onClick = { /*TODO*/ }) {
+//                        Icon(
+//                            imageVector = Icons.Filled.SkipPrevious,
+//                            contentDescription = "Skip Previous",
+//                            tint = Color.Black,
+//                            modifier = Modifier.size(25.dp)
+//                        )
+//                    }
+//
+//                    /**
+//                     * Play / Pause
+//                     */
+//
+//                    /**
+//                     * Play / Pause
+//                     */
+//                    IconButton(
+//                        onClick = {
+//
+//                        },
+//                        modifier = Modifier
+//                            .size(50.dp)
+//                            .clip(RoundedCornerShape(100))
+//                            .background(Green1)
+//                    ) {
+//                        Icon(
+//                            imageVector = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow,
+//                            contentDescription = if (isPlaying) "Play" else "Pause",
+//                            tint = Color.Black,
+//                            modifier = Modifier.size(25.dp)
+//                        )
+//                    }
+//
+//                    /**
+//                     * Next
+//                     */
+//
+//                    /**
+//                     * Next
+//                     */
+//                    IconButton(onClick = { /*TODO*/ }) {
+//                        Icon(
+//                            imageVector = Icons.Filled.SkipNext, contentDescription = "Skip Next",
+//                            tint = Color.Black,
+//                            modifier = Modifier.size(25.dp)
+//                        )
+//                    }
+//
+//                    /**
+//                     * Repeat
+//                     */
+//
+//                    /**
+//                     * Repeat
+//                     */
+//                    IconButton(onClick = { /*TODO*/ }) {
+//                        Icon(
+//                            imageVector = Icons.Filled.Repeat, contentDescription = "Repeat",
+//                            tint = Color.Black,
+//                            modifier = Modifier.size(25.dp)
+//                        )
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+
+//@Preview(showBackground = true)
+//@Composable
+//fun SeekBarPreview() {
+//    TestSeekbar()
+//}
+

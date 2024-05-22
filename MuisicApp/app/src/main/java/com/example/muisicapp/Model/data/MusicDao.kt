@@ -38,7 +38,7 @@ interface MusicDao {
     FROM song s
     INNER JOIN songsingercrossref ref ON ref.songId = s.songId
     INNER JOIN singer sg ON sg.singerId = ref.singerId
-    GROUP BY s.songId, s.songName;
+    GROUP BY s.songId, s.songName
     """
     )
     fun getSongWithSingers(): Flow<List<SongWithSingers>>
@@ -132,6 +132,21 @@ interface MusicDao {
     @Transaction
     @Query("SELECT * FROM Playlist where playlistId = :playListId")
     fun getPlayListById(playListId: Int): Flow<PlaylistWithSongsAndSingers>
+
+    /**
+     * Search
+     */
+    @Transaction
+    @Query("""
+        
+    SELECT s.*, sg.*
+    FROM song s
+    INNER JOIN songsingercrossref ref ON ref.songId = s.songId
+    INNER JOIN singer sg ON sg.singerId = ref.singerId
+    where s.songName like "%" || :name || "%"
+    or sg.singerName like "%" || :name || "%"
+    """)
+    fun getSearchResult(name: String): Flow<List<SongWithSingers>>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -1,13 +1,9 @@
 package com.example.muisicapp.Model.repository
 
-import com.example.muisicapp.Model.data.Album
 import com.example.muisicapp.Model.data.MusicDao
-import com.example.muisicapp.Model.data.Playlist
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
-import com.example.muisicapp.Model.relations.AlbumWithSongs
 import com.example.muisicapp.Model.relations.AlbumWithSongsAndSingers
-import com.example.muisicapp.Model.relations.PlaylistWithSongs
 import com.example.muisicapp.Model.relations.PlaylistWithSongsAndSingers
 import com.example.muisicapp.Model.relations.SingerWithAlbums
 import com.example.muisicapp.Model.relations.SingerWithSongs
@@ -76,6 +72,16 @@ class OfflineMusicRepository(private val musicDao: MusicDao) : MusicRepository {
 
     override fun getSingerWithAlbumID(albumId: Int): Flow<SingerWithAlbums> {
         return musicDao.getSingerWithAlbumID(albumId)
+    }
+
+    /**
+     * Search
+     */
+
+    override fun getSearchResult(
+        name: String,
+    ): Flow<List<SongWithSingers>> {
+        return musicDao.getSearchResult(name)
     }
 
     /**

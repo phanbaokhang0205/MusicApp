@@ -84,3 +84,4 @@ data class SongSingersUiState(val songSingerList: List<SongWithSingers> = listOf
 data class SingerSongsUiState(val singerSongList: List<SingerWithSongs> = listOf())
 data class PlayListUiState(val playList: List<PlaylistWithSongsAndSingers> = listOf())
 data class AlbumUiState(val albumList: List<AlbumWithSongsAndSingers> = listOf())
+

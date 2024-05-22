@@ -20,7 +20,8 @@ import com.example.muisicapp.View.Singer.SingerListScreen
 import com.example.muisicapp.View.playlist.PlayListDestination
 import com.example.muisicapp.View.playlist.PlaylistScreen
 import com.example.muisicapp.View.search.SearchDestination
-import com.example.muisicapp.View.search.SearchScreen
+import com.example.muisicapp.View.search.SearchResultDestination
+import com.example.muisicapp.View.search.SearchResultScreen
 import com.example.muisicapp.View.song.SongDetailsDestination
 import com.example.muisicapp.View.song.SongDetailsScreen
 import com.example.muisicapp.View.song.SongListDestination
@@ -37,12 +38,13 @@ fun MusicNavHost(
         startDestination = HomeDestination.route,
         modifier = Modifier,
     ) {
+
         /**
          * Home Screen
          */
         composable(route = HomeDestination.route) {
             HomeScreen(
-                goToSearchScreen = { navController.navigate(SearchDestination.route) },
+                goToSearchScreen = { navController.navigate(SearchResultDestination.route) },
                 goToPlaylistScreen = { },
                 goToAccountScreen = { navController.navigate(AccountDestination.route) },
                 goToSingerList = { navController.navigate(SingerListDestination.route) },
@@ -88,11 +90,21 @@ fun MusicNavHost(
         /**
          * Search Screen
          */
-        composable(route = SearchDestination.route) {
-            SearchScreen(
-                goToHomeScreen = { navController.navigate(HomeDestination.route) },
-                goToAccountScreen = { navController.navigate(AccountDestination.route) },
-                goToPlaylistScreen = { },
+//        composable(route = SearchDestination.route) {
+//            SearchScreen(
+//                goToHomeScreen = { navController.navigate(HomeDestination.route) },
+//                goToAccountScreen = { navController.navigate(AccountDestination.route) },
+//                goToPlaylistScreen = { },
+//                goBack = { navController.popBackStack() }
+//            )
+//        }
+
+        /**
+         * Search Result
+         */
+
+        composable(route = SearchResultDestination.route) {
+            SearchResultScreen(
                 goBack = { navController.popBackStack() }
             )
         }
@@ -116,9 +128,10 @@ fun MusicNavHost(
          */
         composable(
             route = SongDetailsDestination.routeWithArgs,
-            arguments = listOf(navArgument(SongDetailsDestination.songIdAgr) {
-                type = NavType.IntType
-            })
+            arguments = listOf(
+                navArgument(SongDetailsDestination.songIdAgr) {
+                    type = NavType.IntType
+                })
         ) {
             SongDetailsScreen(
                 goBackEvent = { navController.popBackStack() },
