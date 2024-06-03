@@ -3,10 +3,6 @@ package com.example.muisicapp.ViewModel
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import android.net.VpnService.prepare
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,7 +14,6 @@ import com.example.muisicapp.Model.data.Song
 import com.example.muisicapp.Model.relations.SongWithSingers
 import com.example.muisicapp.Model.repository.MusicRepository
 import com.example.muisicapp.View.song.SongDetailsDestination
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -26,7 +21,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 @SuppressLint("StaticFieldLeak")
 class SongDetailsViewModel(
@@ -74,7 +68,6 @@ class SongDetailsViewModel(
     }
 
 
-
     fun isPlayingChange() {
         _isPlaying.value = !_isPlaying.value
     }
@@ -95,8 +88,6 @@ class SongDetailsViewModel(
 
     }
 
-
-
     fun resume() {
         _isPlaying.value = true
         exoPlayer?.play()
@@ -107,7 +98,7 @@ class SongDetailsViewModel(
         _isPlaying.value = false
     }
 
-//    Dừng nhạc đang phát khi thoát khỏi màn hình SongDetails
+    //    Dừng nhạc đang phát khi thoát khỏi màn hình SongDetails
     override fun onCleared() {
         super.onCleared()
         exoPlayer?.release()
@@ -127,7 +118,7 @@ data class SongDetailUiState(
 )
 
 data class SongDetails(
-    val song: Song = Song(0, "", "", "", 0,0L),
+    val song: Song = Song(0, "", "", "", 0, 0L),
     val singers: List<Singer> = listOf()
 )
 

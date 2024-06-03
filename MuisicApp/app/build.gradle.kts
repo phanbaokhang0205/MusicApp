@@ -91,15 +91,10 @@ dependencies {
 //    GG font
     implementation("androidx.compose.material:material-icons-extended")
 
-// Hilt
-//    implementation("com.google.dagger:hilt-android:2.44")
-//    kapt("com.google.dagger:hilt-android-compiler:2.44")
-
 //    ExoMedia
     implementation ("androidx.media3:media3-exoplayer:1.3.1")
     implementation ("androidx.media3:media3-ui:1.3.1")
     implementation ("androidx.media3:media3-common:1.3.1")
-
 
 
 }
