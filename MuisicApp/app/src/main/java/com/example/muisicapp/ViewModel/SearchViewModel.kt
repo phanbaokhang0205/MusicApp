@@ -39,7 +39,6 @@ class SearchViewModel(
     fun updateSearchQuery(searchField: String) {
         _searchQuery.value = searchField
     }
-
 }
 
 

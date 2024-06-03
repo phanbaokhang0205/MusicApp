@@ -1,11 +1,16 @@
 package com.example.muisicapp.Model.repository
 
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.example.muisicapp.Model.data.Album
 import com.example.muisicapp.Model.data.Playlist
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
+import com.example.muisicapp.Model.data.User
 import com.example.muisicapp.Model.relations.AlbumWithSongs
 import com.example.muisicapp.Model.relations.AlbumWithSongsAndSingers
 import com.example.muisicapp.Model.relations.PlaylistWithSongs
@@ -16,6 +21,21 @@ import com.example.muisicapp.Model.relations.SongWithSingers
 import kotlinx.coroutines.flow.Flow
 
 interface MusicRepository {
+
+    /**
+     * user
+     */
+    suspend fun insert(user: User)
+
+    suspend fun update(user: User)
+
+    fun delete(user: User)
+
+    fun getUserById(id: Int): User
+
+    fun getAllUsers(): List<User>
+
+    fun getUser(username: String, password: String): User
     fun getAllSongsStream(): Flow<List<Song>>
 
     fun getAllSingersStream(): Flow<List<Singer>>

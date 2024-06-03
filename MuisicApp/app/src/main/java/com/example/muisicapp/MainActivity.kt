@@ -245,17 +245,20 @@ class MainActivity : ComponentActivity() {
                 Playlist(
                     1,
                     "Playlist 1",
-                    "https://breakingnews2222.000webhostapp.com/H%C3%ACnh%20%E1%BA%A3nh%20Album/skytour.jpg"
+                    "https://breakingnews2222.000webhostapp.com/H%C3%ACnh%20%E1%BA%A3nh%20Album/skytour.jpg",
+                    0
                 ),
                 Playlist(
                     2,
                     "Playlist 2",
-                    "https://breakingnews2222.000webhostapp.com/H%C3%ACnh%20%E1%BA%A3nh%20Album/skytour.jpg"
+                    "https://breakingnews2222.000webhostapp.com/H%C3%ACnh%20%E1%BA%A3nh%20Album/skytour.jpg",
+                    0
                 ),
                 Playlist(
                     3,
                     "Playlist 3",
-                    "https://breakingnews2222.000webhostapp.com/H%C3%ACnh%20%E1%BA%A3nh%20Album/skytour.jpg"
+                    "https://breakingnews2222.000webhostapp.com/H%C3%ACnh%20%E1%BA%A3nh%20Album/skytour.jpg",
+                    0
                 ),
             )
 

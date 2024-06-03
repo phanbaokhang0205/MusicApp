@@ -35,9 +35,6 @@ class PlayListDetailsViewModel(
                 started = SharingStarted.WhileSubscribed(5_000L),
                 initialValue = PlayListDetailUiState()
             )
-
-
-
 }
 
 
@@ -47,7 +44,7 @@ data class PlayListDetailUiState(
 )
 
 data class PlayListDetails(
-    val playList: Playlist = Playlist(0, "", ""),
+    val playList: Playlist = Playlist(0, "", "",0),
     val songWithSingers: List<SongWithSingers> = listOf()
 )
 

@@ -23,6 +23,26 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MusicDao {
 
+    //User
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(user: User)
+
+    @Update
+    suspend fun update(user: User)
+
+    @Delete
+    fun delete(user: User)
+
+    @Query("SELECT * FROM User WHERE  userID= :id")
+    fun getUserById(id: Int): User
+
+    @Query("SELECT * FROM User")
+    fun getAllUsers(): List<User>
+
+    @Query("SELECT * FROM User WHERE userName = :username AND password = :password")
+    fun getUser(username: String, password: String): User
+
+
     @Query("SELECT * FROM Song ORDER BY songName ASC")
     fun getAllSongs(): Flow<List<Song>>
 
