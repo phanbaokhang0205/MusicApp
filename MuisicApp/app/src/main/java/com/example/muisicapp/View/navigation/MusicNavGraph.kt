@@ -17,6 +17,9 @@ import com.example.muisicapp.View.Singer.DetailSingerScreen
 import com.example.muisicapp.View.Singer.SingerDetailsDestination
 import com.example.muisicapp.View.Singer.SingerListDestination
 import com.example.muisicapp.View.Singer.SingerListScreen
+import com.example.muisicapp.View.login_register.LoginScreen
+import com.example.muisicapp.View.login_register.LoginScreen2
+import com.example.muisicapp.View.login_register.RegisterScreen
 import com.example.muisicapp.View.playlist.PlayListDestination
 import com.example.muisicapp.View.playlist.PlaylistListDestination
 import com.example.muisicapp.View.playlist.PlaylistListScreen
@@ -37,9 +40,27 @@ fun MusicNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeDestination.route,
+        startDestination = LoginScreen.route,
         modifier = Modifier,
     ) {
+
+        //user
+        composable(route = LoginScreen.route) {
+            LoginScreen(
+                loginScreen2 = { navController.navigate(LoginScreen2.route) },
+                registerScreen = { navController.navigate(RegisterScreen.route) }
+            )
+        }
+
+        composable(route = LoginScreen2.route) {
+            LoginScreen2(
+                homeScreen = {navController.navigate(HomeDestination.route)}
+            )
+        }
+        composable(route = RegisterScreen.route) {
+            RegisterScreen()
+        }
+
 
         /**
          * Home Screen

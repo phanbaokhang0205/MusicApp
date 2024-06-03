@@ -1,4 +1,4 @@
-package com.example.muisicapp.View.`login_register`
+package com.example.muisicapp.View.login_register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,47 +17,54 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.muisicapp.R
-import com.example.muisicapp.ui.theme.MuisicAppTheme
+import com.example.muisicapp.View.navigation.NavigationDestination
+import com.example.muisicapp.ViewModel.AppViewModelProvider
+import com.example.muisicapp.ViewModel.UserViewModel
+import kotlinx.coroutines.launch
+
+object RegisterScreen : NavigationDestination {
+    override val route: String = "Register_Screen"
+}
 
 @Composable
 fun RegisterScreen(
+    viewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory),
     modifier: Modifier = Modifier
-){
-    var userName by rememberSaveable {
-        mutableStateOf("")
-    }
-    var passWord by rememberSaveable {
-        mutableStateOf("")
-    }
-    var checkPassword by rememberSaveable {
-        mutableStateOf("")
-    }
-    var isChecked by rememberSaveable {
-        mutableStateOf(false)
-    }
+) {
+    var fullName = viewModel.fullname.collectAsState()
+    var userName = viewModel.username.collectAsState()
+    var password = viewModel.password.collectAsState()
+    var confirmPassword = viewModel.confirmPassword.collectAsState()
+    var context= LocalContext.current
+
+    val coroutineScope = rememberCoroutineScope()
     //giaodien
-    Column (
-        modifier=Modifier.fillMaxSize(),
+    Column(
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Image(
             painter = painterResource(id = R.drawable.login),
             contentDescription = "Login avatar",
-            modifier=Modifier.size(200.dp)
+            modifier = Modifier.size(200.dp)
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(
@@ -67,27 +74,37 @@ fun RegisterScreen(
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
+            label = { Text("Tên người dùng") },
+            value = fullName.value,
+            onValueChange = { viewModel.onFullNameChange(it) }
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        OutlinedTextField(
             label = { Text("Tài khoản") },
-            value = userName,
-            onValueChange = {userName=it}
+            value = userName.value,
+            onValueChange = { viewModel.onUsernameChange(it) }
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
             label = { Text("Mật khẩu") },
-            value = passWord,
-            onValueChange = {passWord=it}
+            value = password.value,
+            onValueChange = { viewModel.onPasswordChange(it) }
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
             label = { Text("Nhập lại mật khảu") },
-            value = passWord,
-            onValueChange = {checkPassword=it}
+            value = confirmPassword.value,
+            onValueChange = { viewModel.onConfirmPasswordChange(it) }
         )
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(onClick = {}) {
+        Button(onClick = {
+            coroutineScope.launch {
+                viewModel.insertUser(context)
+            }
+        }) {
             Text(
-                text = "Đăng nhập",
+                text = "Đăng ký",
                 modifier = Modifier.size(220.dp, 22.dp),
                 textAlign = TextAlign.Center,
                 fontSize = 17.sp
@@ -114,7 +131,7 @@ fun RegisterScreen(
             }
         }
         Spacer(modifier = Modifier.height(35.dp))
-        Row (){
+        Row() {
             Image(
                 painter = painterResource(id = R.drawable.fb),
                 contentDescription = "LogoFb",
@@ -131,10 +148,10 @@ fun RegisterScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun RegisterTest(){
-    MuisicAppTheme {
-        RegisterScreen()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun LoginTest(){
+//    DACS3Theme{
+//        RegisterScreen({})
+//    }
+//}
