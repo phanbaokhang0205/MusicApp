@@ -49,6 +49,7 @@ import com.example.muisicapp.View.Album.heading1
 import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.HomeViewModel
+import com.example.muisicapp.ViewModel.ListViewModel
 
 object PlaylistListDestination : NavigationDestination {
     override val route: String = "playlist_list"
@@ -57,7 +58,7 @@ object PlaylistListDestination : NavigationDestination {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PlaylistListScreen(
-    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: ListViewModel = viewModel(factory = AppViewModelProvider.Factory),
     goToPlaylistDetails: (Int) -> Unit,
     goBack:()-> Unit,
 ) {
@@ -82,6 +83,7 @@ fun PlaylistListScreen(
                 })
         }) {
             playlistList(
+
                 playList.playList,
                 it,
                 goToPlaylistDetails

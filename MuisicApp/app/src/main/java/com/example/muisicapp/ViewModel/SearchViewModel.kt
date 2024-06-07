@@ -45,22 +45,3 @@ class SearchViewModel(
 data class SearchUiState(
     val searchResult: List<SongWithSingers> = listOf()
 )
-
-//data class SearchDetails(
-//    val song: Song = Song(0, "", "", "", 0, 0L),
-//    val singers: List<Singer> = listOf()
-//)
-//
-//fun SearchDetails.toSearch(): SongWithSingers = SongWithSingers(
-//    song = song,
-//    singers = singers
-//)
-//
-//fun SongWithSingers.toSearchUiState(): SearchUiState = SearchUiState(
-//    searchResult = this.toSearchDetails()
-//)
-//
-//fun SongWithSingers.toSearchDetails(): SearchDetails = SearchDetails(
-//    song = song,
-//    singers = singers
-//)

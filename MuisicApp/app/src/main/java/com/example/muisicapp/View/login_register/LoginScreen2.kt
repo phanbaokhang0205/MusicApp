@@ -46,12 +46,13 @@ import kotlinx.coroutines.launch
 
 object LoginScreen2: NavigationDestination {
     override val route: String="Login_screen2"
+
 }
 
 @Composable
 fun LoginScreen2(
     viewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    homeScreen:()->Unit,
+    homeScreen:(Int)->Unit,
     modifier: Modifier = Modifier,
     ){
 
@@ -62,6 +63,7 @@ fun LoginScreen2(
     }
     var context= LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+
     //giaodien
     Column (
         modifier= Modifier.fillMaxSize(),
@@ -103,9 +105,12 @@ fun LoginScreen2(
         }
         Button(onClick = {
             coroutineScope.launch {
-                if (viewModel.login(context, homeScreen)){
-                    // Không cần thực hiện gì ở đây nữa vì chúng ta đã chuyển trang trong hàm login
-                }
+                viewModel.login(
+                    context = context,
+                    onLoginSuccess = {
+                        homeScreen(it)
+                    }
+                )
             }
         }) {
             Text(

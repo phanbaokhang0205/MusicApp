@@ -15,9 +15,11 @@ import com.example.muisicapp.Model.data.Playlist
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
 import com.example.muisicapp.Model.data.Type
+import com.example.muisicapp.Model.data.User
 import com.example.muisicapp.Model.relations.SongPlaylistCrossRef
 import com.example.muisicapp.Model.relations.SongSingerCrossRef
 import com.example.muisicapp.Model.relations.SongTypeCrossRef
+import com.example.muisicapp.Model.relations.SongUserCrossRef
 import com.example.muisicapp.View.MusicApp
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 import kotlinx.coroutines.launch
@@ -304,12 +306,34 @@ class MainActivity : ComponentActivity() {
                 SongTypeCrossRef(4, 3),
             )
 
+            val user = listOf(
+                User(0, "Khang 1 full name", "k1", "123"),
+                User(0, "Khang 2 full name", "k2", "123"),
+                User(0, "Khang 3 full name", "k3", "123"),
+                User(0, "Khang 4 full name", "k4", "123"),
+                User(0, "Khang 5 full name", "k5", "123"),
+            )
+
+            val userWithSong = listOf(
+                SongUserCrossRef(1,1),
+                SongUserCrossRef(2,1),
+                SongUserCrossRef(4,1),
+                SongUserCrossRef(6,1),
+                SongUserCrossRef(1,2),
+                SongUserCrossRef(2,2),
+                SongUserCrossRef(3,2),
+                SongUserCrossRef(4,2),
+                SongUserCrossRef(7,2),
+            )
+
             lifecycleScope.launch {
                 songs.forEach { dao.insertSong(it) }
                 singers.forEach { dao.insertSinger(it) }
                 types.forEach { dao.insertType(it) }
                 playlists.forEach { dao.insertPlaylist(it) }
                 albums.forEach { dao.insertAlbum(it) }
+                user.forEach{ dao.insert(it) }
+                userWithSong.forEach{ dao.insertSongUserCrossRef(it) }
                 songPlaylistRelations.forEach { dao.insertSongPlaylistCrossRef(it) }
                 songSingerRelations.forEach { dao.insertSongSingerCrossRef(it) }
                 songTypeRelations.forEach { dao.insertSongTypeCrossRef(it) }

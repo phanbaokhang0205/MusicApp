@@ -54,7 +54,7 @@ fun MusicNavHost(
 
         composable(route = LoginScreen2.route) {
             LoginScreen2(
-                homeScreen = {navController.navigate(HomeDestination.route)}
+                homeScreen = { navController.navigate("${HomeDestination.route}/${it}") }
             )
         }
         composable(route = RegisterScreen.route) {
@@ -65,18 +65,36 @@ fun MusicNavHost(
         /**
          * Home Screen
          */
-        composable(route = HomeDestination.route) {
+        composable(
+            route = HomeDestination.routeWithArgs,
+            arguments = listOf(
+                navArgument(HomeDestination.userID) {
+                    type = NavType.IntType
+                }
+            )
+        ) {
             HomeScreen(
                 goToSearchScreen = { navController.navigate(SearchResultDestination.route) },
                 goToPlaylistScreen = { navController.navigate(PlaylistListDestination.route) },
-                goToAccountScreen = { navController.navigate(AccountDestination.route) },
+                goToAccountScreen = { userId ->
+                    navController.navigate("${AccountDestination.route}/${userId}")
+                },
                 goToSingerList = { navController.navigate(SingerListDestination.route) },
                 goToSongList = { navController.navigate(SongListDestination.route) },
                 goToAlbumList = { navController.navigate(AlbumListDestination.route) },
-                goToSongDetails = { navController.navigate("${SongDetailsDestination.route}/${it}") },
-                goToDetailSinger = { navController.navigate("${SingerDetailsDestination.route}/${it}") },
-                goToDetailAlbum = { navController.navigate("${AlbumDestination.route}/${it}") },
-                goToDetailPlaylist = { navController.navigate("${PlayListDestination.route}/${it}") }
+
+                goToSongDetails = { songId ->
+                    navController.navigate("${SongDetailsDestination.route}/${songId}")
+                },
+                goToDetailSinger = { singerId ->
+                    navController.navigate("${SingerDetailsDestination.route}/${singerId}")
+                },
+                goToDetailAlbum = { albumId ->
+                    navController.navigate("${AlbumDestination.route}/${albumId}")
+                },
+                goToDetailPlaylist = { playListID ->
+                    navController.navigate("${PlayListDestination.route}/${playListID}")
+                }
             )
         }
 
@@ -126,7 +144,8 @@ fun MusicNavHost(
 
         composable(route = SearchResultDestination.route) {
             SearchResultScreen(
-                goBack = { navController.popBackStack() }
+                goBack = { navController.popBackStack() },
+//                goToSongDetails = {navController.navigate("navController.navigate(\"${SongDetailsDestination.route}/${it}\")")}
             )
         }
 
@@ -134,12 +153,20 @@ fun MusicNavHost(
         /**
          * Account Screen
          */
-        composable(route = AccountDestination.route) {
+        composable(
+            route = AccountDestination.routeWithArgs,
+            arguments = listOf(
+                navArgument(AccountDestination.userID) {
+                    type = NavType.IntType
+                }
+            )
+        ) {
             UserDetail(
-                goToHomeScreen = { navController.navigate(HomeDestination.route) },
+                goToHomeScreen = { navController.navigate("${HomeDestination.route}/${it}") },
                 goToSearchScreen = { navController.navigate(SearchDestination.route) },
-                goToPlaylistScreen = { },
-                goBack = { navController.popBackStack() }
+                goToPlaylistScreen = { navController.navigate(PlaylistListDestination.route) },
+                goBack = { navController.popBackStack() },
+                goToSongDetails = { navController.navigate("${SongDetailsDestination.route}/${it}") },
             )
         }
 
@@ -152,12 +179,14 @@ fun MusicNavHost(
             arguments = listOf(
                 navArgument(SongDetailsDestination.songIdAgr) {
                     type = NavType.IntType
-                })
+                }
+            )
         ) {
             SongDetailsScreen(
                 goBackEvent = { navController.popBackStack() },
                 goOptionEvent = {},
-                goShareEvent = {}
+                goShareEvent = {},
+
             )
         }
 

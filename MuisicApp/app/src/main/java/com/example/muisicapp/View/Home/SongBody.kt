@@ -30,11 +30,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
+import com.example.muisicapp.Model.data.User
 import com.example.muisicapp.Model.relations.SongWithSingers
 import com.example.muisicapp.R
+import com.example.muisicapp.ViewModel.AppViewModelProvider
+import com.example.muisicapp.ViewModel.HomeViewModel
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
 @Composable
@@ -163,8 +167,6 @@ fun HomeBodyPreview() {
 @Composable
 fun SongItemPreview() {
     MuisicAppTheme {
-//        SongItem(
-//            Song(1, "Yêu anh hơn chính em", "image", "link", 3),
-//        )
+
     }
 }

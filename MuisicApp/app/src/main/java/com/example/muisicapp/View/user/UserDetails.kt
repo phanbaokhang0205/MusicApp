@@ -5,6 +5,7 @@ package com.example.muisicapp.View.user
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -27,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -38,15 +42,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import com.example.muisicapp.Model.data.Singer
+import com.example.muisicapp.Model.data.Song
 import com.example.muisicapp.R
 import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.View.scaffold.BottomAppBar
+import com.example.muisicapp.View.song.stringBuilder
+import com.example.muisicapp.ViewModel.AppViewModelProvider
+import com.example.muisicapp.ViewModel.HomeViewModel
 
 object AccountDestination : NavigationDestination {
     override val route: String = "account_screen"
+    const val userID = "userID"
+    val routeWithArgs = "${route}/{$userID}"
 
 }
 
@@ -54,11 +66,18 @@ object AccountDestination : NavigationDestination {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun UserDetail(
-    goToHomeScreen:() -> Unit,
-    goToSearchScreen:() ->Unit,
-    goToPlaylistScreen:() -> Unit,
-    goBack:() -> Unit
+    userViewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    goToHomeScreen: (Int) -> Unit,
+    goToSearchScreen: () -> Unit,
+    goToPlaylistScreen: () -> Unit,
+    goBack: () -> Unit,
+    goToSongDetails: (Int) -> Unit
 ) {
+
+    val userUiState by userViewModel.userUiState.collectAsState()
+    val loveList by userViewModel.loveUiState.collectAsState()
+
+
     var isFavourite by rememberSaveable {
         mutableStateOf(false)
     }
@@ -85,13 +104,14 @@ fun UserDetail(
             BottomAppBar(
                 onClickFavourite = { isFavourite = !isFavourite },
                 isFavourite = isFavourite,
-                goToHomeScreen = { goToHomeScreen() },
+                goToHomeScreen = { goToHomeScreen(userUiState.user.userID) },
                 goToSearchScreen = { goToSearchScreen() },
                 goToPlaylistScreen = { goToPlaylistScreen() },
                 goToAccountScreen = {}
             )
         },
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -126,12 +146,12 @@ fun UserDetail(
                         Spacer(modifier = Modifier.width(12.dp))
                         Column {
                             Text(
-                                text = "Khang Phan",
+                                text = userUiState.user.fullName,
                                 fontSize = 32.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                             Text(
-                                text = "0 người theo dõi - Đang theo dõi 5",
+                                text = "0 người theo dõi - Đang theo dõi 5 ",
                                 color = Color(0xff808080)
                             )
                         }
@@ -157,46 +177,18 @@ fun UserDetail(
                     Spacer(modifier = Modifier.height(12.dp))
 
 //                    Lazy Column
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.chungtacuatuonglai_mtp),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(55.dp)
-                                .clip(
-                                    RoundedCornerShape(5.dp)
-                                ),
-                            contentScale = ContentScale.Crop
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column {
-                            Text(text = "Tên danh sách", color = Color.White)
-                            Text(text = "Số bài hát", color = Color(0xff808080))
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(22.dp))
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.chungtacuatuonglai_mtp),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(55.dp)
-                                .clip(
-                                    RoundedCornerShape(5.dp)
-                                ),
-                            contentScale = ContentScale.Crop
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column {
-                            Text(text = "Tên danh sách", color = Color.White)
-                            Text(text = "Số bài hát", color = Color(0xff808080))
+                        items(
+                            items = loveList.songList,
+                            key = { it.song.song.songId!! }
+                        ) { song ->
+                            LoveSongItem(
+                                song = song.song.song,
+                                singers = song.song.singers,
+                                goToSongDetails = { goToSongDetails(song.song.song.songId!!) }
+                            )
                         }
                     }
                 }
@@ -206,9 +198,42 @@ fun UserDetail(
     }
 }
 
-
-@Preview(showBackground = true)
 @Composable
-fun Preview() {
-    UserDetail({},{},{},{})
+fun LoveSongItem(
+    song: Song,
+    singers: List<Singer>,
+    goToSongDetails: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                goToSongDetails()
+            },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        AsyncImage(
+            model = song.songImage,
+            error = painterResource(id = R.drawable.ic_broken_image),
+            placeholder = painterResource(R.drawable.loading_image),
+            contentDescription = null,
+            modifier = Modifier
+                .size(55.dp)
+                .clip(
+                    RoundedCornerShape(5.dp)
+                ),
+            contentScale = ContentScale.Crop
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Column {
+            Text(text = song.songName, color = Color.White)
+            Text(text = stringBuilder(singers = singers), color = Color(0xff808080))
+        }
+    }
 }
+
+//@Preview(showBackground = true)
+//@Composable
+//fun Preview() {
+//    UserDetail({},{},{},{})
+//}

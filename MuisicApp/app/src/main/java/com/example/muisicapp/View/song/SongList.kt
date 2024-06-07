@@ -48,6 +48,7 @@ import com.example.muisicapp.View.Album.heading3
 import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.HomeViewModel
+import com.example.muisicapp.ViewModel.ListViewModel
 
 object SongListDestination : NavigationDestination {
     override val route: String = "song_list"
@@ -57,7 +58,7 @@ object SongListDestination : NavigationDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SongListScreen(
-    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: ListViewModel = viewModel(factory = AppViewModelProvider.Factory),
     goToSongDetails: (Int) -> Unit,
     goBack: () -> Unit,
 ) {

@@ -1,85 +1,79 @@
 package com.example.muisicapp.ViewModel
 
-import android.media.MediaPlayer
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muisicapp.Model.data.Album
-import com.example.muisicapp.Model.data.Playlist
-import com.example.muisicapp.Model.data.Singer
-import com.example.muisicapp.Model.data.Song
-import com.example.muisicapp.Model.relations.AlbumWithSongs
-import com.example.muisicapp.Model.relations.AlbumWithSongsAndSingers
-import com.example.muisicapp.Model.relations.PlaylistWithSongs
-import com.example.muisicapp.Model.relations.PlaylistWithSongsAndSingers
-import com.example.muisicapp.Model.relations.SingerWithSongs
-import com.example.muisicapp.Model.relations.SongWithSingers
+import com.example.muisicapp.Model.data.User
+import com.example.muisicapp.Model.relations.SongOfUsers
+import com.example.muisicapp.Model.relations.SongUserCrossRef
 import com.example.muisicapp.Model.repository.MusicRepository
-import kotlinx.coroutines.CoroutineDispatcher
+import com.example.muisicapp.View.Home.HomeDestination
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class HomeViewModel(
     private val savedStateHandle: SavedStateHandle,
-    musicRepository: MusicRepository,
+    private val musicRepository: MusicRepository,
 ) : ViewModel() {
 
+    private val userID: Int = checkNotNull(savedStateHandle[HomeDestination.userID])
+
     /**
-     * Lấy danh sách ca sĩ
+     * Lấy thông tin user
      */
-    val singerUiState: StateFlow<SingerSongsUiState> =
-        musicRepository.getSingerWithSongs().map { SingerSongsUiState(it) }
-            .stateIn(
+    val userUiState: StateFlow<UserUiState> =
+        musicRepository.getUserById(userID)
+            .filterNotNull()
+            .map {
+                UserUiState(
+                    user = it
+                )
+            }.stateIn(
                 scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = SingerSongsUiState()
+                started = SharingStarted.WhileSubscribed(5_000L),
+                initialValue = UserUiState()
             )
 
     /**
-     * Lấy danh sách bài hát
+     * Danh sach bai hat yeu thich cua user
      */
-    val songWithSingersUiState: StateFlow<SongSingersUiState> =
-        musicRepository.getSongWithSingers().map { SongSingersUiState(it) }
-            .stateIn(
+    val loveUiState: StateFlow<FavoriteUiState> =
+        musicRepository.getUserWithSongsById(userID)
+            .filterNotNull()
+            .map {
+                FavoriteUiState(
+                    songList = it
+                )
+            }.stateIn(
                 scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = SongSingersUiState()
+                started = SharingStarted.WhileSubscribed(5_000L),
+                initialValue = FavoriteUiState()
             )
 
     /**
-     * Lấy danh sách playList
+     * Thêm bài hát vào mục yêu thích
      */
-    val playListUiState: StateFlow<PlayListUiState> =
-        musicRepository.getAllPlayLists().map { PlayListUiState(it) }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = PlayListUiState()
+    suspend fun addSongToFavorite(songId: Int) {
+        musicRepository.insertSongUserCrossRef(
+            SongUserCrossRef(
+                songId,
+                userID
             )
-
-    /**
-     * Lấy danh sách album
-     */
-    val albumUiState: StateFlow<AlbumUiState> =
-        musicRepository.getAllAlbums().map { AlbumUiState(it) }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = AlbumUiState()
-            )
-
-
-
-
-    companion object {
-        private const val TIMEOUT_MILLIS = 5_000L
+        )
     }
+
+
 }
 
-data class SongSingersUiState(val songSingerList: List<SongWithSingers> = listOf())
-data class SingerSongsUiState(val singerSongList: List<SingerWithSongs> = listOf())
-data class PlayListUiState(val playList: List<PlaylistWithSongsAndSingers> = listOf())
-data class AlbumUiState(val albumList: List<AlbumWithSongsAndSingers> = listOf())
+
+data class UserUiState(
+    val user: User = User(0, "", "", "")
+)
+
+data class FavoriteUiState(
+    val songList: List<SongOfUsers> = listOf()
+)
 

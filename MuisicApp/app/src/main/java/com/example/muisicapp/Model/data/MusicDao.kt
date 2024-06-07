@@ -13,11 +13,14 @@ import com.example.muisicapp.Model.relations.PlaylistWithSongs
 import com.example.muisicapp.Model.relations.PlaylistWithSongsAndSingers
 import com.example.muisicapp.Model.relations.SingerWithAlbums
 import com.example.muisicapp.Model.relations.SingerWithSongs
+import com.example.muisicapp.Model.relations.SongOfUsers
 import com.example.muisicapp.Model.relations.SongPlaylistCrossRef
 import com.example.muisicapp.Model.relations.SongSingerCrossRef
 import com.example.muisicapp.Model.relations.SongTypeCrossRef
+import com.example.muisicapp.Model.relations.SongUserCrossRef
 import com.example.muisicapp.Model.relations.SongWithPlaylists
 import com.example.muisicapp.Model.relations.SongWithSingers
+import com.example.muisicapp.Model.relations.UserWithSongs
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -34,7 +37,7 @@ interface MusicDao {
     fun delete(user: User)
 
     @Query("SELECT * FROM User WHERE  userID= :id")
-    fun getUserById(id: Int): User
+    fun getUserById(id: Int): Flow<User>
 
     @Query("SELECT * FROM User")
     fun getAllUsers(): List<User>
@@ -48,6 +51,18 @@ interface MusicDao {
 
     @Query("SELECT * FROM Singer ORDER BY singerName ASC")
     fun getAllSingers(): Flow<List<Singer>>
+
+    /**
+     * User With Songs
+     */
+    @Query("""
+        Select u.*, s.*
+        from User u
+        inner join songusercrossref ref on ref.userID = u.userID
+        inner join song s on s.songId = ref.songId
+        where u.userID = :userID
+    """)
+    fun getUserWithSongsById(userID: Int): Flow<List<SongOfUsers>>
 
     /**
      * Get Song
@@ -192,6 +207,9 @@ interface MusicDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSongTypeCrossRef(crossRef: SongTypeCrossRef)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSongUserCrossRef(crossRef: SongUserCrossRef)
 
 
     @Transaction

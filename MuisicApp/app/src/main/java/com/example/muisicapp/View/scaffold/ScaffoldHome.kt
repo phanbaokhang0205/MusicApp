@@ -54,6 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.muisicapp.Model.data.User
 import com.example.muisicapp.R
 import com.example.muisicapp.View.seekbar.CircleSeekBar
 import com.example.muisicapp.ui.theme.Black1
@@ -72,6 +73,7 @@ fun ScaffoldHome(
     goToSearchScreen: () -> Unit,
     goToAccountScreen: () -> Unit,
     goToPlaylistScreen: () -> Unit,
+    user: User
 ) {
 
     var isFavourite by rememberSaveable {
@@ -89,6 +91,7 @@ fun ScaffoldHome(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(
+                modifier = Modifier.width(300.dp),
                 drawerContainerColor = Color.Black,
                 drawerContentColor = Color.White
             ) {
@@ -196,7 +199,8 @@ fun ScaffoldHome(
                     title = {
                         ContentTopAppBar(
                             scope,
-                            drawerState
+                            drawerState,
+                            user,
                         )
                     }
                 )
@@ -210,27 +214,13 @@ fun ScaffoldHome(
                     goToAccountScreen = { /*TODO*/ },
                     goToPlaylistScreen = { }
                 )
-            },
-
-            ) { innerPadding ->
+            }
+        ) { innerPadding ->
             Column(
                 modifier = Modifier
                     .padding(innerPadding),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                Text(text = "asdasdasd")
-                LazyRow {
-                    item {
-                        Text(text = "asdasdsda")
-                        Text(text = "asdasdsda")
-                        Text(text = "asdasdsda")
-                        Text(text = "asdasdsda")
-                        Text(text = "asdasdsda")
-                        Text(text = "asdasdsda")
-                        Text(text = "asdasdsda")
-                        Text(text = "asdasdsda")
-                    }
-                }
             }
         }
     }
@@ -242,7 +232,8 @@ fun ScaffoldHome(
 @Composable
 fun ContentTopAppBar(
     scope: CoroutineScope,
-    drawerState: DrawerState
+    drawerState: DrawerState,
+    user: User
 ) {
     Row(
         modifier = Modifier
@@ -255,7 +246,7 @@ fun ContentTopAppBar(
             modifier = Modifier.wrapContentSize(),
         ) {
             Text(
-                text = "Hello Khang!",
+                text = "Hello ${user.fullName}!",
                 fontSize = 14.sp,
             )
             Text(
@@ -458,7 +449,7 @@ fun BottomAppBar(
 @Preview(showBackground = true)
 @Composable
 fun ScaffoldPreview() {
-    MuisicAppTheme {
-        ScaffoldHome({}, {}, {}, {})
-    }
+//    MuisicAppTheme {
+//        ScaffoldHome({}, {}, {}, {},U)
+//    }
 }

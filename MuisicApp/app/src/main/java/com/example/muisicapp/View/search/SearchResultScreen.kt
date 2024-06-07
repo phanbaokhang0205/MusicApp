@@ -69,7 +69,7 @@ fun SearchResultScreen(
             })
     }) {
 
-        SearchResultList(paddingValues = it, result = searchResults.value.searchResult)
+        SearchResultList(paddingValues = it, result = searchResults.value.searchResult, goToSongDetails = {})
     }
 }
 
@@ -77,6 +77,7 @@ fun SearchResultScreen(
 fun SearchResultList(
     paddingValues: PaddingValues,
     result: List<SongWithSingers>,
+    goToSongDetails:(Int) -> Unit,
 
 ) {
     Column(
@@ -87,7 +88,7 @@ fun SearchResultList(
             .verticalScroll(rememberScrollState())
     ) {
         result.forEachIndexed { index, item ->
-            SearchResult(song = item.song, singers = item.singers, goToSongDetails =  {})
+            SearchResult(song = item.song, singers = item.singers, goToSongDetails = {})
         }
     }
 }

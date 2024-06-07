@@ -17,7 +17,10 @@ import com.example.muisicapp.Model.relations.PlaylistWithSongs
 import com.example.muisicapp.Model.relations.PlaylistWithSongsAndSingers
 import com.example.muisicapp.Model.relations.SingerWithAlbums
 import com.example.muisicapp.Model.relations.SingerWithSongs
+import com.example.muisicapp.Model.relations.SongOfUsers
+import com.example.muisicapp.Model.relations.SongUserCrossRef
 import com.example.muisicapp.Model.relations.SongWithSingers
+import com.example.muisicapp.Model.relations.UserWithSongs
 import kotlinx.coroutines.flow.Flow
 
 interface MusicRepository {
@@ -31,7 +34,7 @@ interface MusicRepository {
 
     fun delete(user: User)
 
-    fun getUserById(id: Int): User
+    fun getUserById(id: Int): Flow<User>
 
     fun getAllUsers(): List<User>
 
@@ -39,6 +42,11 @@ interface MusicRepository {
     fun getAllSongsStream(): Flow<List<Song>>
 
     fun getAllSingersStream(): Flow<List<Singer>>
+
+    /**
+     * User With Songs
+     */
+    fun getUserWithSongsById(userID: Int): Flow<List<SongOfUsers>>
 
     /**
      * Song
@@ -87,6 +95,9 @@ interface MusicRepository {
     suspend fun updateSong(song: Song)
 
     suspend fun deleteSong(song: Song)
+
+    suspend fun insertSongUserCrossRef(crossRef: SongUserCrossRef)
+
 
 
 }

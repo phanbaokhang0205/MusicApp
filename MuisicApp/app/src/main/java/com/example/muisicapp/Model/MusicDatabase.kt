@@ -14,6 +14,7 @@ import com.example.muisicapp.Model.data.User
 import com.example.muisicapp.Model.relations.SongPlaylistCrossRef
 import com.example.muisicapp.Model.relations.SongSingerCrossRef
 import com.example.muisicapp.Model.relations.SongTypeCrossRef
+import com.example.muisicapp.Model.relations.SongUserCrossRef
 
 @Database(
     entities = [
@@ -25,9 +26,10 @@ import com.example.muisicapp.Model.relations.SongTypeCrossRef
         SongPlaylistCrossRef::class,
         SongSingerCrossRef::class,
         SongTypeCrossRef::class,
-        User::class
+        User::class,
+        SongUserCrossRef::class
     ],
-    version = 4
+    version = 1
 )
 abstract class MusicDatabase : RoomDatabase() {
     abstract fun musicDao(): MusicDao
@@ -42,7 +44,7 @@ abstract class MusicDatabase : RoomDatabase() {
                 Room.databaseBuilder(
                     context,
                     MusicDatabase::class.java,
-                    "test6_db"
+                    "test9_db"
                 )
                     .fallbackToDestructiveMigration()
                     .build()

@@ -38,7 +38,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -52,8 +51,6 @@ import coil.compose.AsyncImage
 import com.example.muisicapp.Model.data.Album
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
-import com.example.muisicapp.Model.relations.SingerWithAlbums
-import com.example.muisicapp.Model.relations.SingerWithSongs
 import com.example.muisicapp.R
 import com.example.muisicapp.View.Album.heading2
 import com.example.muisicapp.View.Album.heading3
@@ -61,8 +58,6 @@ import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.View.scaffold.TopBarOption
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.SingerDetailsViewModel
-import com.example.muisicapp.ViewModel.toSinger
-import com.example.muisicapp.ViewModel.toSingerAlbum
 
 object SingerDetailsDestination : NavigationDestination {
     override val route: String = "singer_details"
@@ -92,18 +87,21 @@ fun DetailSingerScreen(
         ) {
             item {
                 imgSinger(
-                    uiState.value.singeDetails.toSinger()
+                    uiState.value.singeDetails.singer
                 )
                 popularSong(
-                    uiState.value.singeDetails.toSinger()
+                    uiState.value.singeDetails.songs,
+                    uiState.value.singeDetails.singer
                 )
                 singerAlbum(
-                    singerAlbum.value.singerAlbum.toSingerAlbum()
+                    singerAlbum.value.singerAlbum.album
                 )
                 popularSinger(
 
                 )
-                singerInfor(uiState.value.singeDetails.singer)
+                singerInfor(
+                    uiState.value.singeDetails.singer
+                )
             }
         }
     }
@@ -111,12 +109,12 @@ fun DetailSingerScreen(
 
 @Composable
 fun imgSinger(
-    singerWithSongs: SingerWithSongs
+    singer: Singer
 ) {
     Box(modifier = Modifier.height(400.dp)) {
 
         AsyncImage(
-            model = singerWithSongs.singer.singerImage,
+            model = singer.singerImage,
             error = painterResource(id = R.drawable.ic_broken_image),
             placeholder = painterResource(R.drawable.loading_image),
             contentDescription = null,
@@ -131,7 +129,7 @@ fun imgSinger(
         ) {
             Column() {
                 Text(
-                    text = singerWithSongs.singer.singerName,
+                    text = singer.singerName,
                     fontSize = 25.sp,
                     color = Color.White,
                     fontFamily = FontFamily.SansSerif
@@ -165,16 +163,17 @@ fun imgSinger(
 
 @Composable
 fun popularSong(
-    singerWithSongs: SingerWithSongs
+    song: List<Song>,
+    singer: Singer
 ) {
     Column {
         NavigationTitle(navTitle = "Bài Hát Nổi Bật") {
 
         }
-        singerWithSongs.songs.forEach {
+        song.forEach {
             popularSongItems(
                 song = it,
-                singer = singerWithSongs.singer
+                singer = singer
             )
         }
     }
@@ -221,13 +220,13 @@ fun popularSongItems(
 
 @Composable
 fun singerAlbum(
-    singerWithAlbums: SingerWithAlbums
+    album: List<Album>
 ) {
     NavigationTitle(navTitle = "Album") {
 
     }
     Row {
-        singerWithAlbums.albums.forEach {
+        album.forEach {
             albumItems(
                 it
             )

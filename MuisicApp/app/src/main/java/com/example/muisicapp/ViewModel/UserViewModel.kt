@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muisicapp.Model.data.User
+import com.example.muisicapp.Model.relations.SongUserCrossRef
 import com.example.muisicapp.Model.repository.MusicRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -16,6 +17,10 @@ import kotlinx.coroutines.withContext
 
 
 class UserViewModel(var userDao: MusicRepository) : ViewModel() {
+
+    private val _userId = MutableStateFlow<Int?>(null)
+    val userId: StateFlow<Int?> = _userId.asStateFlow()
+
     private val _fullname = MutableStateFlow("")
     val fullname: StateFlow<String> = _fullname.asStateFlow()
 
@@ -31,6 +36,13 @@ class UserViewModel(var userDao: MusicRepository) : ViewModel() {
     private val _msg = MutableStateFlow("")
     val msg: StateFlow<String> = _msg.asStateFlow()
 
+
+    fun setString() {
+        _fullname.value = ""
+        _username.value = ""
+        _password.value = ""
+        _confirmPassword.value = ""
+    }
 
     fun onFullNameChange(newFullName: String) {
         _fullname.value = newFullName
@@ -50,6 +62,7 @@ class UserViewModel(var userDao: MusicRepository) : ViewModel() {
 
     val userList = MutableStateFlow<List<User>>(listOf())
 
+
     fun insertUser(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             val users = userDao.getAllUsers()
@@ -58,6 +71,7 @@ class UserViewModel(var userDao: MusicRepository) : ViewModel() {
             if (checkUserName(users)) {
                 userDao.insert(User(0, _fullname.value, _username.value, _password.value))
                 _msg.value = "Đăng ký thành công"
+                setString()
             }
 
             // Chuyển sang Dispatchers.Main để hiển thị Toast trên luồng chính
@@ -66,7 +80,6 @@ class UserViewModel(var userDao: MusicRepository) : ViewModel() {
             }
         }
     }
-
 
     private fun checkUserName(users: List<User>): Boolean {
         users.forEach { user ->
@@ -82,13 +95,14 @@ class UserViewModel(var userDao: MusicRepository) : ViewModel() {
         return true
     }
 
-    suspend fun login(context: Context, onLoginSuccess: () -> Unit): Boolean {
+     suspend fun login(context: Context, onLoginSuccess: (Int) -> Unit): Boolean {
         return viewModelScope.async(Dispatchers.IO) {
             val user = userDao.getUser(_username.value, _password.value)
             val result = if (user != null) {
                 _msg.value = "Đăng nhập thành công"
+                _userId.value = user.userID
                 withContext(Dispatchers.Main) {
-                    onLoginSuccess()
+                    onLoginSuccess(_userId.value!!)
                 }
                 true
             } else {

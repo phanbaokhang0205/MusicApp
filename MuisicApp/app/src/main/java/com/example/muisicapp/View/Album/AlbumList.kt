@@ -45,6 +45,7 @@ import com.example.muisicapp.R
 import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.HomeViewModel
+import com.example.muisicapp.ViewModel.ListViewModel
 
 object AlbumListDestination : NavigationDestination {
     override val route: String = "album_list"
@@ -55,7 +56,7 @@ object AlbumListDestination : NavigationDestination {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AlbumListScreen(
-    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: ListViewModel = viewModel(factory = AppViewModelProvider.Factory),
     goToAlbumDetails: (Int) -> Unit,
     goBack: () -> Unit,
 ) {

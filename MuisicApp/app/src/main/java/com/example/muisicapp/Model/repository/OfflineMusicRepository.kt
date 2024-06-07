@@ -8,7 +8,10 @@ import com.example.muisicapp.Model.relations.AlbumWithSongsAndSingers
 import com.example.muisicapp.Model.relations.PlaylistWithSongsAndSingers
 import com.example.muisicapp.Model.relations.SingerWithAlbums
 import com.example.muisicapp.Model.relations.SingerWithSongs
+import com.example.muisicapp.Model.relations.SongOfUsers
+import com.example.muisicapp.Model.relations.SongUserCrossRef
 import com.example.muisicapp.Model.relations.SongWithSingers
+import com.example.muisicapp.Model.relations.UserWithSongs
 import kotlinx.coroutines.flow.Flow
 
 class OfflineMusicRepository(private val musicDao: MusicDao) : MusicRepository {
@@ -29,9 +32,10 @@ class OfflineMusicRepository(private val musicDao: MusicDao) : MusicRepository {
         TODO("Not yet implemented")
     }
 
-    override fun getUserById(id: Int): User {
-        TODO("Not yet implemented")
+    override fun getUserById(id: Int): Flow<User> {
+        return musicDao.getUserById(id)
     }
+
 
     override fun getAllUsers(): List<User> {
         return musicDao.getAllUsers()
@@ -48,6 +52,10 @@ class OfflineMusicRepository(private val musicDao: MusicDao) : MusicRepository {
 
     override fun getAllSingersStream(): Flow<List<Singer>> {
         return musicDao.getAllSingers()
+    }
+
+    override fun getUserWithSongsById(userID: Int): Flow<List<SongOfUsers>> {
+        return musicDao.getUserWithSongsById(userID)
     }
 
     /**
@@ -129,5 +137,9 @@ class OfflineMusicRepository(private val musicDao: MusicDao) : MusicRepository {
 
     override suspend fun deleteSong(song: Song) {
         return musicDao.delete(song)
+    }
+
+    override suspend fun insertSongUserCrossRef(crossRef: SongUserCrossRef) {
+        return musicDao.insertSongUserCrossRef(crossRef)
     }
 }

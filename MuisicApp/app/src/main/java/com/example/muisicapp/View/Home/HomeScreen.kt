@@ -57,33 +57,38 @@ import com.example.muisicapp.View.scaffold.BottomAppBar
 import com.example.muisicapp.View.scaffold.ContentTopAppBar
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.HomeViewModel
+import com.example.muisicapp.ViewModel.ListViewModel
 import com.example.muisicapp.ui.theme.Gray1
 import com.example.muisicapp.ui.theme.MuisicAppTheme
 
 object HomeDestination : NavigationDestination {
     override val route: String = "home_screen"
+    const val userID = "userID"
+    val routeWithArgs = "$route/{$userID}"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    listViewModel: ListViewModel = viewModel(factory = AppViewModelProvider.Factory),
     goToSearchScreen: () -> Unit,
-    goToAccountScreen: () -> Unit,
+    goToAccountScreen: (Int) -> Unit,
     goToPlaylistScreen: () -> Unit,
     goToSongDetails: (Int) -> Unit,
     goToDetailSinger: (Int) -> Unit,
     goToDetailAlbum: (Int) -> Unit,
     goToDetailPlaylist: (Int) -> Unit,
-    goToSingerList:() -> Unit,
-    goToSongList:() -> Unit,
-    goToAlbumList:() -> Unit,
+    goToSingerList: () -> Unit,
+    goToSongList: () -> Unit,
+    goToAlbumList: () -> Unit,
 ) {
 
-    val singerWithSongs by viewModel.singerUiState.collectAsState()
-    val songWithSingers by viewModel.songWithSingersUiState.collectAsState()
-    val playList by viewModel.playListUiState.collectAsState()
-    val albumList by viewModel.albumUiState.collectAsState()
+    val userUiState by viewModel.userUiState.collectAsState()
+    val singerWithSongs by listViewModel.singerUiState.collectAsState()
+    val songWithSingers by listViewModel.songWithSingersUiState.collectAsState()
+    val playList by listViewModel.playListUiState.collectAsState()
+    val albumList by listViewModel.albumUiState.collectAsState()
 
     var isFavourite by rememberSaveable {
         mutableStateOf(false)
@@ -124,7 +129,7 @@ fun HomeScreen(
                     Column {
 //                        User name
                         Text(
-                            text = "Khang Phan",
+                            text = userUiState.user.fullName,
                             modifier = Modifier,
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp
@@ -210,7 +215,8 @@ fun HomeScreen(
                     title = {
                         ContentTopAppBar(
                             scope,
-                            drawerState
+                            drawerState,
+                            userUiState.user
                         )
                     }
                 )
@@ -221,8 +227,8 @@ fun HomeScreen(
                     isFavourite = isFavourite,
                     goToHomeScreen = { },
                     goToSearchScreen = { goToSearchScreen() },
-                    goToAccountScreen = { goToAccountScreen() },
-                    goToPlaylistScreen = { goToPlaylistScreen() },
+                    goToAccountScreen = { goToAccountScreen(userUiState.user.userID) },
+                    goToPlaylistScreen = goToPlaylistScreen,
                 )
             },
 
@@ -266,7 +272,8 @@ fun HomeScreen(
                         /**
                          * Mở chi tiết bài hát
                          */
-                        goToSongDetails = goToSongDetails
+                        goToSongDetails = goToSongDetails,
+
                     )
 
                     Spacer(modifier = Modifier.height(20.dp))

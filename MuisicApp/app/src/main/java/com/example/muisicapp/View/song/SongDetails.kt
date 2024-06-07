@@ -37,15 +37,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
-import com.example.muisicapp.Model.relations.SongWithSingers
 import com.example.muisicapp.R
 import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.View.scaffold.TopBarOption
 import com.example.muisicapp.View.seekbar.SeekBar
 import com.example.muisicapp.ViewModel.AppViewModelProvider
+import com.example.muisicapp.ViewModel.HomeViewModel
 import com.example.muisicapp.ViewModel.SongDetailsViewModel
-import com.example.muisicapp.ViewModel.toSong
-import kotlinx.coroutines.launch
+
 
 object SongDetailsDestination : NavigationDestination {
     override val route: String = "song_details"
@@ -53,7 +52,8 @@ object SongDetailsDestination : NavigationDestination {
     val routeWithArgs = "$route/{$songIdAgr}"
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "CoroutineCreationDuringComposition")
+
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun SongDetailsScreen(
     viewModel: SongDetailsViewModel = viewModel(factory = AppViewModelProvider.Factory),
@@ -61,16 +61,17 @@ fun SongDetailsScreen(
     goShareEvent: () -> Unit,
     goOptionEvent: () -> Unit,
 ) {
-
+//
     var isFavourite by rememberSaveable {
         mutableStateOf(false)
     }
 
     val uiState = viewModel.uiState.collectAsState()
+
     val isPlaying = viewModel.isPlaying.collectAsState()
 
-
     val coroutineScope = rememberCoroutineScope()
+
     val context: Context = LocalContext.current
 
     val duration = viewModel.duration.collectAsState()
@@ -96,7 +97,8 @@ fun SongDetailsScreen(
         Column(modifier = Modifier.padding(valuePadding)) {
 
             SongDetailsBody(
-                songDetails = uiState.value.songDetails.toSong(),
+                songDetails = uiState.value.songDetails.song,
+                singers = uiState.value.songDetails.singers,
                 progress = progress.value,
                 onProgressChange = { },
 
@@ -119,7 +121,13 @@ fun SongDetailsScreen(
                     }
                 },
                 isFavourite = isFavourite,
-                favouriteEvent = { isFavourite = !isFavourite },
+                favouriteEvent = {
+//                    coroutineScope.launch {
+//                        userViewModel.addSongToFavorite(
+//                            uiState.value.songDetails.song.songId !!
+//                        )
+//                    }
+                },
                 duration = 60L,
                 onLoading = onLoading
             )
@@ -132,7 +140,8 @@ fun SongDetailsScreen(
 
 @Composable
 fun SongDetailsBody(
-    songDetails: SongWithSingers,
+    songDetails: Song,
+    singers: List<Singer>,
     modifier: Modifier = Modifier,
     progress: Float,
     onProgressChange: () -> Unit,
@@ -147,8 +156,8 @@ fun SongDetailsBody(
         modifier = Modifier.fillMaxSize()
     ) {
         SongDetails(
-            song = songDetails.song,
-            singers = songDetails.singers,
+            song = songDetails,
+            singers = singers,
             progress = progress,
             onProgressChange = onProgressChange,
             isPlaying = isPlaying,

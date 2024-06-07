@@ -11,7 +11,7 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
-import com.example.muisicapp.Model.relations.SongWithSingers
+import com.example.muisicapp.Model.relations.SongUserCrossRef
 import com.example.muisicapp.Model.repository.MusicRepository
 import com.example.muisicapp.View.song.SongDetailsDestination
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.stateIn
 
 @SuppressLint("StaticFieldLeak")
 class SongDetailsViewModel(
-    savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
     private val songsRepository: MusicRepository,
 ) : ViewModel() {
 
@@ -49,7 +49,12 @@ class SongDetailsViewModel(
         songsRepository.getSongWithSingersById(songId)
             .filterNotNull()
             .map {
-                SongDetailUiState(songDetails = it.toSongDetails())
+                SongDetailUiState(
+                    songDetails = SongDetails(
+                        song = it.song,
+                        singers = it.singers
+                    )
+                )
             }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000L),
@@ -117,21 +122,10 @@ data class SongDetailUiState(
     val songDetails: SongDetails = SongDetails()
 )
 
+
 data class SongDetails(
-    val song: Song = Song(0, "", "", "", 0, 0L),
+    val song: Song = Song(0, "", "", "", 0, 0L, false),
     val singers: List<Singer> = listOf()
 )
 
-fun SongDetails.toSong(): SongWithSingers = SongWithSingers(
-    song = song,
-    singers = singers
-)
 
-fun SongWithSingers.toSongUiState(): SongDetailUiState = SongDetailUiState(
-    songDetails = this.toSongDetails(),
-)
-
-fun SongWithSingers.toSongDetails(): SongDetails = SongDetails(
-    song = song,
-    singers = singers
-)

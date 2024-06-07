@@ -50,6 +50,7 @@ import com.example.muisicapp.View.Album.heading2
 import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.HomeViewModel
+import com.example.muisicapp.ViewModel.ListViewModel
 
 object SingerListDestination : NavigationDestination {
     override val route: String = "singer_list"
@@ -60,7 +61,7 @@ object SingerListDestination : NavigationDestination {
 @Composable
 fun SingerListScreen(
     goBack: () -> Unit,
-    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: ListViewModel = viewModel(factory = AppViewModelProvider.Factory),
     goToSingerDetails: (Int) -> Unit
 ) {
     val gradient = Brush.verticalGradient(
