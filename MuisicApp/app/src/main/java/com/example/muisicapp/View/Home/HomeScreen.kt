@@ -44,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,8 +59,10 @@ import com.example.muisicapp.View.scaffold.ContentTopAppBar
 import com.example.muisicapp.ViewModel.AppViewModelProvider
 import com.example.muisicapp.ViewModel.HomeViewModel
 import com.example.muisicapp.ViewModel.ListViewModel
+import com.example.muisicapp.ViewModel.UserViewModel
 import com.example.muisicapp.ui.theme.Gray1
 import com.example.muisicapp.ui.theme.MuisicAppTheme
+import kotlinx.coroutines.launch
 
 object HomeDestination : NavigationDestination {
     override val route: String = "home_screen"
@@ -72,6 +75,7 @@ object HomeDestination : NavigationDestination {
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
     listViewModel: ListViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    userViewModel: UserViewModel = viewModel(factory = AppViewModelProvider.Factory),
     goToSearchScreen: () -> Unit,
     goToAccountScreen: (Int) -> Unit,
     goToPlaylistScreen: () -> Unit,
@@ -82,6 +86,7 @@ fun HomeScreen(
     goToSingerList: () -> Unit,
     goToSongList: () -> Unit,
     goToAlbumList: () -> Unit,
+    onLogoutEvent:() -> Unit,
 ) {
 
     val userUiState by viewModel.userUiState.collectAsState()
@@ -94,9 +99,7 @@ fun HomeScreen(
         mutableStateOf(false)
     }
 
-//    var isPlay by rememberSaveable {
-//        mutableStateOf(false)
-//    }
+    var context= LocalContext.current
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -115,7 +118,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .padding(12.dp)
                         .fillMaxWidth()
-                        .clickable { /*TODO()*/ },
+                        .clickable { goToAccountScreen(userUiState.user.userID) },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Image(
@@ -187,7 +190,16 @@ fun HomeScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { /*TODO()*/ }
+                        .clickable {
+                            scope.launch {
+                                userViewModel.logout(
+                                    context = context,
+                                    onLogoutEvent = {
+                                        onLogoutEvent()
+                                    }
+                                )
+                            }
+                        }
                         .padding(horizontal = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {

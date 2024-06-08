@@ -116,6 +116,14 @@ class UserViewModel(var userDao: MusicRepository) : ViewModel() {
         }.await()
     }
 
+    suspend fun logout(context: Context, onLogoutEvent: () -> Unit){
+        onLogoutEvent()
+        _msg.value = "Đăng xuất thành công"
+        withContext(Dispatchers.Main) {
+            showToast(context, _msg.value)
+        }
+    }
+
     //    fun login(context: Context) :Boolean{
 //        val user = userDao.getUser(_username.value, _password.value)
 //        if (user != null) {

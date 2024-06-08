@@ -94,7 +94,9 @@ fun MusicNavHost(
                 },
                 goToDetailPlaylist = { playListID ->
                     navController.navigate("${PlayListDestination.route}/${playListID}")
-                }
+                },
+                onLogoutEvent = { navController.popBackStack(LoginScreen.route, false)  }
+
             )
         }
 
@@ -145,7 +147,7 @@ fun MusicNavHost(
         composable(route = SearchResultDestination.route) {
             SearchResultScreen(
                 goBack = { navController.popBackStack() },
-//                goToSongDetails = {navController.navigate("navController.navigate(\"${SongDetailsDestination.route}/${it}\")")}
+                goToSongDetails = {navController.navigate("${SongDetailsDestination.route}/${it}")}
             )
         }
 

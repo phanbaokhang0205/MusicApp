@@ -80,10 +80,6 @@ fun ScaffoldHome(
         mutableStateOf(false)
     }
 
-    var isPlay by rememberSaveable {
-        mutableStateOf(false)
-    }
-
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -99,7 +95,7 @@ fun ScaffoldHome(
                     modifier = Modifier
                         .padding(12.dp)
                         .fillMaxWidth()
-                        .clickable { /*TODO()*/ },
+                        .clickable { goToAccountScreen() },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Image(

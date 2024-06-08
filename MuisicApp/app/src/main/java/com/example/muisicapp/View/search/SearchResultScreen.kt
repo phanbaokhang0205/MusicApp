@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -54,7 +56,7 @@ object SearchResultDestination : NavigationDestination {
 fun SearchResultScreen(
     viewModel: SearchViewModel = viewModel(factory = AppViewModelProvider.Factory),
     goBack: () -> Unit,
-
+    goToSongDetails: (Int) -> Unit
     ) {
 
     val searchQuery = viewModel.searchQuery.collectAsState()
@@ -69,7 +71,7 @@ fun SearchResultScreen(
             })
     }) {
 
-        SearchResultList(paddingValues = it, result = searchResults.value.searchResult, goToSongDetails = {})
+        SearchResultList(paddingValues = it, result = searchResults.value.searchResult, goToSongDetails = goToSongDetails)
     }
 }
 
@@ -80,17 +82,18 @@ fun SearchResultList(
     goToSongDetails:(Int) -> Unit,
 
 ) {
-    Column(
+
+    LazyColumn(
         modifier = Modifier
             .padding(paddingValues)
             .background(Color.Black)
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        result.forEachIndexed { index, item ->
-            SearchResult(song = item.song, singers = item.singers, goToSongDetails = {})
+    ){
+        items(result) { item ->
+            SearchResult(song = item.song, singers = item.singers, goToSongDetails = { goToSongDetails(item.song.songId!!) })
         }
     }
+
 }
 
 
