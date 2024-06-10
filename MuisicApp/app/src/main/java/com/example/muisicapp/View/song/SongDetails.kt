@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FiberManualRecord
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -42,7 +41,6 @@ import com.example.muisicapp.View.navigation.NavigationDestination
 import com.example.muisicapp.View.scaffold.TopBarOption
 import com.example.muisicapp.View.seekbar.SeekBar
 import com.example.muisicapp.ViewModel.AppViewModelProvider
-import com.example.muisicapp.ViewModel.HomeViewModel
 import com.example.muisicapp.ViewModel.SongDetailsViewModel
 
 
@@ -74,8 +72,13 @@ fun SongDetailsScreen(
 
     val context: Context = LocalContext.current
 
-    val duration = viewModel.duration.collectAsState()
+//    val duration = viewModel.duration.collectAsState()
 //    val durationFormat = viewModel.formatDuration(uiState.value.songDetails.song.duration)
+
+    val minutes = uiState.value.songDetails.song.duration / 60
+    val remainingSeconds = uiState.value.songDetails.song.duration % 60
+
+
     val progress = viewModel.progress.collectAsState()
 
     val onLoading = viewModel.playBackChange()
@@ -128,8 +131,17 @@ fun SongDetailsScreen(
 //                        )
 //                    }
                 },
-                duration = 60L,
-                onLoading = onLoading
+                duration = "$minutes",
+                onLoading = onLoading,
+                goTo10s = {
+                    viewModel.nextTo10s()
+                },
+                previousTo10s = {
+                    viewModel.previousTo10s()
+                },
+                skipNext = {
+                    viewModel.skipNext()
+                }
             )
 
 
@@ -149,8 +161,11 @@ fun SongDetailsBody(
     playingEvent: () -> Unit,
     isFavourite: Boolean,
     favouriteEvent: () -> Unit,
-    duration: Long,
+    duration: String,
+    goTo10s:() -> Unit,
+    previousTo10s:() -> Unit,
     onLoading: Boolean,
+    skipNext: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -165,7 +180,10 @@ fun SongDetailsBody(
             isFavourite = isFavourite,
             favouriteEvent = favouriteEvent,
             duration = duration,
-            onLoading = onLoading
+            onLoading = onLoading,
+            goTo10s = goTo10s,
+            previousTo10s = previousTo10s,
+            skipNext = skipNext
         )
     }
 }
@@ -180,8 +198,11 @@ fun SongDetails(
     playingEvent: () -> Unit,
     isFavourite: Boolean,
     favouriteEvent: () -> Unit,
-    duration: Long,
+    duration: String,
     onLoading: Boolean,
+    goTo10s:() -> Unit,
+    skipNext:() -> Unit,
+    previousTo10s:() -> Unit,
 ) {
 
 
@@ -242,7 +263,10 @@ fun SongDetails(
                 singerName = stringBuilder(singers),
                 duration = duration,
                 onValueChangeFinished = {},
-                onLoading = onLoading
+                onLoading = onLoading,
+                goTo10s = goTo10s,
+                previousTo10s = previousTo10s,
+                skipNext = skipNext
 
             )
 

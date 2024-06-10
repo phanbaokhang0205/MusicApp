@@ -1,7 +1,6 @@
 package com.example.muisicapp.View.seekbar
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +13,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.KeyboardDoubleArrowLeft
+import androidx.compose.material.icons.filled.KeyboardDoubleArrowRight
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Repeat
@@ -32,7 +33,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.muisicapp.ui.theme.Gray1
@@ -50,11 +50,14 @@ fun SeekBar(
     isFavourite: Boolean,
     songName: String,
     singerName: String,
-    duration: Long,
+    duration: String,
     favouriteEvent: () -> Unit,
     playingEvent: () -> Unit,
     onProgressChange: (Float) -> Unit,
     onValueChangeFinished: () -> Unit,
+    goTo10s: () -> Unit,
+    previousTo10s: () -> Unit,
+    skipNext:() -> Unit,
     onLoading: Boolean,
 ) {
     Box(modifier = Modifier.background(Color(0x66000000))) {
@@ -141,7 +144,7 @@ fun SeekBar(
                         color = Gray1
                     )
                     Text(
-                        text = "-" + (duration - progress.toLong()).toString(),
+                        text = duration,
                         fontSize = 10.sp,
                         color = Gray1
                     )
@@ -158,8 +161,8 @@ fun SeekBar(
                  */
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
-                        imageVector = Icons.Filled.Shuffle,
-                        contentDescription = "Shuffle",
+                        imageVector = Icons.Filled.SkipPrevious,
+                        contentDescription = "skip previous",
                         tint = Color.Black,
                         modifier = Modifier.size(25.dp)
                     )
@@ -168,10 +171,10 @@ fun SeekBar(
                 /**
                 Previous
                  */
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { previousTo10s() }) {
                     Icon(
-                        imageVector = Icons.Filled.SkipPrevious,
-                        contentDescription = "Skip Previous",
+                        imageVector = Icons.Filled.KeyboardDoubleArrowLeft,
+                        contentDescription = "10s Previous",
                         tint = Color.Black,
                         modifier = Modifier.size(25.dp)
                     )
@@ -201,9 +204,10 @@ fun SeekBar(
                 /**
                  * Next
                  */
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { goTo10s() }) {
                     Icon(
-                        imageVector = Icons.Filled.SkipNext, contentDescription = "Skip Next",
+                        imageVector = Icons.Filled.KeyboardDoubleArrowRight,
+                        contentDescription = "10s Next",
                         tint = Color.Black,
                         modifier = Modifier.size(25.dp)
                     )
@@ -212,9 +216,9 @@ fun SeekBar(
                 /**
                  * Repeat
                  */
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { skipNext() }) {
                     Icon(
-                        imageVector = Icons.Filled.Repeat, contentDescription = "Repeat",
+                        imageVector = Icons.Filled.SkipNext, contentDescription = "Skip Next",
                         tint = Color.Black,
                         modifier = Modifier.size(25.dp)
                     )

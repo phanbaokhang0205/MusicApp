@@ -79,7 +79,6 @@ class SongDetailsViewModel(
 
     fun pauseSong() {
         exoPlayer?.pause()
-
     }
 
     fun play(song: String, context: Context) {
@@ -102,6 +101,22 @@ class SongDetailsViewModel(
         exoPlayer?.stop()
         _isPlaying.value = false
     }
+
+    fun nextTo10s() {
+        exoPlayer?.seekTo(exoPlayer!!.currentPosition + 10_000)
+        resume()
+    }
+
+    fun previousTo10s() {
+        exoPlayer?.seekTo(exoPlayer!!.currentPosition - 10_000)
+        resume()
+
+    }
+
+    fun skipNext() {
+        exoPlayer?.seekToNextMediaItem()
+    }
+
 
     //    Dừng nhạc đang phát khi thoát khỏi màn hình SongDetails
     override fun onCleared() {
