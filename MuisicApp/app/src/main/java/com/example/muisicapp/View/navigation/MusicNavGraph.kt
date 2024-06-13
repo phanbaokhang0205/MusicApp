@@ -95,7 +95,7 @@ fun MusicNavHost(
                 goToDetailPlaylist = { playListID ->
                     navController.navigate("${PlayListDestination.route}/${playListID}")
                 },
-                onLogoutEvent = { navController.popBackStack(LoginScreen.route, false)  }
+                onLogoutEvent = { navController.popBackStack(LoginScreen.route, false) }
 
             )
         }
@@ -147,7 +147,7 @@ fun MusicNavHost(
         composable(route = SearchResultDestination.route) {
             SearchResultScreen(
                 goBack = { navController.popBackStack() },
-                goToSongDetails = {navController.navigate("${SongDetailsDestination.route}/${it}")}
+                goToSongDetails = { navController.navigate("${SongDetailsDestination.route}/${it}") }
             )
         }
 
@@ -189,7 +189,7 @@ fun MusicNavHost(
                 goOptionEvent = {},
                 goShareEvent = {},
 
-            )
+                )
         }
 
         /**
@@ -204,7 +204,10 @@ fun MusicNavHost(
             DetailSingerScreen(
                 goBackEvent = { navController.popBackStack() },
                 goShareEvent = { /*TODO*/ },
-                goOptionEvent = {})
+                goOptionEvent = {},
+                goToSongDetails = { navController.navigate("${SongDetailsDestination.route}/${it}") },
+                goToAlbumDetails = { navController.navigate("${AlbumDestination.route}/${it}") }
+            )
         }
 
         /**
@@ -220,7 +223,7 @@ fun MusicNavHost(
                 goBackEvent = { navController.popBackStack() },
                 goShareEvent = { /*TODO*/ },
                 goOptionEvent = { /*TODO*/ },
-                goToDetailSingerOfAlbum = {}
+                goToDetailSingerOfAlbum = { navController.navigate("${SongDetailsDestination.route}/${it}") }
             )
         }
 

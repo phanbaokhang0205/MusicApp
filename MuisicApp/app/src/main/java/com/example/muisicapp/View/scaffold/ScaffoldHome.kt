@@ -285,77 +285,77 @@ fun BottomAppBar(
     Column(
         modifier = Modifier
             .wrapContentSize()
-            .height(120.dp)
+//            .height(120.dp)
     ) {
-        BottomAppBar(
-            containerColor = Black1,
-            contentColor = Color.White,
-            modifier = Modifier.weight(1f)
-        ) {
-            Row(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.weight(1f),
-
-                    ) {
-                    Box(
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(shape = RoundedCornerShape(10.dp))
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.chungtacuatuonglai_mtp),
-                            contentDescription = null
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Column(
-
-                    ) {
-                        Text(text = "Chúng ta của hiện tại", fontSize = 10.sp)
-                        Spacer(modifier = Modifier.height(5.dp))
-                        Text(
-                            text = "Sơn Tùng MTP",
-                            fontSize = 10.sp,
-                            color = Gray1
-                        )
-                    }
-                }
-
-                Row(
-                    modifier = Modifier.weight(1f),
-                    horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    IconButton(
-                        onClick = {
-                            onClickFavourite()
-                        },
-                    ) {
-                        Icon(
-                            imageVector = if (isFavourite) Icons.Filled.Favorite
-                            else Icons.Filled.FavoriteBorder,
-                            contentDescription = null,
-                            tint = if (isFavourite) Green1
-                            else Gray1,
-                        )
-                    }
-
-                    CircleSeekBar(30f)
-                }
-            }
-        }
+//        BottomAppBar(
+//            containerColor = Black1,
+//            contentColor = Color.White,
+//            modifier = Modifier.weight(1f)
+//        ) {
+//            Row(
+//                modifier = Modifier
+//                    .weight(1f)
+//                    .fillMaxWidth()
+//                    .padding(horizontal = 10.dp),
+//                verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                Row(
+//                    verticalAlignment = Alignment.CenterVertically,
+//                    modifier = Modifier.weight(1f),
+//
+//                    ) {
+//                    Box(
+//                        modifier = Modifier
+//                            .size(40.dp)
+//                            .clip(shape = RoundedCornerShape(10.dp))
+//                    ) {
+//                        Image(
+//                            painter = painterResource(id = R.drawable.chungtacuatuonglai_mtp),
+//                            contentDescription = null
+//                        )
+//                    }
+//                    Spacer(modifier = Modifier.width(10.dp))
+//                    Column(
+//
+//                    ) {
+//                        Text(text = "Chúng ta của hiện tại", fontSize = 10.sp)
+//                        Spacer(modifier = Modifier.height(5.dp))
+//                        Text(
+//                            text = "Sơn Tùng MTP",
+//                            fontSize = 10.sp,
+//                            color = Gray1
+//                        )
+//                    }
+//                }
+//
+//                Row(
+//                    modifier = Modifier.weight(1f),
+//                    horizontalArrangement = Arrangement.End,
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
+//
+//                    IconButton(
+//                        onClick = {
+//                            onClickFavourite()
+//                        },
+//                    ) {
+//                        Icon(
+//                            imageVector = if (isFavourite) Icons.Filled.Favorite
+//                            else Icons.Filled.FavoriteBorder,
+//                            contentDescription = null,
+//                            tint = if (isFavourite) Green1
+//                            else Gray1,
+//                        )
+//                    }
+//
+//                    CircleSeekBar(30f)
+//                }
+//            }
+//        }
         BottomAppBar(
             containerColor = Gray2,
             contentColor = Color.White,
-            modifier = Modifier.weight(1f)
+//            modifier = Modifier.weight(1f)
         ) {
             Row(
                 modifier = Modifier

@@ -13,7 +13,7 @@ data class Song(
     @ColumnInfo val songImage: String,
     @ColumnInfo val songLink: String,
     @ColumnInfo val albumId: Int,
-    @ColumnInfo val duration: Long,
+    @ColumnInfo val duration: Int,
     @ColumnInfo val love: Boolean? = false,
 )
 

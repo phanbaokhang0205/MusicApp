@@ -123,18 +123,6 @@ class UserViewModel(var userDao: MusicRepository) : ViewModel() {
             showToast(context, _msg.value)
         }
     }
-
-    //    fun login(context: Context) :Boolean{
-//        val user = userDao.getUser(_username.value, _password.value)
-//        if (user != null) {
-//            _msg.value = "Đăng nhập thành công"
-//            return true
-//        } else {
-//            _msg.value = "Đăng nhập thất bại"
-//            return false
-//        }
-//        showToast(context, _msg.value)
-//    }
     fun showToast(context: Context?, msg: String) {
         context?.let {
             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()

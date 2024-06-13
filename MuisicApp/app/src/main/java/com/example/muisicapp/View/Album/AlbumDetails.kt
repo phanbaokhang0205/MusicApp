@@ -4,6 +4,7 @@ package com.example.muisicapp.View.Album
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -94,7 +94,8 @@ fun AlbumScreen(
                     album = albumUi.value.albumDetails.toAlbum()
                 )
                 albumSongs(
-                    songList = albumUi.value.albumDetails.toAlbum()
+                    songList = albumUi.value.albumDetails.toAlbum(),
+                    goToDetailsSong = { goToDetailSingerOfAlbum(it) },
                 )
                 dateAlbum()
                 aboutArtist(
@@ -215,13 +216,16 @@ fun albumBox(
 
 @Composable
 fun albumSongs(
-    songList: AlbumWithSongsAndSingers
+    songList: AlbumWithSongsAndSingers,
+    goToDetailsSong: (Int) -> Unit,
 ) {
     songList.songsWithSingers.forEachIndexed { index, songWithSinger ->
         albumSongItem(
             song = songWithSinger.song,
             singers = songWithSinger.singers,
-            songIndex = index + 1
+            songIndex = index + 1,
+            goToDetailsSong = { goToDetailsSong(songWithSinger.song.songId!!) }
+
         )
     }
 
@@ -231,12 +235,15 @@ fun albumSongs(
 fun albumSongItem(
     song: Song,
     singers: List<Singer>,
-    songIndex: Int
+    songIndex: Int,
+    goToDetailsSong: () -> Unit,
 ) {
     Column(modifier = Modifier.padding(vertical = 15.dp)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)
+            modifier = Modifier
+                .clickable { goToDetailsSong() }
+                .padding(horizontal = 15.dp, vertical = 10.dp)
         ) {
             Text(text = songIndex.toString(), fontSize = 15.sp, color = Color.White)
             Spacer(modifier = Modifier.width(20.dp))

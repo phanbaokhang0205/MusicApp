@@ -112,7 +112,9 @@ fun HomeScreen(
         drawerContent = {
             ModalDrawerSheet(
                 drawerContainerColor = Color.Black,
-                drawerContentColor = Color.White
+                drawerContentColor = Color.White,
+                modifier = Modifier.width(300.dp),
+
             ) {
                 Row(
                     modifier = Modifier

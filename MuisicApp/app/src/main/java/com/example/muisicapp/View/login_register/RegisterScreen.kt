@@ -12,8 +12,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,8 +35,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -53,7 +61,8 @@ fun RegisterScreen(
     var userName = viewModel.username.collectAsState()
     var password = viewModel.password.collectAsState()
     var confirmPassword = viewModel.confirmPassword.collectAsState()
-    var context= LocalContext.current
+    var context = LocalContext.current
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     val coroutineScope = rememberCoroutineScope()
     //giaodien
@@ -75,6 +84,10 @@ fun RegisterScreen(
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
             label = { Text("Tên người dùng") },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Next
+            ),
             value = fullName.value,
             onValueChange = { viewModel.onFullNameChange(it) }
         )
@@ -82,18 +95,56 @@ fun RegisterScreen(
         OutlinedTextField(
             label = { Text("Tài khoản") },
             value = userName.value,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Next
+            ),
             onValueChange = { viewModel.onUsernameChange(it) }
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
             label = { Text("Mật khẩu") },
             value = password.value,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Next
+            ),
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val image = if (passwordVisible)
+                    Icons.Filled.Visibility
+                else Icons.Filled.VisibilityOff
+
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(
+                        imageVector = image,
+                        contentDescription = if (passwordVisible) "Hide password" else "Show password"
+                    )
+                }
+            },
             onValueChange = { viewModel.onPasswordChange(it) }
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
             label = { Text("Nhập lại mật khảu") },
             value = confirmPassword.value,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Next
+            ),
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val image = if (passwordVisible)
+                    Icons.Filled.Visibility
+                else Icons.Filled.VisibilityOff
+
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(
+                        imageVector = image,
+                        contentDescription = if (passwordVisible) "Hide password" else "Show password"
+                    )
+                }
+            },
             onValueChange = { viewModel.onConfirmPasswordChange(it) }
         )
         Spacer(modifier = Modifier.height(20.dp))

@@ -11,7 +11,6 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.muisicapp.Model.data.Singer
 import com.example.muisicapp.Model.data.Song
-import com.example.muisicapp.Model.relations.SongUserCrossRef
 import com.example.muisicapp.Model.repository.MusicRepository
 import com.example.muisicapp.View.song.SongDetailsDestination
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,6 +42,9 @@ class SongDetailsViewModel(
 
     private val _duration = MutableStateFlow(0L)
     val duration: StateFlow<Long> = _duration.asStateFlow()
+
+    private val _currentPosition = MutableStateFlow(0L)
+    val currentPosition: StateFlow<Long> = _currentPosition.asStateFlow()
 
 
     val uiState: StateFlow<SongDetailUiState> =
@@ -77,9 +79,7 @@ class SongDetailsViewModel(
         _isPlaying.value = !_isPlaying.value
     }
 
-    fun pauseSong() {
-        exoPlayer?.pause()
-    }
+
 
     fun play(song: String, context: Context) {
         if (exoPlayer == null) {
@@ -90,6 +90,10 @@ class SongDetailsViewModel(
         exoPlayer?.prepare()
         exoPlayer?.play()
 
+    }
+
+    fun pauseSong() {
+        exoPlayer?.pause()
     }
 
     fun resume() {
@@ -117,6 +121,10 @@ class SongDetailsViewModel(
         exoPlayer?.seekToNextMediaItem()
     }
 
+    fun getCurrentPosition() {
+        _currentPosition.value = exoPlayer!!.currentPosition
+    }
+
 
     //    Dừng nhạc đang phát khi thoát khỏi màn hình SongDetails
     override fun onCleared() {
@@ -139,7 +147,7 @@ data class SongDetailUiState(
 
 
 data class SongDetails(
-    val song: Song = Song(0, "", "", "", 0, 0L, false),
+    val song: Song = Song(0, "", "", "", 0, 0, false),
     val singers: List<Singer> = listOf()
 )
 

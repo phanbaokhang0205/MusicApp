@@ -115,14 +115,14 @@ fun songList(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         heading1(content = "BÀI HÁT NỔI BẬT")
-        IconButton(onClick = { /*TODO*/ }) {
-            Icon(
-                imageVector = Icons.Filled.PlayCircleFilled,
-                tint = Color(0xff1ED760),
-                contentDescription = null,
-                modifier = Modifier.size(60.dp)
-            )
-        }
+//        IconButton(onClick = { /*TODO*/ }) {
+//            Icon(
+//                imageVector = Icons.Filled.PlayCircleFilled,
+//                tint = Color(0xff1ED760),
+//                contentDescription = null,
+//                modifier = Modifier.size(60.dp)
+//            )
+//        }
     }
     LazyColumn(
         modifier = Modifier.padding(top = 15.dp),

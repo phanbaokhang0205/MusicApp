@@ -72,14 +72,12 @@ fun SongDetailsScreen(
 
     val context: Context = LocalContext.current
 
-//    val duration = viewModel.duration.collectAsState()
+    val duration = viewModel.duration.collectAsState()
 //    val durationFormat = viewModel.formatDuration(uiState.value.songDetails.song.duration)
 
-    val minutes = uiState.value.songDetails.song.duration / 60
-    val remainingSeconds = uiState.value.songDetails.song.duration % 60
 
 
-    val progress = viewModel.progress.collectAsState()
+    val progress = viewModel.currentPosition.collectAsState()
 
     val onLoading = viewModel.playBackChange()
 
@@ -102,21 +100,15 @@ fun SongDetailsScreen(
             SongDetailsBody(
                 songDetails = uiState.value.songDetails.song,
                 singers = uiState.value.songDetails.singers,
-                progress = progress.value,
-                onProgressChange = { },
+                progress = progress.value.toFloat(),
+                onProgressChange = {
+                    viewModel.getCurrentPosition()
+                },
 
                 isPlaying = isPlaying.value,
                 playingEvent = {
                     viewModel.isPlayingChange()
                     viewModel.play(uiState.value.songDetails.song.songLink, context)
-//                    coroutineScope.launch {
-//                        while (isPlaying.value && progress < 600f
-//                        /**600f = duration **/
-//                        ) {
-//                            delay(1000)
-//                            progress.value += 0.3f
-//                        }
-//                    }
                     if (!isPlaying.value) {
                         viewModel.resume()
                     } else {
@@ -131,7 +123,7 @@ fun SongDetailsScreen(
 //                        )
 //                    }
                 },
-                duration = "$minutes",
+                duration = duration.value.toString(),
                 onLoading = onLoading,
                 goTo10s = {
                     viewModel.nextTo10s()
@@ -143,10 +135,7 @@ fun SongDetailsScreen(
                     viewModel.skipNext()
                 }
             )
-
-
         }
-
     }
 }
 
@@ -156,14 +145,14 @@ fun SongDetailsBody(
     singers: List<Singer>,
     modifier: Modifier = Modifier,
     progress: Float,
-    onProgressChange: () -> Unit,
+    onProgressChange: (Float) -> Unit,
     isPlaying: Boolean,
     playingEvent: () -> Unit,
     isFavourite: Boolean,
     favouriteEvent: () -> Unit,
     duration: String,
-    goTo10s:() -> Unit,
-    previousTo10s:() -> Unit,
+    goTo10s: () -> Unit,
+    previousTo10s: () -> Unit,
     onLoading: Boolean,
     skipNext: () -> Unit
 ) {
@@ -193,16 +182,16 @@ fun SongDetails(
     song: Song,
     singers: List<Singer>,
     progress: Float,
-    onProgressChange: () -> Unit,
+    onProgressChange: (Float) -> Unit,
     isPlaying: Boolean,
     playingEvent: () -> Unit,
     isFavourite: Boolean,
     favouriteEvent: () -> Unit,
     duration: String,
     onLoading: Boolean,
-    goTo10s:() -> Unit,
-    skipNext:() -> Unit,
-    previousTo10s:() -> Unit,
+    goTo10s: () -> Unit,
+    skipNext: () -> Unit,
+    previousTo10s: () -> Unit,
 ) {
 
 
@@ -251,7 +240,7 @@ fun SongDetails(
         ) {
             SeekBar(
                 progress = progress,
-                onProgressChange = { onProgressChange() },
+                onProgressChange = { onProgressChange(it) },
                 isPlaying = isPlaying,
                 playingEvent = {
                     playingEvent()

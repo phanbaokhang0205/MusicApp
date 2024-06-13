@@ -72,6 +72,8 @@ fun DetailSingerScreen(
     goBackEvent: () -> Unit,
     goShareEvent: () -> Unit,
     goOptionEvent: () -> Unit,
+    goToSongDetails: (Int) -> Unit,
+    goToAlbumDetails: (Int) -> Unit
 ) {
 
     val uiState = viewModel.uiState.collectAsState()
@@ -91,10 +93,12 @@ fun DetailSingerScreen(
                 )
                 popularSong(
                     uiState.value.singeDetails.songs,
-                    uiState.value.singeDetails.singer
+                    uiState.value.singeDetails.singer,
+                    { goToSongDetails(it) }
                 )
                 singerAlbum(
-                    singerAlbum.value.singerAlbum.album
+                    singerAlbum.value.singerAlbum.album,
+                    { goToAlbumDetails(it) }
                 )
                 popularSinger(
 
@@ -164,7 +168,8 @@ fun imgSinger(
 @Composable
 fun popularSong(
     song: List<Song>,
-    singer: Singer
+    singer: Singer,
+    goToSongDetails: (Int) -> Unit,
 ) {
     Column {
         NavigationTitle(navTitle = "Bài Hát Nổi Bật") {
@@ -173,7 +178,8 @@ fun popularSong(
         song.forEach {
             popularSongItems(
                 song = it,
-                singer = singer
+                singer = singer,
+                { goToSongDetails(it.songId!!) }
             )
         }
     }
@@ -182,7 +188,8 @@ fun popularSong(
 @Composable
 fun popularSongItems(
     song: Song,
-    singer: Singer
+    singer: Singer,
+    goToSongDetails: () -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.Center, modifier = Modifier
@@ -192,6 +199,7 @@ fun popularSongItems(
         Row(
             Modifier
                 .fillMaxWidth()
+                .clickable { goToSongDetails() }
                 .padding(vertical = 15.dp), verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
@@ -220,7 +228,8 @@ fun popularSongItems(
 
 @Composable
 fun singerAlbum(
-    album: List<Album>
+    album: List<Album>,
+    goToAlbumDetails: (Int) -> Unit
 ) {
     NavigationTitle(navTitle = "Album") {
 
@@ -228,7 +237,8 @@ fun singerAlbum(
     Row {
         album.forEach {
             albumItems(
-                it
+                album = it,
+                goToAlbumDetails = { goToAlbumDetails(it.albumId!!) }
             )
         }
     }
@@ -236,9 +246,12 @@ fun singerAlbum(
 
 @Composable
 fun albumItems(
-    album: Album
+    album: Album,
+    goToAlbumDetails: () -> Unit,
 ) {
-    Column(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)) {
+    Column(modifier = Modifier
+        .clickable { goToAlbumDetails() }
+        .padding(vertical = 15.dp, horizontal = 15.dp)) {
         AsyncImage(
             model = album.albumImage,
             contentDescription = null,
@@ -431,9 +444,9 @@ fun singerInfor(
                 }
         )
         Row {
-            Text(text = "Tên thật", color = Color.Gray)
+            Text(text = "Nghệ danh", color = Color.Gray)
             Spacer(modifier = Modifier.width(40.dp))
-            Text(text = "Vũ Lệ Quyên", color = Color.White)
+            Text(text = singer.singerName, color = Color.White)
         }
         Row {
             Text(text = "Ngày sinh", color = Color.Gray)
@@ -456,7 +469,7 @@ fun singerInfor(
 @Preview(showBackground = true)
 @Composable
 fun preview() {
-    DetailSingerScreen(goBackEvent = { /*TODO*/ }, goShareEvent = { /*TODO*/ }) {
+//    DetailSingerScreen(goBackEvent = { /*TODO*/ }, goShareEvent = { /*TODO*/ }) {
 
-    }
 }
+//}
